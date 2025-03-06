@@ -1,0 +1,2 @@
+class BattleFavorite < ApplicationRecord
+end
