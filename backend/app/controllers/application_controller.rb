@@ -1,11 +1,10 @@
 class ApplicationController < ActionController::API
   include ActionController::Cookies
-
-  private
+  include ErrorHandling
 
   def authenticate_user!
     unless session[:user_id]
-      render json: { error: "認証されていないアクセスです。" }, status: :unauthorized
+      render_401(["認証されていないアクセスです。"])
     end
   end
 

@@ -15,6 +15,12 @@
 #
 FactoryBot.define do
   factory :user do
-    
+    name { Faker::Name.name }
+    email { Faker::Internet.unique.email }
+    password { "password" }
+    image_url { "" }
+    profile { Faker::Lorem.sentence }
+    deleted { false }
+    reword_total { 0 }
   end
 end

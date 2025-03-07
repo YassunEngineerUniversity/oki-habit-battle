@@ -4,9 +4,9 @@ class Api::V1::SessionsController < ApplicationController
 
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id # セッションにユーザIDを保存
-      render json: { message: "ok" }, status: :ok
+      render json: { message: "ログインに成功しました。" }, status: :ok
     else
-      render json: { error: "無効なユーザネームかパスワードです。" }, status: :unauthorized
+      render_401("無効なメールアドレスかパスワードです。")
     end
   end
 
