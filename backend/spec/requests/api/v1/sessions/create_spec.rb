@@ -8,12 +8,12 @@ RSpec.describe "Api::V1::Sessions", type: :request do
 
   subject { post "/api/v1/login", params: target_user }
 
-  shared_examples "Successful case" do
+  shared_examples "Successful case" do | status, success_message |
     it "ログイン成功" do
       subject
       expect(user).to be_valid
-      expect(response).to have_http_status(:ok)
-      expect(json_response["message"]).to eq("ログインに成功しました。")
+      expect(response).to have_http_status(status)
+      expect(json_response["message"]).to eq(success_message)
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.describe "Api::V1::Sessions", type: :request do
 
   context "正常にログインできる場合" do
     let(:target_user) { { email: user.email, password: user.password } }
-    include_examples "Successful case"
+    include_examples "Successful case", :ok, "ログインに成功しました。"
   end
 
   context "無効なメールアドレスを使用した場合" do

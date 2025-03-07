@@ -11,9 +11,13 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   def destroy
+    if current_user.nil?
+      render_401("ログインしていません。")
+      return
+    end
+
     reset_session
     cookies.delete(:_habitbattle_session)
-    @current_user = nil
-    render :destroy
+    render json: { message: "ログアウトに成功しました。" }, status: :ok
   end
 end
