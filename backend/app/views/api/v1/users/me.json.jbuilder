@@ -1,0 +1,1 @@
+json.extract! @current_user, :id, :name, :email, :image_url, :profile, :reword_total, :created_at, :updated_at

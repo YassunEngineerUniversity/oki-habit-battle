@@ -12,7 +12,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       post "/login", to: "sessions#create"
       delete "/logout", to: "sessions#destroy"
-      resources :users, only: [ :index, :create ]
+      get "me", to: "users#me"
+      put "me", to: "users#update"
+      delete "me", to: "users#destroy"
+      resources :users, only: [ :create ]
     end
   end
 end
