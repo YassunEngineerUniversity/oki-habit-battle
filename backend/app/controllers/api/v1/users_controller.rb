@@ -25,7 +25,11 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def destroy
-
+    current_user.update(deleted_at: Time.now)
+    session[:user_id] = nil
+    render :destroy
+    
+    # Todo: 一定期間経つと削除する処理を追加
   end
 
   private

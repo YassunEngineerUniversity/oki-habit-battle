@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_06_122614) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_08_103528) do
   create_table "battle_favorites", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "battle_id", null: false
@@ -92,10 +92,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_06_122614) do
     t.string "password_digest", null: false
     t.string "image_url"
     t.text "profile"
-    t.boolean "deleted", default: false, null: false
     t.integer "reword_total", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
   end
 
   add_foreign_key "battle_favorites", "battles"

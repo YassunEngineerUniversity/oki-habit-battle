@@ -3,7 +3,7 @@
 # Table name: users
 #
 #  id              :bigint           not null, primary key
-#  deleted         :boolean          default(FALSE), not null
+#  deleted_at      :datetime
 #  email           :string(255)      not null
 #  image_url       :string(255)
 #  name            :string(255)      not null
@@ -19,6 +19,5 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { in: 1..255 }
   validates :email, presence: true, uniqueness: true
   validates :password, length: { minimum: 6 }
-  validates :deleted, inclusion: { in: [ true, false ] }
   validates :reword_total, presence: true
 end

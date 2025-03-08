@@ -3,7 +3,7 @@
 # Table name: users
 #
 #  id              :bigint           not null, primary key
-#  deleted         :boolean          default(FALSE), not null
+#  deleted_at      :datetime
 #  email           :string(255)      not null
 #  image_url       :string(255)
 #  name            :string(255)      not null
