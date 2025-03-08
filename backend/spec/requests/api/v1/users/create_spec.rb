@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Api::V1::Users", type: :request do
+RSpec.describe "Users_controller Create", type: :request do
   random_name_length = rand(1..255)
   random_password_length = rand(6..70)
   name_data = Faker::Name.name[0, random_name_length]
