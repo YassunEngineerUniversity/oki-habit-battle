@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       get "me", to: "users#me"
       put "me", to: "users#update"
       delete "me", to: "users#destroy"
-      resources :users, only: [ :create ]
+      resources :users, only: [ :index, :create ]
     end
   end
 end

@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
 
   def authenticate_user!
     unless session[:user_id]
-      render_401(["認証されていないアクセスです。"])
+      render_401("認証されていないアクセスです。")
     end
   end
 
