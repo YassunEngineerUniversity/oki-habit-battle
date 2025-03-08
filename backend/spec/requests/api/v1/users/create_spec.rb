@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Api::V1::Users", type: :request do
-  random_name_length = rand(1..80)
+  random_name_length = rand(1..255)
   random_password_length = rand(6..70)
   name_data = Faker::Name.name[0, random_name_length]
   email_data = Faker::Internet.unique.email
@@ -12,7 +12,7 @@ RSpec.describe "Api::V1::Users", type: :request do
   let!(:invalid_empty_name_user) { { user: { name: "", email: email_data, password: password_data } }}
   let!(:invalid_empty_email_user) { { user: { name: name_data, email: "", password: password_data } }}
   let!(:invalid_empty_password_user) { { user: { name: name_data, email: email_data, password: "" } }}
-  let!(:invalid_maximum_name_user) { { user: { name: Faker::Lorem.characters(number: 81), email: email_data, password: password_data } }}
+  let!(:invalid_maximum_name_user) { { user: { name: Faker::Lorem.characters(number: 256), email: email_data, password: password_data } }}
   let!(:invalid_maximum_password_user) { { user: { name: name_data, email: email_data, password: Faker::Lorem.characters(number: 73, min_alpha: 4) } }}
   let(:json_response) { JSON.parse(response.body) }
 
@@ -64,9 +64,9 @@ RSpec.describe "Api::V1::Users", type: :request do
     include_examples "Error case", :bad_request, ["Password can't be blank", "Password is too short (minimum is 6 characters)"]
   end
 
-  context "名前が80字以上の場合" do 
+  context "名前が255字以上の場合" do 
     let(:target_user) { invalid_maximum_name_user }
-    include_examples "Error case", :bad_request, ["Name is too long (maximum is 80 characters)"]
+    include_examples "Error case", :bad_request, ["Name is too long (maximum is 255 characters)"]
   end
 
   context "パスワードが72字以上の場合" do 
