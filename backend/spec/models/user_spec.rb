@@ -29,16 +29,17 @@ RSpec.describe User, type: :model do
 
   shared_examples "Error Case For Password" do | target, error_target, error_message |
     let(:invalid_user) { FactoryBot.build(:user, target) }
-    it "バリデーションエラーが発生する" do
+    it "パスワードに対してバリデーションエラーが発生する" do
       invalid_user.save
       expect(invalid_user).not_to be_valid
       expect(invalid_user.errors[error_target]).to include(error_message)
     end
   end
 
+  # 正常系
   context "正常な場合" do
     let(:valid_user) { FactoryBot.build(:user) }
-    it "バリデーションエラーが発生しない" do
+    it "ユーザ新規作成される" do
       valid_user.save
       expect(valid_user).to be_valid
 
@@ -48,6 +49,23 @@ RSpec.describe User, type: :model do
     end
   end
 
+  context "正常に画像が保存される場合" do
+    it "PNG画像がActive Storageに保存される" do
+      saved_user.update(image: fixture_file_upload(Rails.root.join('spec/fixtures/files/test_image.png'), 'image/png'))
+      expect(saved_user.image.attached?).to eq(true)
+    end
+
+    it "JPG画像がActive Storageに保存される" do
+      saved_user.update(image: fixture_file_upload(Rails.root.join('spec/fixtures/files/test_image.jpg'), 'image/jpg'))
+      expect(saved_user.image.attached?).to eq(true)
+    end
+    it "WEBP画像がActive Storageに保存される" do
+      saved_user.update(image: fixture_file_upload(Rails.root.join('spec/fixtures/files/test_image.webp'), 'image/webp'))
+      expect(saved_user.image.attached?).to eq(true)
+    end
+  end
+
+   # 異常系
   context "メールアドレスが重複している場合" do
     subject { invalid_user.email = saved_user.email }
     include_examples "Error Case", :email, "has already been taken"

@@ -41,6 +41,10 @@ RSpec.describe "Users_controller Update", type: :request do
       subject
       expect(response).to have_http_status(status)
       expect(json_response["errors"]).to eq(error_message)
+
+      if target_user.dig(:user, :image)
+        expect(user.image.attached?).to eq(false)
+      end
     end
   end
 
