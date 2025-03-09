@@ -13,7 +13,6 @@ RSpec.describe "Users_controller Me", type: :request do
       expect(json_response["id"]).to eq(user.id)
       expect(json_response["name"]).to eq(user.name)
       expect(json_response["email"]).to eq(user.email)
-      expect(json_response["image_url"]).to eq(user.image_url)
       expect(json_response["profile"]).to eq(user.profile)
       expect(json_response["reword_total"]).to eq(user.reword_total)
     end

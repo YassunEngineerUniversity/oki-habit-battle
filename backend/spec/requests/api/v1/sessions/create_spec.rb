@@ -32,16 +32,16 @@ RSpec.describe "Api::V1::Sessions", type: :request do
 
   context "無効なメールアドレスを使用した場合" do
     let(:target_user) { invalid_email_user }
-    include_examples "Error case", :unauthorized, "無効なメールアドレスかパスワードです。"
+    include_examples "Error case", :unprocessable_entity, "無効なメールアドレスかパスワードです。"
   end
 
   context "無効なパスワードを使用した場合" do
     let(:target_user) { invalid_password_user }
-    include_examples "Error case", :unauthorized, "無効なメールアドレスかパスワードです。"
+    include_examples "Error case", :unprocessable_entity, "無効なメールアドレスかパスワードです。"
   end
 
   context "パスワードが6桁以下の場合" do
     let(:target_user) { { email: user.email, password: "fadfad" } }
-    include_examples "Error case", :unauthorized, "無効なメールアドレスかパスワードです。"
+    include_examples "Error case", :unprocessable_entity, "無効なメールアドレスかパスワードです。"
   end
 end

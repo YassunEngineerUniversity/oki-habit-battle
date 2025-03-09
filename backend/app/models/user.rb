@@ -5,7 +5,6 @@
 #  id              :bigint           not null, primary key
 #  deleted_at      :datetime
 #  email           :string(255)      not null
-#  image_url       :string(255)
 #  name            :string(255)      not null
 #  password_digest :string(255)      not null
 #  profile         :text(65535)
@@ -20,4 +19,10 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :password, length: { minimum: 6 }
   validates :reword_total, presence: true
+
+  has_one_attached :image
+
+  def image_url
+    Rails.application.routes.url_helpers.url_for(image) if image.attached?
+  end
 end
