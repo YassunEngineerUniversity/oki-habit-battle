@@ -17,10 +17,9 @@ users = []
   users << User.create!(
     name: "ユーザー#{i + 1}",
     email: "user#{i + 1}@example.com",
-    password_digest: BCrypt::Password.create("password"),
-    image_url: "",
+    password: "password",
     profile: "ユーザー#{i + 1}のプロフィールです。趣味は#{['読書', '映画鑑賞', 'ジョギング', '料理', 'ゲーム'].sample(2).join('と')}です。",
-    deleted: false,
+    deleted_at: nil,
     reword_total: 0
   )
 end
