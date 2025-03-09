@@ -7,7 +7,7 @@ RSpec.describe "Users_controller Destroy", type: :request do
   subject { delete "/api/v1/me" }
 
   shared_examples "Successful case" do | status, message |
-    it "ユーザが退会できる" do
+    it "ユーザが退会に成功" do
       subject
       user.reload
       expect(response).to have_http_status(status)
@@ -17,7 +17,7 @@ RSpec.describe "Users_controller Destroy", type: :request do
   end
 
   shared_examples "Error case" do | status, error_message |
-    it "ユーザが退会できない" do
+    it "ユーザが退会に失敗" do
       subject
       expect(response).to have_http_status(status)
       expect(json_response["errors"]).to eq(error_message)

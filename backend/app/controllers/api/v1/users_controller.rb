@@ -1,12 +1,8 @@
 class Api::V1::UsersController < ApplicationController
   before_action :authenticate_user!, only: [:me, :update, :destroy]
-  def index
-    users = User.all
-    render json: users
-  end
 
   def create
-    user = User.new(user_params)
+    user = User.new(create_user_params)
     if user.save
       session[:user_id] = user.id
       render :create
@@ -26,7 +22,11 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-
+    if current_user.update(update_user_params)
+      render :update
+    else
+      render_400(current_user.errors.full_messages)
+    end
   end
 
   def destroy
@@ -42,7 +42,11 @@ class Api::V1::UsersController < ApplicationController
   end
 
   private
-    def user_params
-      params.require(:user).permit(:name, :email, :password, :image, :profile, :reword_total)
-    end
+  def create_user_params
+    params.require(:user).permit(:name, :email, :password)
+  end
+
+  def update_user_params
+    params.require(:user).permit(:name, :image, :profile)
+  end
 end

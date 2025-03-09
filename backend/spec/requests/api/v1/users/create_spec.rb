@@ -1,19 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "Users_controller Create", type: :request do
-  random_name_length = rand(1..255)
-  random_password_length = rand(6..70)
-  name_data = Faker::Name.name[0, random_name_length]
-  email_data = Faker::Internet.unique.email
-  password_data = Faker::Lorem.characters(number: random_password_length, min_alpha: 4)
+  let(:random_name_length)   { rand(1..255) }
+  let(:random_password_length) { rand(6..70) }
+  let(:name_data)            { Faker::Name.name[0, random_name_length] }
+  let(:email_data)           { Faker::Internet.unique.email }
+  let(:password_data)        { Faker::Lorem.characters(number: random_password_length, min_alpha: 4) }
   let!(:user) { FactoryBot.create(:user) }
   let!(:valid_user) { { user: { name: name_data, email: email_data, password: password_data } }}
-  let!(:invalid_duplicate_email_user) { { user: { name: name_data, email: user.email, password: password_data } }}
-  let!(:invalid_empty_name_user) { { user: { name: "", email: email_data, password: password_data } }}
-  let!(:invalid_empty_email_user) { { user: { name: name_data, email: "", password: password_data } }}
-  let!(:invalid_empty_password_user) { { user: { name: name_data, email: email_data, password: "" } }}
-  let!(:invalid_maximum_name_user) { { user: { name: Faker::Lorem.characters(number: 256), email: email_data, password: password_data } }}
-  let!(:invalid_maximum_password_user) { { user: { name: name_data, email: email_data, password: Faker::Lorem.characters(number: 73, min_alpha: 4) } }}
   let(:json_response) { JSON.parse(response.body) }
 
   subject { post "/api/v1/users", params: target_user }
@@ -45,32 +39,32 @@ RSpec.describe "Users_controller Create", type: :request do
   end
 
   context "メールアドレスが重複している場合" do
-    let(:target_user) { invalid_duplicate_email_user }
+    let(:target_user) { { user: { name: name_data, email: user.email, password: password_data } } }
     include_examples "Error case", :bad_request, [ "Email has already been taken" ]
   end
 
   context "名前が空の場合" do
-    let(:target_user) { invalid_empty_name_user }
+    let(:target_user) { { user: { name: "", email: email_data, password: password_data } } }
     include_examples "Error case", :bad_request, ["Name can't be blank", "Name is too short (minimum is 1 character)"]
   end
 
   context "メールアドレスが空の場合" do
-    let(:target_user) { invalid_empty_email_user }
+    let(:target_user) { { user: { name: name_data, email: "", password: password_data } } }
     include_examples "Error case", :bad_request, ["Email can't be blank"]
   end
 
   context "パスワードが空の場合" do 
-    let(:target_user) { invalid_empty_password_user }
+    let(:target_user) { { user: { name: name_data, email: email_data, password: "" } } }
     include_examples "Error case", :bad_request, ["Password can't be blank", "Password is too short (minimum is 6 characters)"]
   end
 
   context "名前が255字以上の場合" do 
-    let(:target_user) { invalid_maximum_name_user }
+    let(:target_user) { { user: { name: Faker::Lorem.characters(number: 256), email: email_data, password: password_data } } }
     include_examples "Error case", :bad_request, ["Name is too long (maximum is 255 characters)"]
   end
 
   context "パスワードが72字以上の場合" do 
-    let(:target_user) { invalid_maximum_password_user }
+    let(:target_user) { { user: { name: name_data, email: email_data, password: Faker::Lorem.characters(number: 73, min_alpha: 4) } } }
     include_examples "Error case", :bad_request, ["Password is too long"]
   end
 end
