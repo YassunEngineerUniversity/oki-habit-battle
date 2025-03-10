@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Users_controller Update", type: :request do
+RSpec.describe "users_controller update", type: :request do
   let(:random_name_length) { rand(1..255) }
   let(:name_data) { Faker::Name.name[0, random_name_length] }
   let(:profile_data) { Faker::Lorem.sentence(word_count: 254) }

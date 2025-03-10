@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Users_controller Me", type: :request do
+RSpec.describe "users_controller me", type: :request do
   let!(:user) { FactoryBot.create(:user) }
   let(:json_response) { JSON.parse(response.body) }
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Api::V1::Sessions", type: :request do
+RSpec.describe "sessions_controller create", type: :request do
   let!(:user) { FactoryBot.create(:user) }
   let!(:invalid_email_user) { { email: "invalid_email", password: "password" } }
   let!(:invalid_password_user) { { email: user.email, password: "invalid_password" } }
