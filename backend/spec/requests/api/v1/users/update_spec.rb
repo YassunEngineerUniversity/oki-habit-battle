@@ -22,11 +22,11 @@ RSpec.describe "Users_controller Update", type: :request do
 
       # DBのレコードが更新されているか確認
       if target_user.dig(:user, :name)
-        expect(user.name).to eq(target_user[:user][:name])
+        expect(user.name).to eq(target_user[:name])
       end
 
       if target_user.dig(:user, :profile)
-        expect(user.profile).to eq(target_user[:user][:profile])
+        expect(user.profile).to eq(target_user[:profile])
       end
 
       if target_user.dig(:user, :image)
@@ -55,59 +55,59 @@ RSpec.describe "Users_controller Update", type: :request do
 
     # 正常系
     context "全て更新する場合" do
-      let(:target_user) { { user: { name: name_data, profile: profile_data, image: png_image } } }
+      let(:target_user) { { name: name_data, profile: profile_data, image: png_image } }
       include_examples "Successful case", :ok, "ユーザ情報を更新しました。"
     end
 
     context "名前のみ更新する場合" do
-      let(:target_user) { { user: { name: name_data } } }
+      let(:target_user) { { name: name_data } }
       include_examples "Successful case", :ok, "ユーザ情報を更新しました。"
     end
 
     context "プロフィールのみ更新する場合" do
-      let(:target_user) { { user: { profile: profile_data } } }
+      let(:target_user) { { profile: profile_data } }
       include_examples "Successful case", :ok, "ユーザ情報を更新しました。"
     end
 
     context "PNGの画像のみ更新する場合" do
-      let(:target_user) { { user: { image: png_image } } }
+      let(:target_user) { { image: png_image } }
       include_examples "Successful case", :ok, "ユーザ情報を更新しました。"
     end
 
     context "JPGの画像のみ更新する場合" do
-      let(:target_user) { { user: { image: jpg_image } } }
+      let(:target_user) { { image: jpg_image } }
       include_examples "Successful case", :ok, "ユーザ情報を更新しました。"
     end
 
     context "WEBPの画像のみ更新する場合" do
-      let(:target_user) { { user: { image: webp_image } } }
+      let(:target_user) { { image: webp_image } }
       include_examples "Successful case", :ok, "ユーザ情報を更新しました。"
     end
 
     # 異常系
     context "名前が空の場合" do
-      let(:target_user) { { user: { name: "" } } }
+      let(:target_user) { { name: "" } }
       include_examples "Error case", :bad_request, ["Name can't be blank", "Name is too short (minimum is 1 character)"]
     end
 
     context "名前が255字以上の場合" do
-      let(:target_user) { { user: { name: Faker::Lorem.characters(number: 256) } } }
+      let(:target_user) { { name: Faker::Lorem.characters(number: 256) } }
       include_examples "Error case", :bad_request, ["Name is too long (maximum is 255 characters)"]
     end
 
     context "不正な画像形式の場合" do
-      let(:target_user) { { user: { image: fixture_file_upload(Rails.root.join('spec/fixtures/files/test_image.txt'), 'text/plain') } } }
+      let(:target_user) { { image: fixture_file_upload(Rails.root.join('spec/fixtures/files/test_image.txt'), 'text/plain') } }
       include_examples "Error case", :bad_request, [ "Image is not one of JPEG, PNG, or WEBP" ]
     end
 
     context "不正な画像サイズの場合" do
-      let(:target_user) { { user: { image: fixture_file_upload(Rails.root.join('spec/fixtures/files/2mb.jpg'), 'image/jpg') } } }
+      let(:target_user) { { image: fixture_file_upload(Rails.root.join('spec/fixtures/files/2mb.jpg'), 'image/jpg') } }
       include_examples "Error case", :bad_request, [ "Image upload a file that is 1MB or less" ]
     end
   end
 
   context "セッションで認証されていない場合" do
-    let(:target_user) { { user: { name: name_data, profile: profile_data } } }
+    let(:target_user) { { name: name_data, profile: profile_data } }
     include_examples "Error case", :unauthorized, "認証されていないアクセスです。"
   end
 end

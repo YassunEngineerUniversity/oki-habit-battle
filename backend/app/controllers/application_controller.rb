@@ -3,9 +3,7 @@ class ApplicationController < ActionController::API
   include ErrorHandling
 
   def authenticate_user!
-    unless session[:user_id]
-      render_401("認証されていないアクセスです。")
-    end
+    return render_401("認証されていないアクセスです。") unless session[:user_id]
   end
 
   def current_user
