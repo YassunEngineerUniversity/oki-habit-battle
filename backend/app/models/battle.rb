@@ -29,6 +29,9 @@ class Battle < ApplicationRecord
   belongs_to :host_user, class_name: "User"
   has_one :battle_history, dependent: :destroy
 
-  has_many :battle_participants, foreign_key: "user_id", dependent: :destroy
+  has_many :battle_participants, dependent: :destroy
   has_many :participants, through: :battle_participants, source: :user
+
+  has_many :battle_categories, dependent: :destroy
+  has_many :categories, through: :battle_categories
 end

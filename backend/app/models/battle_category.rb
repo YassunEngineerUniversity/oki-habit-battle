@@ -19,4 +19,6 @@
 #  fk_rails_...  (category_id => categories.id)
 #
 class BattleCategory < ApplicationRecord
+  belongs_to :battle
+  belongs_to :category
 end

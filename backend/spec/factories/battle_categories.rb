@@ -20,6 +20,7 @@
 #
 FactoryBot.define do
   factory :battle_category do
-    
+    association :battle, factory: :battle
+    association :category, factory: :category
   end
 end

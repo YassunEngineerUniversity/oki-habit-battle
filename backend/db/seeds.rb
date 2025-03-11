@@ -11,6 +11,9 @@
 
 User.destroy_all
 Battle.destroy_all
+BattleParticipant.destroy_all
+BattleCategory.destroy_all
+Category.destroy_all
 
   # Create 3 users
   users = []
@@ -25,10 +28,17 @@ Battle.destroy_all
     )
   end
 
+  categories = ["プログラミング", "英語", "読書", "映画", "音楽", "スポーツ", "料理", "ゲーム", "旅行", "その他"]
+  categories.each do |category|
+    Category.create!(
+      name: category
+    )
+  end
+
   battles = []
   battle_levels = ["E", "D", "C", "B", "A", "AA", "AAA", "S", "SS", "SSS"]
   status = ["waiting", "active", "complete"]
-  10.times do |i|
+  20.times do |i|
     battles << Battle.create!(
       title: "バトル#{i + 1}",
       apply_start_date: Time.current + i.days,
@@ -42,27 +52,33 @@ Battle.destroy_all
       level: battle_levels.sample,
       host_user_id: users.sample.id
     )
+  end
 
+  battles.each do |battle|
     BattleParticipant.create!(
-      user_id: battles[i].host_user_id,
-      battle_id: battles[i].id
+      user_id: battle.host_user_id,
+      battle_id: battle.id
     )
-
+  
     BattleHistory.create!(
-      status: status.sample,
-      battle_id: battles[i].id,
+      status: "waiting",
+      battle_id: battle.id,
+    )
+  
+    BattleCategory.create!(
+      battle_id: battle.id,
+      category_id: Category.all.sample.id
     )
   end
 
-  3.times do |i|
-    for battle in battles
-      if battle.host_user_id != users[i].id
-        BattleParticipant.create!(
-          user_id: users[i].id,
-          battle_id: battle.id
-        )
-        break
-      end
+
+  users.each do |user|
+    battle = battles.find { |battle| battle.host_user_id != user.id }
+    if battle
+      BattleParticipant.create!(
+        user_id: user.id,
+        battle_id: battle.id
+      )
     end
   end
 
