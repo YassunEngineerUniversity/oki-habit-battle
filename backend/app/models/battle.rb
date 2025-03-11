@@ -9,6 +9,7 @@
 #  battle_end_date   :datetime         not null
 #  battle_start_date :datetime         not null
 #  detail            :text(65535)      not null
+#  level             :string(255)
 #  reword            :integer          not null
 #  title             :string(255)      not null
 #  total_hp          :integer          not null
@@ -25,4 +26,12 @@
 #  fk_rails_...  (host_user_id => users.id)
 #
 class Battle < ApplicationRecord
+  belongs_to :host_user, class_name: "User"
+  has_one :battle_history, dependent: :destroy
+
+  has_many :battle_participants, dependent: :destroy
+  has_many :participants, through: :battle_participants, source: :user
+
+  has_many :battle_categories, dependent: :destroy
+  has_many :categories, through: :battle_categories
 end
