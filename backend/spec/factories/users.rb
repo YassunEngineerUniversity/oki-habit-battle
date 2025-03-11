@@ -22,9 +22,12 @@ FactoryBot.define do
     reword_total { 0 }
 
     trait :with_battles do
+      transient do
+        battles_count { 5 }
+      end
       
-      after(:create) do |user|
-        create_list(:battle, 3, host_user: user)
+      after(:create) do |user, _evaluator|
+        create_list(:battle, _evaluator.battles_count, host_user: user)
       end
     end
   end

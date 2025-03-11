@@ -6,7 +6,9 @@ class Api::V1::BattlesController < ApplicationController
     page = params[:page] || 0  # 現在のページ
     per_page = params[:per_page] || 5 # 表示件数
 
-    # 条件 : 自分がhostではない、かつ、自分が参加していない
+    # パラメータの取得
+    category_params = params[:category]
+
     paticipainted_battle_ids = BattleParticipant.where(user_id: current_user.id).pluck(:battle_id)
     @battles = Battle.joins(:battle_history)
                     .includes(:battle_history)
@@ -14,7 +16,15 @@ class Api::V1::BattlesController < ApplicationController
                     .where(battle_histories: { status: "waiting" })
                     .page(page)
                     .per(per_page)
-    # render json: @battles.as_json(include: [ participants: { only: [:user_id] }, battle_history: { only: [:status] } ])
+    
+    # カテゴリーが指定されている場合
+    if category_params.present?
+      @battles = @battles.where(: category_params)
+
+
+    # 条件 : 自分がhostではない、かつ、自分が参加していない
+    
+
   end
 
   def show
