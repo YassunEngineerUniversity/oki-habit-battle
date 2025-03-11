@@ -15,6 +15,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_one_attached :image
+  has_many :battles, foreign_key: :host_user_id, dependent: :destroy
 
   validates :name, presence: true, length: { in: 1..255 }
   validates :email, presence: true, uniqueness: true, on: :create
@@ -22,6 +23,8 @@ class User < ApplicationRecord
   validates :reword_total, presence: true
   validate :image_content_type
   validate :image_size
+
+  
   
 
   def image_url

@@ -20,5 +20,12 @@ FactoryBot.define do
     profile { Faker::Lorem.sentence }
     deleted_at { nil }
     reword_total { 0 }
+
+    trait :with_battles do
+      
+      after(:create) do |user|
+        create_list(:battle, 3, host_user: user)
+      end
+    end
   end
 end

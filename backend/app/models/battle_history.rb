@@ -17,4 +17,5 @@
 #  fk_rails_...  (battle_id => battles.id)
 #
 class BattleHistory < ApplicationRecord
+  belongs_to :battle
 end

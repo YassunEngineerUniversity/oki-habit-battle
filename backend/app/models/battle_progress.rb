@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: participaints
+# Table name: battle_progresses
 #
 #  id         :bigint           not null, primary key
 #  created_at :datetime         not null
@@ -10,13 +10,13 @@
 #
 # Indexes
 #
-#  index_participaints_on_battle_id  (battle_id)
-#  index_participaints_on_user_id    (user_id)
+#  index_battle_progresses_on_battle_id  (battle_id)
+#  index_battle_progresses_on_user_id    (user_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (battle_id => battles.id)
 #  fk_rails_...  (user_id => users.id)
 #
-class Participaint < ApplicationRecord
+class BattleProgress < ApplicationRecord
 end
