@@ -38,8 +38,8 @@ class Api::V1::BattlesController < ApplicationController
 
   # 使用想定画面: 対戦詳細画面
   def show
-    @battle = Battle.find_by(params[:id])
-    
+    @battle = Battle.find_by(id: params[:id])
+
     return render_404("バトルが見つかりません") unless @battle
   end
 
