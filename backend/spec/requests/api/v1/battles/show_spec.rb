@@ -32,6 +32,7 @@ RSpec.describe "battles_controller show", type: :request do
         end
         
         json_response["categories"].each_with_index do |category, index|
+          expect(category["id"]).to eq(battle.categories[index].id)
           expect(category["name"]).to eq(battle.categories[index].name)
         end
       end
