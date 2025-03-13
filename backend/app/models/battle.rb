@@ -10,6 +10,7 @@
 #  battle_start_date :datetime         not null
 #  detail            :text(65535)      not null
 #  level             :string(255)
+#  participant_limit :integer          default(1), not null
 #  reword            :integer          not null
 #  title             :string(255)      not null
 #  total_hp          :integer          not null
@@ -26,6 +27,8 @@
 #  fk_rails_...  (host_user_id => users.id)
 #
 class Battle < ApplicationRecord
+  include ImageHandling
+
   belongs_to :host_user, class_name: "User"
   has_one :battle_history, dependent: :destroy
 
@@ -34,4 +37,7 @@ class Battle < ApplicationRecord
 
   has_many :battle_categories, dependent: :destroy
   has_many :categories, through: :battle_categories
+
+  self.image_attachment_name = :backimage_image
+  has_one_attached :backimage_image
 end

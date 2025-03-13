@@ -10,6 +10,7 @@
 #  battle_start_date :datetime         not null
 #  detail            :text(65535)      not null
 #  level             :string(255)
+#  participant_limit :integer          default(1), not null
 #  reword            :integer          not null
 #  title             :string(255)      not null
 #  total_hp          :integer          not null
