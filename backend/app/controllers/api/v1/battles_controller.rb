@@ -26,7 +26,7 @@ class Api::V1::BattlesController < ApplicationController
     @battles = @battles.where(categories: { name: category_params }).distinct if category_params.present?
 
     # レベルが指定されている場合
-    @battles = @battles.where(level: level_params).distinct if level_params.present?
+    @battles = @battles.where("max_level = :level OR min_level = :level", level: level_params).distinct if level_params.present?
    
     # ソート順が指定されている場合
     @battles = @battles.order(created_at: order_params).distinct if order_params.present? && order_params.in?(%w(asc desc))
@@ -47,7 +47,7 @@ class Api::V1::BattlesController < ApplicationController
      # 処理の流れ
     # 1. パラメータのチェック
     # 2. 報酬の設定
-    # 3. バトルHPの設定
+    # 3. バトルHPの設定 （バトルが始まる直前に計算する）
     # 4. 難易度の設定
     # 5. バトルの作成
     # 6. バトル履歴の作成
@@ -55,7 +55,7 @@ class Api::V1::BattlesController < ApplicationController
     # 8. カテゴリーの設定
 
     categories = params[:categories]
-    achievement_rate = params[:achievement_rate].to_i
+    achievement_rate = params[:achievement_rate].to_i / 100.0
     battle_start_date = params[:battle_start_date]
     participant_limit = params[:participant_limit]
     battle_end_date = params[:battle_end_date]
@@ -65,29 +65,17 @@ class Api::V1::BattlesController < ApplicationController
     fixed_damage = 50
     battle_period = create_battle_period(battle_start_date, battle_end_date)
     participant_rate = { "1" => 1, "2" => 1.2, "3" => 1.5, "4" => 1.7, "5" => 2 }
+    level_rate = { "1" => 1, "2" => 1.2, "3" => 1.5, "4" => 1.7, "5" => 2 }
 
     # 報酬の設定
     # 計算式 : ユーザ固定のダメージ50 ✖️ 期間 ✖️ 達成率
-    reword = fixed_damage * battle_period * achievement_rate * participant_rate[participant_limit]
-
-    # バトルHPの設定
-    # 計算式 : ユーザ固定のダメージ50 ✖️ 期間 ✖️ 達成率
-    total_hp = fixed_damage * battle_period * achievement_rate
+    reword = fixed_damage * battle_period * achievement_rate
 
     # 難易度の設定
     # 計算式 : 報酬 * AIによる5段階難易度（1倍、1.2倍、1.5倍、1.7倍、2倍）
-    client = OpenAI::Client.new
-    response = client.chat(
-      parameters: {
-        model: "gpt-3.5-turbo",
-        messages: [
-          { role: "system", content: "難易度を5段階で評価してください。返す値は評価した1〜5の数字だけ返してください。" },
-          { role: "user", content: "行うこと : #{battle_title}" + "期間 : #{battle_period}日" + "詳細 : #{battle_detail}"}
-        ],
-        temperature: 0.7
-      }
-    )
-    level_five_rate = response.dig("choices", 0, "message", "content")
+    level_five_rate = OpenaiService.new.create_five_rate(battle_title, battle_period, battle_detail)
+    level = reword * level_rate[level_five_rate]
+
     binding.pry
     # ActiveRecord::Base.transaction do
 
