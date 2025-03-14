@@ -4,8 +4,7 @@ json.battles do
     json.id battle.id
     json.title battle.title
     json.detail battle.detail
-    json.max_level battle.max_level
-    json.min_level battle.min_level
+    json.level battle.level
     json.status battle.battle_history.status
     json.created_at battle.created_at
     json.updated_at battle.updated_at

@@ -51,8 +51,7 @@ Category.destroy_all
       detail: "これはバトル#{i + 1}の詳細です。参加して熱い戦いを繰り広げましょう！",
       achievement_rate: [50, 60, 70, 80, 90, 100].sample,
       total_hp: nil,
-      max_level: "S",
-      min_level: "AAA",
+      level: battle_levels.sample,
       host_user_id: users.sample.id
     )
   end

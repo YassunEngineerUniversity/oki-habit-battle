@@ -9,8 +9,7 @@
 #  battle_end_date   :datetime         not null
 #  battle_start_date :datetime         not null
 #  detail            :text(65535)      not null
-#  max_level         :string(255)
-#  min_level         :string(255)
+#  level             :string(255)
 #  participant_limit :integer          default(1), not null
 #  per_bonus         :integer
 #  per_reword        :integer          not null
@@ -36,8 +35,7 @@ FactoryBot.define do
     apply_end_date { Faker::Time.between(from: DateTime.now, to: DateTime.now + 1) }
     battle_start_date { Faker::Time.between(from: DateTime.now + 1, to: DateTime.now + 2) }
     battle_end_date { Faker::Time.between(from: DateTime.now + 2, to: DateTime.now + 3) }
-    max_level { ["E", "D", "C", "B", "A", "AA", "AAA", "S", "SS", "SSS"].sample }
-    min_level { ["E", "D", "C", "B", "A", "AA", "AAA", "S", "SS", "SSS"].sample }
+    level { ["E", "D", "C", "B", "A", "AA", "AAA", "S", "SS", "SSS"].sample }
     per_bonus { Faker::Number.between(from: 100, to: 1000) }
     participant_limit { Faker::Number.between(from: 1, to: 5) }
     detail { Faker::Lorem.sentence }

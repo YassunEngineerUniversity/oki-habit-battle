@@ -26,7 +26,7 @@ class Api::V1::BattlesController < ApplicationController
     @battles = @battles.where(categories: { name: category_params }).distinct if category_params.present?
 
     # レベルが指定されている場合
-    @battles = @battles.where("max_level = :level OR min_level = :level", level: level_params).distinct if level_params.present?
+    @battles = @battles.where(level: level_params).distinct if level_params.present?
    
     # ソート順が指定されている場合
     @battles = @battles.order(created_at: order_params).distinct if order_params.present? && order_params.in?(%w(asc desc))
@@ -64,17 +64,21 @@ class Api::V1::BattlesController < ApplicationController
 
     fixed_damage = 50
     battle_period = create_battle_period(battle_start_date, battle_end_date)
+
+    return render_422("バトル期間は2日以上8日未満で設定してください") unless battle_period
+
     participant_rate = { "1" => 1, "2" => 1.2, "3" => 1.5, "4" => 1.7, "5" => 2 }
-    level_rate = { "1" => 1, "2" => 1.2, "3" => 1.5, "4" => 1.7, "5" => 2 }
+    five_rate = { "1" => 1, "2" => 1.2, "3" => 1.5, "4" => 1.7, "5" => 2 }
+    
 
     # 報酬の設定
     # 計算式 : ユーザ固定のダメージ50 ✖️ 期間 ✖️ 達成率
     reword = fixed_damage * battle_period * achievement_rate
 
-    # 難易度の設定
+    # 難易度の設定 最大値: 750 最小値: 75
     # 計算式 : 報酬 * AIによる5段階難易度（1倍、1.2倍、1.5倍、1.7倍、2倍）
     level_five_rate = OpenaiService.new.create_five_rate(battle_title, battle_period, battle_detail)
-    level = reword * level_rate[level_five_rate]
+    max_level = reword * five_rate[level_five_rate]
 
     binding.pry
     # ActiveRecord::Base.transaction do
@@ -103,6 +107,7 @@ class Api::V1::BattlesController < ApplicationController
       one_day = 60 * 60 * 24
 
       period = (end_date - start_date) / one_day
-      return period.to_i
+
+      return period.to_i if period > 2 && period < 8 # 2日以上8日未満
     end
 end

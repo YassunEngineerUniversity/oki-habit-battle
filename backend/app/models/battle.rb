@@ -9,8 +9,7 @@
 #  battle_end_date   :datetime         not null
 #  battle_start_date :datetime         not null
 #  detail            :text(65535)      not null
-#  max_level         :string(255)
-#  min_level         :string(255)
+#  level             :string(255)
 #  participant_limit :integer          default(1), not null
 #  per_bonus         :integer
 #  per_reword        :integer          not null
