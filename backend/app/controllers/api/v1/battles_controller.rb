@@ -60,10 +60,6 @@ class Api::V1::BattlesController < ApplicationController
 
     return render_422("バトル期間は2日以上8日未満で設定してください") unless battle_period
 
-    participant_rate = { "1" => 1, "2" => 1.2, "3" => 1.5, "4" => 1.7, "5" => 2 }
-    five_rate = { "1" => 1, "2" => 1.2, "3" => 1.5, "4" => 1.7, "5" => 2 }
-    
-
     # 報酬の設定
     # 計算式 : ユーザ固定のダメージ50 ✖️ 期間 ✖️ 達成率
     per_reword = create_per_reword(fixed_damage, battle_period, achievement_rate)
@@ -134,6 +130,8 @@ class Api::V1::BattlesController < ApplicationController
     end
 
     def create_level(per_reword, five_rate, level_five_rate)
+      five_rate = { "1" => 1, "2" => 1.2, "3" => 1.5, "4" => 1.7, "5" => 2 }
+      
       level_rate = { 
         "E" => 75, 
         "D" => 150, 
