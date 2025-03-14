@@ -28,7 +28,7 @@ Category.destroy_all
     )
   end
 
-  categories = ["プログラミング", "英語", "読書", "映画", "音楽", "スポーツ", "料理", "ゲーム", "旅行", "その他"]
+  categories = ["健康", "生活習慣", "プログラミング", "英語", "読書", "映画", "音楽", "スポーツ", "料理", "ゲーム", "旅行", "その他"]
   categories.each do |category|
     Category.create!(
       name: category

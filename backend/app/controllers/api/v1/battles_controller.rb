@@ -44,23 +44,16 @@ class Api::V1::BattlesController < ApplicationController
   end
 
   def create
-     # 処理の流れ
-    # 1. パラメータのチェック
-    # 2. 報酬の設定
-    # 3. バトルHPの設定 （バトルが始まる直前に計算する）
-    # 4. 難易度の設定
-    # 5. バトルの作成
-    # 6. バトル履歴の作成
-    # 7. ホストユーザを参加者に追加
-    # 8. カテゴリーの設定
+    # 全てのパラメータがないときはエラーになる
+    return render_422() unless battle_params
 
-    categories = params[:categories]
-    achievement_rate = params[:achievement_rate].to_i / 100.0
-    battle_start_date = params[:battle_start_date]
-    participant_limit = params[:participant_limit]
-    battle_end_date = params[:battle_end_date]
-    battle_title = params[:title]
-    battle_detail = params[:detail]
+    categories = battle_params[:categories]
+    achievement_rate = battle_params[:achievement_rate].to_i / 100.0
+    battle_start_date = battle_params[:battle_start_date]
+    battle_end_date = battle_params[:battle_end_date]
+    participant_limit = battle_params[:participant_limit]
+    battle_title = battle_params[:title]
+    battle_detail = battle_params[:detail]
 
     fixed_damage = 50
     battle_period = create_battle_period(battle_start_date, battle_end_date)
@@ -73,18 +66,44 @@ class Api::V1::BattlesController < ApplicationController
 
     # 報酬の設定
     # 計算式 : ユーザ固定のダメージ50 ✖️ 期間 ✖️ 達成率
-    reword = fixed_damage * battle_period * achievement_rate
+    per_reword = create_per_reword(fixed_damage, battle_period, achievement_rate)
 
     # 難易度の設定 最大値: 750 最小値: 75
     # 計算式 : 報酬 * AIによる5段階難易度（1倍、1.2倍、1.5倍、1.7倍、2倍）
     level_five_rate = OpenaiService.new.create_five_rate(battle_title, battle_period, battle_detail)
-    max_level = reword * five_rate[level_five_rate]
+    level = create_level(per_reword, five_rate, level_five_rate)
 
-    binding.pry
-    # ActiveRecord::Base.transaction do
+    ActiveRecord::Base.transaction do
+      battle = Battle.create!(
+        title: battle_title,
+        apply_start_date: battle_params[:apply_start_date],
+        apply_end_date: battle_params[:apply_end_date],
+        battle_start_date: battle_start_date,
+        battle_end_date: battle_end_date,
+        detail: battle_detail,
+        achievement_rate: battle_params[:achievement_rate],
+        participant_limit: participant_limit,
+        per_reword: per_reword,
+        level: level,
+        host_user_id: current_user.id
+      )
 
-    # end
+      BattleHistory.create!(
+        battle: battle
+      )
 
+      BattleParticipant.create!(
+        user: current_user,
+        battle: battle
+      )
+
+      categories.each do |key, category|
+        BattleCategory.create!(
+          battle: battle,
+          category_id: Category.find_by(name: category[:name]).id
+        )
+      end
+    end
   end
 
   def update
@@ -97,8 +116,7 @@ class Api::V1::BattlesController < ApplicationController
 
   private
     def battle_params
-      # 全てのパラメータがある場合のみ許可したいが、全て検証する必要があるか確認
-      params.permit(:title, :apply_start_date, :apply_end_date, :battle_start_date, :battle_end_date, :detail, :achievement_rate, :categories, :participant_limit, :background_image)
+      params.permit(:title, :apply_start_date, :apply_end_date, :battle_start_date, :battle_end_date, :detail, :achievement_rate, :participant_limit, categories: [:id, :name])
     end
 
     def create_battle_period(battle_start_date, battle_end_date)
@@ -109,5 +127,27 @@ class Api::V1::BattlesController < ApplicationController
       period = (end_date - start_date) / one_day
 
       return period.to_i if period > 2 && period < 8 # 2日以上8日未満
+    end
+
+    def create_per_reword(fixed_damage, battle_period, achievement_rate)
+      fixed_damage * battle_period * achievement_rate
+    end
+
+    def create_level(per_reword, five_rate, level_five_rate)
+      level_rate = { 
+        "E" => 75, 
+        "D" => 150, 
+        "C" => 300, 
+        "B" => 450, 
+        "A" => 600, 
+        "AA" => 675, 
+        "AAA" => 700, 
+        "S" => 725, 
+        "SS" => 740, 
+        "SSS" => 750 
+      }
+
+      level_number = per_reword * five_rate[level_five_rate]
+      level_rate.each { | key, value | break key if value >= level_number }
     end
 end
