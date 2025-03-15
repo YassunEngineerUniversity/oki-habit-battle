@@ -125,6 +125,7 @@ class Api::V1::BattlesController < ApplicationController
     if battle.title != battle_title || battle.detail != battle_detail || old_battle_period != battle_period
       level_five_rate = OpenaiService.new.create_five_rate(battle_title, battle_period, battle_detail)
       level = create_level(per_reword, level_five_rate)
+      binding.pry
     else
       level = battle.level
     end
@@ -141,10 +142,10 @@ class Api::V1::BattlesController < ApplicationController
         participant_limit: participant_limit,
         per_reword: per_reword,
         level: level,
-        host_user_id: current_user.id
       )
 
-      battle.battle_categories.destroy_all
+      battle.battle_categories.destroy_all unless battle.battle_categories.empty?
+     
       categories.each do |category|
         BattleCategory.create!(
           battle: battle,
