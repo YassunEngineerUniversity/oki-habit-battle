@@ -3,17 +3,16 @@ class Api::V1::BattlesController < ApplicationController
 
   # 使用想定画面: 対戦検索画面
   def index
-    page = params[:page] || 0  # 現在のページ
-    per_page = params[:per_page] || 10 # 表示件数
+    page = params[:page] || 0  
+    per_page = params[:per_page] || 10
 
-    # パラメータの取得
     status_params = params[:status] || "waiting"
     category_params = params[:category]
     level_params = params[:level]
     order_params = params[:order]
     query_params = params[:q]
 
-     # 条件 : 自分がhostではない、かつ、自分が参加していない、かつ、バトルのステータスがwaitingのもののみ取得
+     # 条件 : 自分がホストではない、かつ、自分が参加していない、かつ、バトルのステータスがwaitingのもののみ取得
     paticipainted_battle_ids = BattleParticipant.where(user_id: current_user.id).pluck(:battle_id)
     @battles = Battle.joins(:battle_history, :categories)
                     .includes(:battle_history)
@@ -61,11 +60,10 @@ class Api::V1::BattlesController < ApplicationController
 
     # 報酬の設定
     # 計算式 : ユーザ固定のダメージ50 ✖️ 期間 ✖️ 達成率
-   
     per_reword = create_per_reword(fixed_damage, battle_period, achievement_rate)
 
     # 難易度の設定 最大値: 750 最小値: 75
-    # 計算式 : 報酬 * AIによる5段階難易度（1倍、1.2倍、1.5倍、1.7倍、2倍）
+    # 計算式 : 報酬 * AIによる5段階難易度
     level_five_rate = OpenaiService.new.create_five_rate(battle_title, battle_period, battle_detail)
     level = create_level(per_reword, level_five_rate)
 
@@ -103,7 +101,56 @@ class Api::V1::BattlesController < ApplicationController
   end
 
   def update
+    battle = current_user.battles.find_by(id: params[:id])
+    return render_404("バトルが見つかりません") unless battle
 
+    categories = battle_params[:categories]
+    achievement_rate = battle_params[:achievement_rate].to_i / 100.0
+    battle_start_date = battle_params[:battle_start_date]
+    battle_end_date = battle_params[:battle_end_date]
+    participant_limit = battle_params[:participant_limit]
+    battle_title = battle_params[:title]
+    battle_detail = battle_params[:detail]
+
+    fixed_damage = 50
+    battle_period = create_battle_period(battle_start_date, battle_end_date)
+    old_battle_period = create_battle_period(battle.battle_start_date, battle.battle_end_date)
+
+    return render_422("バトル期間は2日以上8日未満で設定してください") unless battle_period
+
+    per_reword = create_per_reword(fixed_damage, battle_period, achievement_rate)
+    
+    # タイトル or 詳細 or バトル期間が変更された場合、AIによる5段階難易度を再計算
+    if battle.title != battle_title || battle.detail != battle_detail || old_battle_period != battle_period
+      level_five_rate = OpenaiService.new.create_five_rate(battle_title, battle_period, battle_detail)
+      level = create_level(per_reword, level_five_rate)
+    else
+      level = battle.level
+    end
+
+    ActiveRecord::Base.transaction do
+      updated_battle = battle.update!(
+        title: battle_title,
+        apply_start_date: battle_params[:apply_start_date],
+        apply_end_date: battle_params[:apply_end_date],
+        battle_start_date: battle_start_date,
+        battle_end_date: battle_end_date,
+        detail: battle_detail,
+        achievement_rate: battle_params[:achievement_rate],
+        participant_limit: participant_limit,
+        per_reword: per_reword,
+        level: level,
+        host_user_id: current_user.id
+      )
+
+      battle.battle_categories.destroy_all
+      categories.each do |category|
+        BattleCategory.create!(
+          battle: battle,
+          category_id: Category.find_by(name: category[:name]).id
+        )
+      end
+    end
   end
 
   def destroy
