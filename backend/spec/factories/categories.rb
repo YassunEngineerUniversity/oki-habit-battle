@@ -9,6 +9,6 @@
 #
 FactoryBot.define do
   factory :category do
-    name { "プログラミング" }
+    name { Faker::Lorem.word }
   end
 end

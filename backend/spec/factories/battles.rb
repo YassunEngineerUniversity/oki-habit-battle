@@ -31,10 +31,10 @@
 FactoryBot.define do
   factory :battle do
     title { Faker::Lorem.word }
-    apply_start_date { Faker::Time.between(from: DateTime.now - 1, to: DateTime.now) }
-    apply_end_date { Faker::Time.between(from: DateTime.now, to: DateTime.now + 1) }
-    battle_start_date { Faker::Time.between(from: DateTime.now + 1, to: DateTime.now + 2) }
-    battle_end_date { Faker::Time.between(from: DateTime.now + 2, to: DateTime.now + 3) }
+    apply_start_date { Faker::Time.between(from: DateTime.now - 1, to: DateTime.now).iso8601 }
+    apply_end_date   { Faker::Time.between(from: DateTime.now, to: DateTime.now + 1).iso8601 }
+    battle_start_date { Faker::Time.between(from: DateTime.now + 1, to: DateTime.now + 2).iso8601 }
+    battle_end_date   { Faker::Time.between(from: DateTime.now + 2, to: DateTime.now + 3).iso8601 }
     level { ["E", "D", "C", "B", "A", "AA", "AAA", "S", "SS", "SSS"].sample }
     per_bonus { Faker::Number.between(from: 100, to: 1000) }
     participant_limit { Faker::Number.between(from: 1, to: 5) }

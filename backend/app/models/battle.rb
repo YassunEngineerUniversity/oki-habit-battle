@@ -41,4 +41,14 @@ class Battle < ApplicationRecord
 
   self.image_attachment_name = :backimage_image
   has_one_attached :backimage_image
+
+  validates :title, presence: true, length: { in: 1..255 }
+  validates :apply_start_date, presence: true
+  validates :apply_end_date, presence: true
+  validates :battle_start_date, presence: true
+  validates :battle_end_date, presence: true
+  validates :per_reword, presence: true, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 350}
+  validates :detail, presence: true
+  validates :achievement_rate, presence: true
+  validates :participant_limit, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5}
 end
