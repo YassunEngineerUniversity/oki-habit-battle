@@ -155,7 +155,11 @@ class Api::V1::BattlesController < ApplicationController
   end
 
   def destroy
+    battle = current_user.battles.find_by(id: params[:id])
 
+    return render_404("バトルが見つかりません") unless battle
+
+    battle.destroy
   end
 
   private
