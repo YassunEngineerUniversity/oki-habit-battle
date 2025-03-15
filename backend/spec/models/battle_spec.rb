@@ -125,4 +125,19 @@ RSpec.describe Battle, type: :model do
     subject { invalid_battle.participant_limit = 6 }
     include_examples "Error Case", :participant_limit, "must be less than or equal to 5"
   end
+
+  context "参加人数が小数の場合" do
+    subject { invalid_battle.participant_limit = 1.5 }
+    include_examples "Error Case", :participant_limit, "must be an integer"
+  end
+
+  context "報酬が文字列の場合" do
+    subject { invalid_battle.per_reword = "invalid" }
+    include_examples "Error Case", :per_reword, "is not a number"
+  end
+
+  context "ホストユーザーが存在しない場合" do
+    subject { invalid_battle.host_user = nil }
+    include_examples "Error Case", :host_user, "must exist"
+  end
 end
