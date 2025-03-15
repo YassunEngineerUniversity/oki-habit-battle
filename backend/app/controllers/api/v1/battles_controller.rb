@@ -102,6 +102,7 @@ class Api::V1::BattlesController < ApplicationController
 
   def update
     battle = current_user.battles.find_by(id: params[:id])
+
     return render_404("バトルが見つかりません") unless battle
 
     categories = battle_params[:categories]
@@ -114,7 +115,7 @@ class Api::V1::BattlesController < ApplicationController
 
     fixed_damage = 50
     battle_period = create_battle_period(battle_start_date, battle_end_date)
-    old_battle_period = create_battle_period(battle.battle_start_date, battle.battle_end_date)
+    old_battle_period = create_battle_period(battle.battle_start_date.to_s, battle.battle_end_date.to_s)
 
     return render_422("バトル期間は2日以上8日未満で設定してください") unless battle_period
 
