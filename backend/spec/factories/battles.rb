@@ -39,8 +39,8 @@ FactoryBot.define do
     per_bonus { Faker::Number.between(from: 100, to: 1000) }
     participant_limit { Faker::Number.between(from: 1, to: 5) }
     detail { Faker::Lorem.sentence }
-    per_reword { Faker::Number.between(from: 100, to: 1000) }
-    achievement_rate { Faker::Number.between(from: 1, to: 100) }
+    per_reword { (1..350).to_a.sample }
+    achievement_rate { [50,60,70,80,90,100].sample }
     total_hp { Faker::Number.between(from: 500, to: 1000) }
     association :host_user, factory: :user
 
