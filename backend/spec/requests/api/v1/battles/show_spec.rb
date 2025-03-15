@@ -20,7 +20,8 @@ RSpec.describe "battles_controller show", type: :request do
         expect(json_response["apply_end_date"]).to eq(battle.apply_end_date.strftime("%Y-%m-%dT%H:%M:%S.%L%:z"))
         expect(json_response["battle_start_date"]).to eq(battle.battle_start_date.strftime("%Y-%m-%dT%H:%M:%S.%L%:z"))
         expect(json_response["battle_end_date"]).to eq(battle.battle_end_date.strftime("%Y-%m-%dT%H:%M:%S.%L%:z"))
-        expect(json_response["reword"]).to eq(battle.reword)
+        expect(json_response["per_reword"]).to eq(battle.per_reword)
+        expect(json_response["per_bonus"]).to eq(battle.per_bonus)
         expect(json_response["level"]).to eq(battle.level)
         expect(json_response["achievement_rate"]).to eq(battle.achievement_rate)
         expect(json_response["total_hp"]).to eq(battle.total_hp)
@@ -32,6 +33,7 @@ RSpec.describe "battles_controller show", type: :request do
         end
         
         json_response["categories"].each_with_index do |category, index|
+          expect(category["id"]).to eq(battle.categories[index].id)
           expect(category["name"]).to eq(battle.categories[index].name)
         end
       end

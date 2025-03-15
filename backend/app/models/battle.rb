@@ -10,9 +10,11 @@
 #  battle_start_date :datetime         not null
 #  detail            :text(65535)      not null
 #  level             :string(255)
-#  reword            :integer          not null
+#  participant_limit :integer          default(1), not null
+#  per_bonus         :integer
+#  per_reword        :integer          not null
 #  title             :string(255)      not null
-#  total_hp          :integer          not null
+#  total_hp          :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  host_user_id      :bigint           not null
@@ -26,6 +28,8 @@
 #  fk_rails_...  (host_user_id => users.id)
 #
 class Battle < ApplicationRecord
+  include ImageHandling
+
   belongs_to :host_user, class_name: "User"
   has_one :battle_history, dependent: :destroy
 
@@ -34,4 +38,17 @@ class Battle < ApplicationRecord
 
   has_many :battle_categories, dependent: :destroy
   has_many :categories, through: :battle_categories
+
+  self.image_attachment_name = :backimage_image
+  has_one_attached :backimage_image
+
+  validates :title, presence: true, length: { in: 1..255 }
+  validates :apply_start_date, presence: true
+  validates :apply_end_date, presence: true
+  validates :battle_start_date, presence: true
+  validates :battle_end_date, presence: true
+  validates :per_reword, presence: true, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 350}
+  validates :detail, presence: true
+  validates :achievement_rate, presence: true
+  validates :participant_limit, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5}
 end

@@ -28,7 +28,7 @@ Category.destroy_all
     )
   end
 
-  categories = ["プログラミング", "英語", "読書", "映画", "音楽", "スポーツ", "料理", "ゲーム", "旅行", "その他"]
+  categories = ["健康", "生活習慣", "プログラミング", "英語", "読書", "映画", "音楽", "スポーツ", "料理", "ゲーム", "旅行", "その他"]
   categories.each do |category|
     Category.create!(
       name: category
@@ -45,10 +45,12 @@ Category.destroy_all
       apply_end_date: Time.current + i.days + 1.day,
       battle_start_date: Time.current + i.days + 2.days,
       battle_end_date: Time.current + i.days + 3.days,
-      reword: (i + 1) * 100,
+      per_reword: (i + 1) * 100,
+      per_bonus: nil,
+      participant_limit: 3,
       detail: "これはバトル#{i + 1}の詳細です。参加して熱い戦いを繰り広げましょう！",
       achievement_rate: [50, 60, 70, 80, 90, 100].sample,
-      total_hp: 1000,
+      total_hp: nil,
       level: battle_levels.sample,
       host_user_id: users.sample.id
     )

@@ -41,6 +41,7 @@ RSpec.describe "battles_controller index", type: :request do
           end
           
           battle["categories"].each do |category|
+            expect(category).to have_key("id")
             expect(category).to have_key("name")
           end
         end

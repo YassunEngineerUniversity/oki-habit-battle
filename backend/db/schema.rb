@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_11_055418) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_14_095613) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -89,13 +89,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_11_055418) do
     t.datetime "apply_end_date", null: false
     t.datetime "battle_start_date", null: false
     t.datetime "battle_end_date", null: false
-    t.integer "reword", null: false
+    t.integer "per_reword", null: false
     t.text "detail", null: false
     t.integer "achievement_rate", null: false
-    t.integer "total_hp", null: false
+    t.integer "total_hp"
     t.bigint "host_user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "participant_limit", default: 1, null: false
+    t.integer "per_bonus"
     t.string "level"
     t.index ["host_user_id"], name: "index_battles_on_host_user_id"
   end

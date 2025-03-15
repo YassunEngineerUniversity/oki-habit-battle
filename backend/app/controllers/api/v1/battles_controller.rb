@@ -44,7 +44,62 @@ class Api::V1::BattlesController < ApplicationController
   end
 
   def create
+    return render_422 unless battle_params
 
+    categories = battle_params[:categories]
+    achievement_rate = battle_params[:achievement_rate].to_i / 100.0
+    battle_start_date = battle_params[:battle_start_date]
+    battle_end_date = battle_params[:battle_end_date]
+    participant_limit = battle_params[:participant_limit]
+    battle_title = battle_params[:title]
+    battle_detail = battle_params[:detail]
+
+    fixed_damage = 50
+    battle_period = create_battle_period(battle_start_date, battle_end_date)
+
+    return render_422("バトル期間は2日以上8日未満で設定してください") unless battle_period
+
+    # 報酬の設定
+    # 計算式 : ユーザ固定のダメージ50 ✖️ 期間 ✖️ 達成率
+   
+    per_reword = create_per_reword(fixed_damage, battle_period, achievement_rate)
+
+    # 難易度の設定 最大値: 750 最小値: 75
+    # 計算式 : 報酬 * AIによる5段階難易度（1倍、1.2倍、1.5倍、1.7倍、2倍）
+    level_five_rate = OpenaiService.new.create_five_rate(battle_title, battle_period, battle_detail)
+    level = create_level(per_reword, level_five_rate)
+
+    ActiveRecord::Base.transaction do
+      battle = Battle.create!(
+        title: battle_title,
+        apply_start_date: battle_params[:apply_start_date],
+        apply_end_date: battle_params[:apply_end_date],
+        battle_start_date: battle_start_date,
+        battle_end_date: battle_end_date,
+        detail: battle_detail,
+        achievement_rate: battle_params[:achievement_rate],
+        participant_limit: participant_limit,
+        per_reword: per_reword,
+        level: level,
+        host_user_id: current_user.id
+      )
+
+      BattleHistory.create!(
+        battle: battle
+      )
+
+      BattleParticipant.create!(
+        user: current_user,
+        battle: battle
+      )
+
+      categories.each do |category|
+        BattleCategory.create!(
+          battle: battle,
+          category_id: Category.find_by(name: category[:name]).id
+        )
+      end
+    end
   end
 
   def update
@@ -54,4 +109,55 @@ class Api::V1::BattlesController < ApplicationController
   def destroy
 
   end
+
+  private
+    def battle_params
+      params.permit(
+        :title, 
+        :apply_start_date, 
+        :apply_end_date, 
+        :battle_start_date, 
+        :battle_end_date, 
+        :detail, 
+        :achievement_rate, 
+        :participant_limit, 
+        :backimage_image,
+        categories: [:id, :name]
+      )
+    end
+
+    def create_battle_period(battle_start_date, battle_end_date)
+      start_date = Time.zone.parse(battle_start_date)
+      end_date = Time.zone.parse(battle_end_date)
+      one_day = 60 * 60 * 24
+
+      return unless start_date && end_date
+
+      period = (end_date - start_date) / one_day
+      return period if period > 2 && period < 8 # 2日以上8日未満
+    end
+
+    def create_per_reword(fixed_damage, battle_period, achievement_rate)
+      (fixed_damage * battle_period * achievement_rate).round.to_i
+    end
+
+    def create_level(per_reword, level_five_rate)
+      five_rate = { "1" => 1, "2" => 1.2, "3" => 1.5, "4" => 1.7, "5" => 2 }
+      
+      level_rate = { 
+        "E" => 75, 
+        "D" => 150, 
+        "C" => 300, 
+        "B" => 450, 
+        "A" => 600, 
+        "AA" => 675, 
+        "AAA" => 700, 
+        "S" => 725, 
+        "SS" => 740, 
+        "SSS" => 750 
+      }
+
+      level_number = per_reword * five_rate[level_five_rate]
+      level_rate.each { | key, value | break key if value >= level_number }
+    end
 end
