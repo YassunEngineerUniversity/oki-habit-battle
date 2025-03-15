@@ -154,6 +154,11 @@ RSpec.describe "battles_controller create", type: :request do
       let(:target_battle) { valid_battle_attributes({participant_limit: 6}) }
       include_examples "Error case", :unprocessable_entity
     end
+
+    context "タイトルが256文字以上の場合" do
+      let(:target_battle) { valid_battle_attributes({title: Faker::Lorem.characters(number: 256)}) }
+      include_examples "Error case", :unprocessable_entity
+    end
   end
 
   context "セッションで認証されていない場合" do
