@@ -159,6 +159,20 @@ RSpec.describe "battles_controller create", type: :request do
       let(:target_battle) { valid_battle_attributes({title: Faker::Lorem.characters(number: 256)}) }
       include_examples "Error case", :unprocessable_entity
     end
+    context "参加人数が小数の場合" do
+      subject { invalid_battle.participant_limit = 1.5 }
+      include_examples "Error Case", :participant_limit, "must be an integer"
+    end
+  
+    context "報酬が文字列の場合" do
+      subject { invalid_battle.per_reword = "invalid" }
+      include_examples "Error Case", :per_reword, "is not a number"
+    end
+  
+    context "ホストユーザーが存在しない場合" do
+      subject { invalid_battle.host_user = nil }
+      include_examples "Error Case", :host_user, "must exist"
+    end
   end
 
   context "セッションで認証されていない場合" do
