@@ -64,7 +64,9 @@ class Api::V1::BattlesController < ApplicationController
 
     # 難易度の設定 最大値: 750 最小値: 75
     # 計算式 : 報酬 * AIによる5段階難易度
-    level_five_rate = OpenaiService.new.create_five_rate(battle_title, battle_period, battle_detail)
+    battle_input = { title: battle_title, detail: battle_detail, period: battle_period, archievement_rate: achievement_rate * 100 }
+    level_five_rate = Battles::OpenaiService.new.create_five_rate(battle_input)
+    return render_422("AIによる難易度の取得に失敗しました") unless level_five_rate
     level = create_level(per_reword, level_five_rate)
 
     ActiveRecord::Base.transaction do
@@ -123,7 +125,9 @@ class Api::V1::BattlesController < ApplicationController
     
     # タイトル or 詳細 or バトル期間が変更された場合、AIによる5段階難易度を再計算
     if battle.title != battle_title || battle.detail != battle_detail || old_battle_period != battle_period
-      level_five_rate = OpenaiService.new.create_five_rate(battle_title, battle_period, battle_detail)
+      battle_input = { title: battle_title, detail: battle_detail, period: battle_period, archievement_rate: achievement_rate * 100 }
+      level_five_rate = Battles::OpenaiService.new.create_five_rate(battle_input)
+      return render_422("AIによる難易度の取得に失敗しました") unless level_five_rate
       level = create_level(per_reword, level_five_rate)
     else
       level = battle.level
