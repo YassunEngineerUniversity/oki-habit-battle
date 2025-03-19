@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get "me", to: "users#me"
       put "me", to: "users#update"
       delete "me", to: "users#destroy"
+      get "/battle-categories", to: "categories#index"
       resources :users, only: [ :create ]
       resources :battles, only: [ :index, :show, :create, :update, :destroy ] do
         post '/participants', to: 'battle_participants#create'
