@@ -16,7 +16,9 @@ Rails.application.routes.draw do
       put "me", to: "users#update"
       delete "me", to: "users#destroy"
       resources :users, only: [ :create ]
-      resources :battles, only: [ :index, :show, :create, :update, :destroy ]
+      resources :battles, only: [ :index, :show, :create, :update, :destroy ] do
+        resources :participants, only: [:create, :destroy], controller: "battle_participants"
+      end
     end
   end
 end
