@@ -13,11 +13,12 @@ class Api::V1::BattleParticipantsController < ApplicationController
 
   def destroy
     return render_404("バトルが見つかりません") unless @battle
+    return render_400("自分のバトルは退出できません") if @battle.host_user_id == current_user.id
 
     battle_paticipant = BattleParticipant.find_by(battle_id: @battle.id, user_id: current_user.id)
-    return render_400("すでに参加しているバトルです") if battle_paticipant
+    return render_404("すでに退出済みです") unless battle_paticipant
 
-    BattleParticipant.destroy(battle_id: @battle.id, user_id: current_user.id)
+    battle_paticipant.destroy
   end
 
   private
