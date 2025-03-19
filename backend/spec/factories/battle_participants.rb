@@ -20,6 +20,7 @@
 #
 FactoryBot.define do
   factory :battle_participant do
-    
+    user { nil }
+    battle { nil }
   end
 end

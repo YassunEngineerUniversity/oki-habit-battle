@@ -16,7 +16,7 @@ class Api::V1::BattleParticipantsController < ApplicationController
     return render_400("自分のバトルは退出できません") if @battle.host_user_id == current_user.id
 
     battle_paticipant = BattleParticipant.find_by(battle_id: @battle.id, user_id: current_user.id)
-    return render_404("すでに退出済みです") unless battle_paticipant
+    return render_400("すでに退出済みです") unless battle_paticipant
 
     battle_paticipant.destroy
   end

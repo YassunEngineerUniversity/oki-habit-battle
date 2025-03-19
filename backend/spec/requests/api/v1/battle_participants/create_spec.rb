@@ -20,7 +20,7 @@ RSpec.describe "battles_participants_controller create", type: :request do
   end
 
   shared_examples "Error case" do | status, error_message |
-    it "新規バトル作成に失敗" do
+    it "バトル参加に失敗" do
       expect {
         subject
         expect(response).to have_http_status(status)

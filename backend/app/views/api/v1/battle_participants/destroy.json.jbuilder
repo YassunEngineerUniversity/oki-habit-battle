@@ -1,1 +1,1 @@
-json.message "バトルに退出しました。"
+json.message "バトルを退出しました"
