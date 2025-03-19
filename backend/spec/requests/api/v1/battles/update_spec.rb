@@ -50,7 +50,7 @@ RSpec.describe "battles_controller update", type: :request do
       openai_client_mock = double("OpenaiService")
       allow(openai_client_mock).to receive(:chat)
 
-      allow(OpenaiService).to receive(:new).and_return(openai_client_mock)
+      allow(Battles::OpenaiService).to receive(:new).and_return(openai_client_mock)
       allow(openai_client_mock).to receive(:create_five_rate).and_return("3")
     end
 
