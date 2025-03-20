@@ -24,4 +24,21 @@ class Api::V1::BattleFavoritesController < ApplicationController
     # ソート順が指定されている場合
     @battles = @battles.order(created_at: order_params).distinct if order_params.present? && order_params.in?(%w(asc desc))
   end
+
+  def create
+    battles = Battle.where.not(host_user_id: current_user.id)
+    return render_404("バトルが見つかりません") unless battles
+
+    battle = battles.find_by(id: params[:battle_id])
+    return render_404("バトルが見つかりません") unless battle
+
+
+    favorite = BattleFavorite.new(user_id: current_user.id, battle_id: battle.id)
+    return render_422("お気に入り登録に失敗しました") unless favorite.save
+  end
+
+
+  private
+
+
 end

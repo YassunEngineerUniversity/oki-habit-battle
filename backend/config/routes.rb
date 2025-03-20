@@ -24,6 +24,8 @@ Rails.application.routes.draw do
         collection do
           get '/favorites', to: 'battle_favorites#index'
         end
+
+         post '/favorites', to: 'battle_favorites#create'
       end
     end
   end
