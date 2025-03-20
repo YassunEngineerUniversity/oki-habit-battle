@@ -21,7 +21,9 @@ Rails.application.routes.draw do
         post '/participants', to: 'battle_participants#create'
         delete '/participants', to: 'battle_participants#destroy'
 
-        get '/favorites', to: 'battle_favorites#index'
+        collection do
+          get '/favorites', to: 'battle_favorites#index'
+        end
       end
     end
   end
