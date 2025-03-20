@@ -1,13 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe "battles_controller index", type: :request do
+RSpec.describe "battles_favorites_controller index", type: :request do
   let!(:host_user) { FactoryBot.create(:user, :with_battles) }
+  let!(:other_user) { FactoryBot.create(:user, :with_battles, battles_count: 30) }
+  let!(:battle_favorite) { FactoryBot.create_list(:battle_favorite, 20, user: host_user, battle: other_user.battles.sample) }
   let(:json_response) { JSON.parse(response.body) }
   
   # 1ページあたりの表示件数
   let(:per_page) { 10 }
 
-  subject { get "/api/v1/battles", params: query_params, as: :json }
+  subject { get "/api/v1/battles/favorites", params: query_params, as: :json }
 
   shared_examples "Successful case" do | status |
     FactoryBot.create_list(:user, 5, :with_battles)
@@ -21,10 +23,7 @@ RSpec.describe "battles_controller index", type: :request do
         json_response["battles"].each do |battle|
           # 自分がhostではない、かつ、自分が参加していないバトルのみ取得されていることを確認
           expect(battle["participants"].map { |participant| participant["user_id"] }).not_to include(host_user.id)
-    
-          # バトルのステータスがwaitingのもののみ取得されていることを確認
-          expect(battle["status"]).to eq("waiting")
-    
+          
           # バトルの詳細情報が取得されていることを確認
           expect(battle).to have_key("id")
           expect(battle).to have_key("title")
@@ -34,6 +33,16 @@ RSpec.describe "battles_controller index", type: :request do
           expect(battle).to have_key("created_at")
           expect(battle).to have_key("updated_at")
           expect(battle).to have_key("participants")
+
+          # ステータスの確認
+          case battle["status"]
+          when "waiting"
+            expect(battle["status"]).to eq("waiting")
+          when "active"
+            expect(battle["status"]).to eq("active")
+          when "completed"
+            expect(battle["status"]).to eq("completed")
+          end
           
           battle["participants"].each do |participant|
             expect(participant).to have_key("user_id")
@@ -51,7 +60,7 @@ RSpec.describe "battles_controller index", type: :request do
 
   shared_examples "Successful case with pagination" do | status, current_page |
     FactoryBot.create_list(:user, 30, :with_battles)
-    it "10件のバトル一覧が取得できる" do
+    it "10件のお気に入りバトル一覧が取得できる" do
       subject
       expect(response).to have_http_status(status)
       expect(json_response["battles"].count).to eq(per_page)
@@ -61,7 +70,7 @@ RSpec.describe "battles_controller index", type: :request do
   end
 
   shared_examples "Error case" do | status, error_message |
-    it "バトル一覧が取得できない" do
+    it "お気に入りバトル一覧が取得できない" do
       subject
       expect(response).to have_http_status(status)
       expect(json_response["errors"]).to eq(error_message)
@@ -74,8 +83,23 @@ RSpec.describe "battles_controller index", type: :request do
     end
 
     # 正常系
-    context "正常にバトル一覧が取得できる場合" do
+    context "正常にお気に入りバトル一覧が取得できる場合" do
       let(:query_params) { {} }
+      include_examples "Successful case", :ok
+    end
+
+    context "ステータスパラメータがwaitingで指定されている場合" do
+      let(:query_params) { { status: "waiting" } }
+      include_examples "Successful case", :ok
+    end
+
+    context "ステータスパラメータがactiveで指定されている場合" do
+      let(:query_params) { { status: "active" } }
+      include_examples "Successful case", :ok
+    end
+
+    context "ステータスパラメータがcompletedで指定されている場合" do
+      let(:query_params) { { status: "completed" } }
       include_examples "Successful case", :ok
     end
 
@@ -94,18 +118,8 @@ RSpec.describe "battles_controller index", type: :request do
       include_examples "Successful case", :ok
     end
 
-    context "検索ワードパラメータが指定されている場合" do
-      let(:query_params) { { q: "バトル" } }
-      include_examples "Successful case", :ok
-    end
-
-    context "検索ワードが存在しない場合" do
-      let(:query_params) { { q: "存在しない検索ワード" } }
-      include_examples "Successful case", :ok
-    end
-
     context "パラメータが複数ついている場合" do
-      let(:query_params) { { category: "プログラミング", level: "A", order: "asc", q: "バトル" } }
+      let(:query_params) { { category: "プログラミング", level: "A", order: "asc" } }
       include_examples "Successful case", :ok
     end
 

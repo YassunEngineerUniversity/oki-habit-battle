@@ -10,8 +10,9 @@
 #
 # Indexes
 #
-#  index_battle_favorites_on_battle_id  (battle_id)
-#  index_battle_favorites_on_user_id    (user_id)
+#  index_battle_favorites_on_battle_id              (battle_id)
+#  index_battle_favorites_on_user_id                (user_id)
+#  index_battle_favorites_on_user_id_and_battle_id  (user_id,battle_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -20,6 +21,7 @@
 #
 FactoryBot.define do
   factory :battle_favorite do
-    
+    user { nil }
+    battle { nil }
   end
 end
