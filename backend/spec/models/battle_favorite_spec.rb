@@ -22,5 +22,35 @@
 require 'rails_helper'
 
 RSpec.describe BattleFavorite, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:other_user) { FactoryBot.create(:user, :with_battles) }
+
+  # 正常系
+  context "正常にDBに保存される場合" do
+    it "BattleFavoriteに保存される" do
+      battle = other_user.battles.first
+      battle_favorite = BattleFavorite.new(user: user, battle: battle)
+      battle_favorite.save
+      expect(battle_favorite).to be_valid
+
+      expect(BattleFavorite.count).to eq 1
+      expect(BattleFavorite.last.user).to eq user
+      expect(BattleFavorite.last.battle).to eq battle
+    end
+  end
+
+  # 異常系
+  context "すでにDBに保存されている場合" do
+    it "uniquenessのエラーが発生する" do
+      battle = other_user.battles.first
+      BattleFavorite.create(user: user, battle: battle)
+
+      count = BattleFavorite.count
+      battle_favorite = BattleFavorite.new(user: user, battle: battle)
+      battle_favorite.save
+      expect(battle_favorite).to be_invalid
+
+      expect(BattleFavorite.count).to eq count
+    end
+  end
 end
