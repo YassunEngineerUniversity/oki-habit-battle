@@ -23,10 +23,13 @@ Rails.application.routes.draw do
 
         collection do
           get '/favorites', to: 'battle_favorites#index'
+          get '/histories/me', to: 'battle_histories#me'
         end
 
          post '/favorites', to: 'battle_favorites#create'
          delete '/favorites', to: 'battle_favorites#destroy'
+
+         
       end
     end
   end

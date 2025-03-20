@@ -18,6 +18,6 @@
 #
 FactoryBot.define do
   factory :battle_history do
-    status { ["waiting", "active", "complete"].sample }
+    status { ["waiting", "active", "completed"].sample }
   end
 end
