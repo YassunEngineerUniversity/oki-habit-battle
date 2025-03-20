@@ -20,6 +20,8 @@ Rails.application.routes.draw do
       resources :battles, only: [ :index, :show, :create, :update, :destroy ] do
         post '/participants', to: 'battle_participants#create'
         delete '/participants', to: 'battle_participants#destroy'
+
+        get '/favorites', to: 'battle_favorites#index'
       end
     end
   end

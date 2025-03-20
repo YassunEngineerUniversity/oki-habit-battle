@@ -19,4 +19,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class BattleFavorite < ApplicationRecord
+  belongs_to :user
+  belongs_to :battle
 end

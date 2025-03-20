@@ -14,11 +14,19 @@
 #
 class User < ApplicationRecord
   include ImageHandling
-
   has_secure_password
+  # Association
   has_one_attached :image
+
   has_many :battles, foreign_key: :host_user_id, dependent: :destroy
 
+  has_many :battle_participants, dependent: :destroy
+  has_many :participants, through: :battle_participants, source: :battle
+
+  has_many :battle_favorites, dependent: :destroy
+  has_many :favorite_battles, through: :battle_favorites, source: :battle
+
+  # Validation
   validates :name, presence: true, length: { in: 1..255 }
   validates :email, presence: true, uniqueness: true, on: :create
   validates :password, length: { minimum: 6 }, on: :create
