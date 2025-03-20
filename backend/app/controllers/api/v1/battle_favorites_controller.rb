@@ -32,11 +32,10 @@ class Api::V1::BattleFavoritesController < ApplicationController
     battle = battles.find_by(id: params[:battle_id])
     return render_404("バトルが見つかりません") unless battle
 
-    favorite = BattleFavorite.create(user_id: current_user.id, battle_id: battle.id)
-    return render_422 unless favorite
+
+    favorite = BattleFavorite.new(user_id: current_user.id, battle_id: battle.id)
+    return render_422("お気に入り登録に失敗しました") unless favorite.save
   end
-
-
 
 
   private

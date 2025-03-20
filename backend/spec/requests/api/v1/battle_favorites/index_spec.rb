@@ -3,7 +3,10 @@ require 'rails_helper'
 RSpec.describe "battles_favorites_controller index", type: :request do
   let!(:host_user) { FactoryBot.create(:user, :with_battles) }
   let!(:other_user) { FactoryBot.create(:user, :with_battles, battles_count: 30) }
-  let!(:battle_favorite) { FactoryBot.create_list(:battle_favorite, 20, user: host_user, battle: other_user.battles.sample) }
+  let!(:battle_favorite) { other_user.battles.each_with_index do |battle, index|
+    return if index == 20
+    FactoryBot.create(:battle_favorite, user: host_user, battle: battle) 
+  end }
   let(:json_response) { JSON.parse(response.body) }
   
   # 1ページあたりの表示件数
@@ -59,7 +62,6 @@ RSpec.describe "battles_favorites_controller index", type: :request do
   end
 
   shared_examples "Successful case with pagination" do | status, current_page |
-    FactoryBot.create_list(:user, 30, :with_battles)
     it "10件のお気に入りバトル一覧が取得できる" do
       subject
       expect(response).to have_http_status(status)
