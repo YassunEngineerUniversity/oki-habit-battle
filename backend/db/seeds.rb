@@ -31,7 +31,8 @@ Category.destroy_all
   categories = ["健康", "生活習慣", "プログラミング", "英語", "読書", "映画", "音楽", "スポーツ", "料理", "ゲーム", "旅行", "その他"]
   categories.each do |category|
     Category.create!(
-      name: category
+      name: category,
+      category_image: ActiveStorage::Blob.create_and_upload!(io: File.open(Rails.root.join("app/assets/images/categories/no-image-category.png")),filename: 'no-image-category.png')
     )
   end
 
@@ -45,7 +46,7 @@ Category.destroy_all
       apply_end_date: Time.current + i.days + 1.day,
       battle_start_date: Time.current + i.days + 2.days,
       battle_end_date: Time.current + i.days + 3.days,
-      per_reword: (i + 1) * 100,
+      per_reword: (1..350).to_a.sample,
       per_bonus: nil,
       participant_limit: 3,
       detail: "これはバトル#{i + 1}の詳細です。参加して熱い戦いを繰り広げましょう！",
