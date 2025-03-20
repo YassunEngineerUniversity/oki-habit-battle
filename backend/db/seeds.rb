@@ -85,3 +85,13 @@ Category.destroy_all
     end
   end
 
+  # Create FavoriteBattles
+  users.each do |user|
+    others_battles = Battle.where.not(host_user_id: user.id)
+    others_battles.each do |battle|
+      BattleFavorite.create!(
+        user_id: user.id,
+        battle_id: battle.id
+      )
+    end
+  end

@@ -30,6 +30,7 @@
 class Battle < ApplicationRecord
   include ImageHandling
 
+  # Association
   belongs_to :host_user, class_name: "User"
   has_one :battle_history, dependent: :destroy
 
@@ -39,9 +40,13 @@ class Battle < ApplicationRecord
   has_many :battle_categories, dependent: :destroy
   has_many :categories, through: :battle_categories
 
+  has_many :battle_favorites, dependent: :destroy
+  has_many :favorite_battles, through: :battle_favorites, source: :user
+
   self.image_attachment_name = :backimage_image
   has_one_attached :backimage_image
 
+  # Validation
   validates :title, presence: true, length: { in: 1..255 }
   validates :apply_start_date, presence: true
   validates :apply_end_date, presence: true
