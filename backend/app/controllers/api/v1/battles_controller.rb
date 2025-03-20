@@ -15,7 +15,7 @@ class Api::V1::BattlesController < ApplicationController
      # 条件 : 自分がホストではない、かつ、自分が参加していない、かつ、バトルのステータスがwaitingのもののみ取得
     paticipainted_battle_ids = BattleParticipant.where(user_id: current_user.id).pluck(:battle_id)
     @battles = Battle.joins(:battle_history, :categories)
-                    .preload(:battle_history)
+                    .preload(:battle_history, :categories)
                     .where.not(id: paticipainted_battle_ids)
                     .where(battle_histories: { status: status_params })
                     .page(page)
