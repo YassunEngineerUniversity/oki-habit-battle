@@ -37,8 +37,19 @@ class Api::V1::BattleFavoritesController < ApplicationController
     return render_422("お気に入り登録に失敗しました") unless favorite.save
   end
 
+  def destroy
+    battles = Battle.where.not(host_user_id: current_user.id)
+    return render_404("バトルが見つかりません") unless battles
+
+    battle = battles.find_by(id: params[:battle_id])
+    return render_404("バトルが見つかりません") unless battle
+
+    favorite = BattleFavorite.find_by(user_id: current_user.id, battle_id: battle.id)
+    return render_404("お気に入り登録が見つかりません") unless favorite
+
+    return render_422("お気に入り解除に失敗しました") unless favorite.destroy
+  end
+
 
   private
-
-
 end
