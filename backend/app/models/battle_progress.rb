@@ -24,4 +24,5 @@ class BattleProgress < ApplicationRecord
   belongs_to :battle
 
   validates :progress_date, presence: true
+  validates :user_id, uniqueness: { scope: [ :battle_id, :progress_date ] }
 end

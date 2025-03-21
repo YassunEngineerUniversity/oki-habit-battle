@@ -21,6 +21,8 @@
 #
 FactoryBot.define do
   factory :battle_progress do
-    
+    association :user
+    association :battle
+    progress_date { Time.zone.today }
   end
 end

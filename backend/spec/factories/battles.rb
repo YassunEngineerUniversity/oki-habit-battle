@@ -46,7 +46,11 @@ FactoryBot.define do
 
     after(:create) do |battle|
       create(:battle_participant, battle: battle, user:battle.host_user)
+
+      
       create(:battle_history, battle: battle)
+
+
       create(:battle_category, battle: battle)
     end
   end

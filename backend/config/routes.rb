@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       put "me", to: "users#update"
       delete "me", to: "users#destroy"
       get "/battle-categories", to: "categories#index"
+      post "/battle-progress", to: 'battle_progresses#create'
       resources :users, only: [ :create ]
       resources :battles, only: [ :index, :show, :create, :update, :destroy ] do
         post '/participants', to: 'battle_participants#create'
@@ -28,8 +29,6 @@ Rails.application.routes.draw do
 
         post '/favorites', to: 'battle_favorites#create'
         delete '/favorites', to: 'battle_favorites#destroy'
-
-        post '/battle-progress', to: 'battle_prpgresses#create'
       end
     end
   end
