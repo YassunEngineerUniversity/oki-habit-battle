@@ -13,6 +13,7 @@
 #
 #  index_battle_progresses_on_battle_id  (battle_id)
 #  index_battle_progresses_on_user_id    (user_id)
+#  index_user_battle_progress_date_uniq  (user_id,battle_id,progress_date) UNIQUE
 #
 # Foreign Keys
 #
