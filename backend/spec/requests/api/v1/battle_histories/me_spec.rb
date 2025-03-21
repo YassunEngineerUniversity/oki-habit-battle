@@ -20,7 +20,7 @@ RSpec.describe "battles_histories_controller me", type: :request do
         json_response["battles"].each do |battle|
           # バトルのステータスがcompletedのもののみ取得されていることを確認
           expect(battle["status"]).to eq("completed")
-    
+
           # バトルの詳細情報が取得されていることを確認
           expect(battle).to have_key("id")
           expect(battle).to have_key("title")

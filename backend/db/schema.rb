@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_20_021919) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_21_140118) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -72,6 +72,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_20_021919) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["battle_id"], name: "index_battle_participants_on_battle_id"
+    t.index ["user_id", "battle_id"], name: "index_battle_participants_on_user_id_and_battle_id", unique: true
     t.index ["user_id"], name: "index_battle_participants_on_user_id"
   end
 
@@ -80,7 +81,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_20_021919) do
     t.bigint "battle_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "progress_date", null: false
     t.index ["battle_id"], name: "index_battle_progresses_on_battle_id"
+    t.index ["user_id", "battle_id", "progress_date"], name: "index_user_battle_progress_date_uniq", unique: true
     t.index ["user_id"], name: "index_battle_progresses_on_user_id"
   end
 
@@ -142,6 +145,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_20_021919) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

@@ -12,6 +12,10 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
+# Indexes
+#
+#  index_users_on_email  (email) UNIQUE
+#
 class User < ApplicationRecord
   include ImageHandling
   has_secure_password
@@ -25,6 +29,9 @@ class User < ApplicationRecord
 
   has_many :battle_favorites, dependent: :destroy
   has_many :favorite_battles, through: :battle_favorites, source: :battle
+
+  has_many :battle_progresses, dependent: :destroy
+  has_many :progress_battles, through: :battle_progresses, source: :battle
 
   # Validation
   validates :name, presence: true, length: { in: 1..255 }

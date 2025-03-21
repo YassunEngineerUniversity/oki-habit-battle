@@ -41,7 +41,7 @@ RSpec.describe "battles_controller show", type: :request do
   end
 
   shared_examples "Error case" do | status, error_message |
-    it "ユーザが取得できない" do
+    it "バトル詳細が取得できない" do
       subject
       expect(response).to have_http_status(status)
       expect(json_response["errors"]).to eq(error_message)
