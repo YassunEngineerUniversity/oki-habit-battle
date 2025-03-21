@@ -3,7 +3,7 @@
 # Table name: battle_progresses
 #
 #  id            :bigint           not null, primary key
-#  progress_date :datetime         not null
+#  progress_date :date             not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  battle_id     :bigint           not null
