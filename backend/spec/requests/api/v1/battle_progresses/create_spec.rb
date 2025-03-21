@@ -2,8 +2,15 @@ require 'rails_helper'
 
 RSpec.describe "battles_progress_controller create", type: :request do
   let!(:host_user) { FactoryBot.create(:user, :with_battles) }
-  let!(:host_user_battle) { host_user.battles.first }
+  let!(:host_user_battle) { 
+    host_user.battles.first.battle_history.update(status: "active")
+    host_user.battles.first
+  }
   let!(:other_user) { FactoryBot.create(:user, :with_battles) }
+  let!(:other_user_battle) {
+    other_user.battles.first.battle_history.update(status: "active")
+    other_user.battles.first
+  }
   let(:json_response) { JSON.parse(response.body) }
 
   subject { post "/api/v1/battle-progress", params: target_battle, as: :json }
@@ -32,7 +39,6 @@ RSpec.describe "battles_progress_controller create", type: :request do
   context "セッションで認証されている場合" do
     before do
       post "/api/v1/login", params: { email: host_user.email, password: host_user.password }
-      host_user_battle.battle_history.update(status: "active")
     end
 
     # 正常系
@@ -42,10 +48,7 @@ RSpec.describe "battles_progress_controller create", type: :request do
     end
 
     context "自分がhost_userでないバトルの進捗を作成しようとした場合" do
-      let(:target_battle) { { battle_id: other_user.battles.first.id } }
-      before do
-        other_user.battles.first.battle_history.update(status: "active")
-      end
+      let(:target_battle) { { battle_id: other_user_battle.id } }
       include_examples "Successful case", :ok, "バトルの進捗が作成されました"
     end
 
@@ -79,9 +82,6 @@ RSpec.describe "battles_progress_controller create", type: :request do
 
   context "セッションで認証されていない場合" do
     let(:target_battle) { { battle_id: host_user_battle.id } }
-    before do
-      host_user_battle.battle_history.update(status: "active")
-    end
     include_examples "Error case", :unauthorized, "認証されていないアクセスです。"
   end
 end
