@@ -26,6 +26,9 @@ class User < ApplicationRecord
   has_many :battle_favorites, dependent: :destroy
   has_many :favorite_battles, through: :battle_favorites, source: :battle
 
+  has_many :battle_progresses, dependent: :destroy
+  has_many :progress_battles, through: :battle_progresses, source: :battle
+
   # Validation
   validates :name, presence: true, length: { in: 1..255 }
   validates :email, presence: true, uniqueness: true, on: :create
