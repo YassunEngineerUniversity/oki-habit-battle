@@ -42,6 +42,12 @@ services:
       - "3001:3001"
     tty: true
     stdin_open: true
+  redis:
+    image: redis:latest
+    volumes:
+      - ./redis:/data
+    ports:
+      - "6379:6379"
 
 volumes:
   mysql-db:
