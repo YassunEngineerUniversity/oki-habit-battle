@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "battles_histories_controller me", type: :request do
+RSpec.describe "battles_histories_controller index", type: :request do
   let!(:host_user) { FactoryBot.create(:user, :with_battles, battles_count: 30) }
   let(:json_response) { JSON.parse(response.body) }
   

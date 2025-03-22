@@ -26,4 +26,6 @@ class BattleProgress < ApplicationRecord
 
   validates :progress_date, presence: true
   validates :user_id, uniqueness: { scope: [ :battle_id, :progress_date ] }
+
+  scope :weekly_progress, ->(start_date, end_date) { where(progress_date: start_date..end_date)}
 end

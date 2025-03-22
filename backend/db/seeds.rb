@@ -95,3 +95,16 @@ Category.destroy_all
       )
     end
   end
+
+  # Create BattleProgresses
+  3.times do |i|
+    users.each do |user|
+      battle = battles.sample
+
+      BattleProgress.create!(
+        user_id: user.id,
+        battle_id: battle.id,
+        progress_date: Time.current + i.days
+      )
+    end
+  end

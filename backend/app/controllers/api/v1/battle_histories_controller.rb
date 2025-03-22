@@ -1,7 +1,7 @@
 class Api::V1::BattleHistoriesController < ApplicationController
   before_action :authenticate_user!
 
-  def me
+  def index
     page = params[:page] || 0
     per_page = params[:per_page] || 10
 
@@ -20,7 +20,7 @@ class Api::V1::BattleHistoriesController < ApplicationController
 
     # レベルが指定されている場合
     @battles = @battles.where(level: level_params).distinct if level_params.present?
-   
+
     # ソート順が指定されている場合
     @battles = @battles.order(created_at: order_params).distinct if order_params.present? && order_params.in?(%w(asc desc))
   end
