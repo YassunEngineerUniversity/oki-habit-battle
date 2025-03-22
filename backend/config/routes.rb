@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       delete "me", to: "users#destroy"
       get "/battle-categories", to: "categories#index"
       post "/battle-progress", to: 'battle_progresses#create'
+      get "/history-summary", to: 'history_summaries#show'
       resources :users, only: [ :create ]
       resources :battles, only: [ :index, :show, :create, :update, :destroy ] do
         post '/participants', to: 'battle_participants#create'
@@ -24,7 +25,7 @@ Rails.application.routes.draw do
 
         collection do
           get '/favorites', to: 'battle_favorites#index'
-          get '/histories/me', to: 'battle_histories#me'
+          get '/histories/me', to: 'battle_histories#index'
         end
 
         post '/favorites', to: 'battle_favorites#create'
