@@ -5,6 +5,7 @@ class Api::V1::HistorySummariesController < ApplicationController
     @reword_total = current_user.reword_total
     @battle_total_count = current_user.battles.count
     @progresses = current_user.battle_progresses
+
     weekly_progress = current_user.battle_progresses.weekly_progress(Time.zone.today.beginning_of_week, Time.zone.today.end_of_week)
     @weekly_progress_count = weekly_progress.select(:progress_date).distinct.count
 
@@ -14,6 +15,8 @@ class Api::V1::HistorySummariesController < ApplicationController
 
   private
     def get_max_consecutive_progress(ordered_progresses)
+      return 0 if ordered_progresses.empty?
+
       max_consecutive_progress = 0
       consecutive_progress = 0
       previous_date = nil

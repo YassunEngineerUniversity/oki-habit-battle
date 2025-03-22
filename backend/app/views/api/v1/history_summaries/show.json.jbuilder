@@ -1,4 +1,5 @@
 json.progresses @progresses do |progress|
+  json.battle_id progress.battle_id
   json.progress_date progress.progress_date
 end
 json.reword_total @reword_total
