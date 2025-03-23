@@ -19,7 +19,7 @@ services:
           - backend.local
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      dockerfile: ./.docker/app/Dockerfile.dev
     container_name: rails-container
     volumes:
       - ./backend:/app
@@ -43,11 +43,24 @@ services:
     tty: true
     stdin_open: true
   redis:
+    container_name: redis-container
     image: redis:latest
     volumes:
       - ./redis:/data
+    command: redis-server --appendonly yes
     ports:
       - "6379:6379"
+  sidekiq:
+    container_name: sidekiq-container
+    build:
+      context: ./backend
+      dockerfile: ./.docker/sidekiq/Dockerfile.dev
+    command: bundle exec sidekiq
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+      - redis
 
 volumes:
   mysql-db:
