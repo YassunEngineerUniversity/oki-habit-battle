@@ -102,7 +102,7 @@ class Api::V1::BattlesController < ApplicationController
     end
 
     # バトルのステータスを更新するジョブを登録
-    BattleUpdateStatusJob.set(wait_until: @battle.battle_start_date).perform_later(@battle.id)
+    Battles::BattleUpdateStatusJob.set(wait_until: @battle.battle_start_date).perform_later(@battle.id)
   end
 
   def update
@@ -139,7 +139,7 @@ class Api::V1::BattlesController < ApplicationController
     
     # バトルのステータスを更新するジョブの更新
     if battle.battle_start_date != battle_start_date
-      BattleUpdateJob.perform_later(battle.id, battle_start_date)
+      Battles::BattleUpdateJob.perform_later(battle.id, battle_start_date)
     end
 
     ActiveRecord::Base.transaction do
@@ -173,7 +173,7 @@ class Api::V1::BattlesController < ApplicationController
     return render_404("バトルが見つかりません") unless battle
 
     # バトルのステータスを更新するジョブを削除
-    BattleDeleteJob.perform_later(battle.id)
+    Battles::BattleDeleteJob.perform_later(battle.id)
     battle.destroy
   end
 

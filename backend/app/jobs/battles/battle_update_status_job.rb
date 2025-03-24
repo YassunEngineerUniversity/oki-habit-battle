@@ -1,4 +1,4 @@
-class BattleUpdateStatusJob < ApplicationJob
+class Battles::BattleUpdateStatusJob < ApplicationJob
   queue_as :default
 
   def perform(*args)

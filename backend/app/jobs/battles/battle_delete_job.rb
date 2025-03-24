@@ -1,9 +1,8 @@
-class BattleUpdateJob < ApplicationJob
+class Battles::BattleDeleteJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
     battle_id = args[0]
-    battle_start_date = Time.zone.parse(args[1])
 
     scheduled_jobs = Sidekiq::ScheduledSet.new.scan("BattleUpdateStatusJob").select {|retri| retri.display_class == 'BattleUpdateStatusJob' }
     scheduled_jobs.each do |job|
@@ -12,7 +11,5 @@ class BattleUpdateJob < ApplicationJob
         job.delete
       end
     end
-
-    BattleUpdateStatusJob.set(wait_until: battle_start_date).perform_later(battle_id)
   end
 end
