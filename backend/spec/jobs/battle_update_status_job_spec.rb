@@ -9,7 +9,7 @@ RSpec.describe Battles::BattleUpdateStatusJob, type: :job do
       ActiveJob::Base.queue_adapter = :test
     end
     # 正常系
-    context "非同期にスケジュールされたジョブが実行される場合" do
+    context "正常にジョブが実行される場合" do
       it "ジョブがキューに追加される" do
         Battles::BattleUpdateStatusJob.perform_later(battle.id)
         expect(Battles::BattleUpdateStatusJob).to have_been_enqueued

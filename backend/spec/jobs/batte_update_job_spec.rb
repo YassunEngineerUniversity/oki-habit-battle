@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'sidekiq/api'
 
-RSpec.describe Battles::BattleDeleteJob, type: :job do
+RSpec.describe Battles::BattleUpdateJob, type: :job do
   let!(:host_user) { FactoryBot.create(:user) }
   let!(:battle) { FactoryBot.create(:battle, host_user: host_user) }
 
@@ -18,7 +18,8 @@ RSpec.describe Battles::BattleDeleteJob, type: :job do
 
     # 正常系
     it "ジョブが削除される" do
-      Battles::BattleDeleteJob.perform_now(battle.id)
+      Battles::BattleUpdateJob.perform_now(battle.id, battle.battle_start_date.to_s)
+      expect(ActiveJob::Base.queue_adapter.enqueued_jobs.count).to eq(1)
     end
   end
 end
