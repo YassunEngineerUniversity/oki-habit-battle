@@ -9,7 +9,6 @@ RSpec.describe "users_controller me", type: :request do
   shared_examples "Successful case" do | status |
     it "ログインしているユーザが取得できる" do
       subject
-      binding.pry
       expect(response).to have_http_status(status)
       expect(json_response["id"]).to eq(user.id)
       expect(json_response["name"]).to eq(user.name)

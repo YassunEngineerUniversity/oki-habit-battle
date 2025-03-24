@@ -102,6 +102,7 @@ class Api::V1::BattlesController < ApplicationController
     end
 
     # バトルのステータスを更新するジョブを登録
+    return render_422("バトルが存在しません") unless @battle
     Battles::BattleUpdateStatusJob.set(wait_until: @battle.battle_start_date).perform_later(@battle.id)
   end
 
@@ -162,17 +163,16 @@ class Api::V1::BattlesController < ApplicationController
     end
 
     # バトルのステータスを更新するジョブの更新
-    if previous_start_date != battle_start_date
+    if previous_start_date != battle_start_date && battle.id
       Battles::BattleUpdateJob.perform_later(battle.id, battle_start_date)
     end
   end
 
   def destroy
     battle = current_user.battles.find_by(id: params[:id])
-    battle_id = battle.id
-
     return render_404("バトルが見つかりません") unless battle
-    
+
+    battle_id = battle.id
     battle.destroy
 
     # バトルのステータスを更新するジョブを削除
