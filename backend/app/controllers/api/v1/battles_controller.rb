@@ -70,7 +70,7 @@ class Api::V1::BattlesController < ApplicationController
     level = create_level(per_reword, level_five_rate)
 
     ActiveRecord::Base.transaction do
-      battle = Battle.create!(
+      @battle = Battle.create!(
         title: battle_title,
         apply_start_date: battle_params[:apply_start_date],
         apply_end_date: battle_params[:apply_end_date],
@@ -85,21 +85,24 @@ class Api::V1::BattlesController < ApplicationController
       )
 
       BattleHistory.create!(
-        battle: battle
+        battle: @battle
       )
 
       BattleParticipant.create!(
         user: current_user,
-        battle: battle
+        battle: @battle
       )
 
       categories.each do |category|
         BattleCategory.create!(
-          battle: battle,
+          battle: @battle,
           category_id: Category.find_by(name: category[:name]).id
         )
       end
     end
+
+    # バトルのステータスを更新するジョブを登録
+    BattleUpdateStatusJob.set(wait_until: @battle.battle_start_date).perform_later(@battle.id)
   end
 
   def update
@@ -133,6 +136,12 @@ class Api::V1::BattlesController < ApplicationController
       level = battle.level
     end
 
+    
+    # バトルのステータスを更新するジョブの更新
+    if battle.battle_start_date != battle_start_date
+      BattleUpdateJob.perform_later(battle.id, battle_start_date)
+    end
+
     ActiveRecord::Base.transaction do
       updated_battle = battle.update!(
         title: battle_title,
@@ -163,6 +172,8 @@ class Api::V1::BattlesController < ApplicationController
 
     return render_404("バトルが見つかりません") unless battle
 
+    # バトルのステータスを更新するジョブを削除
+    BattleDeleteJob.perform_later(battle.id)
     battle.destroy
   end
 
