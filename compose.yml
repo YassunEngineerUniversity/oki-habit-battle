@@ -47,7 +47,6 @@ services:
     image: redis:latest
     volumes:
       - ./redis:/data
-    command: redis-server --appendonly yes
     ports:
       - "6379:6379"
   sidekiq:
