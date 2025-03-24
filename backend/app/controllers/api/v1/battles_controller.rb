@@ -113,6 +113,7 @@ class Api::V1::BattlesController < ApplicationController
     categories = battle_params[:categories]
     achievement_rate = battle_params[:achievement_rate].to_i / 100.0
     battle_start_date = battle_params[:battle_start_date]
+    previous_start_date = battle.battle_start_date
     battle_end_date = battle_params[:battle_end_date]
     participant_limit = battle_params[:participant_limit]
     battle_title = battle_params[:title]
@@ -134,12 +135,6 @@ class Api::V1::BattlesController < ApplicationController
       level = create_level(per_reword, level_five_rate)
     else
       level = battle.level
-    end
-
-    
-    # バトルのステータスを更新するジョブの更新
-    if battle.battle_start_date != battle_start_date
-      Battles::BattleUpdateJob.perform_later(battle.id, battle_start_date)
     end
 
     ActiveRecord::Base.transaction do
@@ -165,16 +160,23 @@ class Api::V1::BattlesController < ApplicationController
         )
       end
     end
+
+    # バトルのステータスを更新するジョブの更新
+    if previous_start_date != battle_start_date
+      Battles::BattleUpdateJob.perform_later(battle.id, battle_start_date)
+    end
   end
 
   def destroy
     battle = current_user.battles.find_by(id: params[:id])
+    battle_id = battle.id
 
     return render_404("バトルが見つかりません") unless battle
+    
+    battle.destroy
 
     # バトルのステータスを更新するジョブを削除
-    Battles::BattleDeleteJob.perform_later(battle.id)
-    battle.destroy
+    Battles::BattleDeleteJob.perform_later(battle_id)
   end
 
   private
