@@ -11,27 +11,23 @@ RSpec.describe Battles::BattleUpdateStatusJob, type: :job do
     # 正常系
     context "正常にジョブが実行される場合" do
       it "ジョブがキューに追加される" do
-        Battles::BattleUpdateStatusJob.perform_later(battle.id)
-        expect(Battles::BattleUpdateStatusJob).to have_been_enqueued
+        expect {
+          Battles::BattleUpdateStatusJob.perform_later(battle.id)
+        }.to have_enqueued_job(Battles::BattleUpdateStatusJob)
       end
   
       it "対戦のステータスがActiveに更新される" do
         Battles::BattleUpdateStatusJob.perform_now(battle.id)
-        battle.reload
-        expect(battle.battle_history.status).to eq("active")
+        expect(battle.reload.battle_history.status).to eq("active")
       end
     end
 
     # 異常系
-    context "Updateが失敗した場合" do
-      before do
-        allow(Battle).to receive(:find_by).with(id: battle.id).and_return(battle)
-        allow(battle.battle_history).to receive(:update!).and_raise(ActiveRecord::RecordInvalid)
-      end
-      
-      it "例外するとジョブがリトライされる" do
-        Battles::BattleUpdateStatusJob.perform_now(battle.id)
-        expect(Battles::BattleUpdateStatusJob).to have_been_enqueued
+    context "Battleが見つからない場合" do
+      it "ActiveRecord::RecordNotFoundが発生する" do
+        expect {
+          Battles::BattleUpdateStatusJob.new.perform(9999)
+        }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end

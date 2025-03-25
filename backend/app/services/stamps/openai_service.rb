@@ -16,6 +16,9 @@ class Stamps::OpenaiService < ApplicationService
       }
     )
 
+    isRefusal = response.dig("choices", 0, "message", "refusal")
+    return nil if isRefusal
+
     response.dig("data", 0, "url")
   end
 end
