@@ -30,7 +30,8 @@ RSpec.describe "battles_progress_controller create", type: :request do
       expect(battle_progress).to be_present
 
       # スタンプが生成されているか確認
-     
+      new_stamp = Stamp.find_by(id: stamp.id)
+      expect(new_stamp).to be_present
     end
   end
 
