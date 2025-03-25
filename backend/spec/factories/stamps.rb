@@ -19,6 +19,7 @@
 #
 FactoryBot.define do
   factory :stamp do
-    
+    obtained { false }
+    association :user
   end
 end
