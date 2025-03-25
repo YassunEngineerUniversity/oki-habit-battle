@@ -70,7 +70,7 @@ class Api::V1::BattlesController < ApplicationController
     level = create_level(per_reword, level_five_rate)
 
     ActiveRecord::Base.transaction do
-      battle = Battle.create!(
+      @battle = Battle.create!(
         title: battle_title,
         apply_start_date: battle_params[:apply_start_date],
         apply_end_date: battle_params[:apply_end_date],
@@ -85,21 +85,25 @@ class Api::V1::BattlesController < ApplicationController
       )
 
       BattleHistory.create!(
-        battle: battle
+        battle: @battle
       )
 
       BattleParticipant.create!(
         user: current_user,
-        battle: battle
+        battle: @battle
       )
 
       categories.each do |category|
         BattleCategory.create!(
-          battle: battle,
+          battle: @battle,
           category_id: Category.find_by(name: category[:name]).id
         )
       end
     end
+
+    # バトルのステータスを更新するジョブを登録
+    return render_422("バトルが存在しません") unless @battle
+    Battles::BattleUpdateStatusJob.set(wait_until: @battle.battle_start_date).perform_later(@battle.id)
   end
 
   def update
@@ -110,6 +114,7 @@ class Api::V1::BattlesController < ApplicationController
     categories = battle_params[:categories]
     achievement_rate = battle_params[:achievement_rate].to_i / 100.0
     battle_start_date = battle_params[:battle_start_date]
+    previous_start_date = battle.battle_start_date
     battle_end_date = battle_params[:battle_end_date]
     participant_limit = battle_params[:participant_limit]
     battle_title = battle_params[:title]
@@ -156,14 +161,22 @@ class Api::V1::BattlesController < ApplicationController
         )
       end
     end
+
+    # バトルのステータスを更新するジョブの更新
+    if previous_start_date != battle_start_date && battle.id
+      Battles::BattleUpdateJob.perform_later(battle.id, battle_start_date)
+    end
   end
 
   def destroy
     battle = current_user.battles.find_by(id: params[:id])
-
     return render_404("バトルが見つかりません") unless battle
 
+    battle_id = battle.id
     battle.destroy
+
+    # バトルのステータスを更新するジョブを削除
+    Battles::BattleDeleteJob.perform_later(battle_id)
   end
 
   private

@@ -1,3 +1,5 @@
+require "sidekiq/web"
+
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -7,6 +9,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # Mount the Sidekiq web UI at /sidekiq
+  mount Sidekiq::Web => "/sidekiq"
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do

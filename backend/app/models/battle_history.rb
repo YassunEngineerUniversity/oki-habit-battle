@@ -18,4 +18,6 @@
 #
 class BattleHistory < ApplicationRecord
   belongs_to :battle
+
+  validates :status, presence: true
 end
