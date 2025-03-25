@@ -26,8 +26,8 @@ module ImageHandling
 
     def check_image_size
       attachment = current_image_attachment
-      if attachment.attached? && attachment.blob.byte_size > 1.megabytes
-        errors.add(self.class.image_attachment_name, "upload a file that is 1MB or less")
+      if attachment.attached? && attachment.blob.byte_size > 2.megabytes
+        errors.add(self.class.image_attachment_name, "upload a file that is 2MB or less")
       end
     end
 end
