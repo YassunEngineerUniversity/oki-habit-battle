@@ -8,6 +8,12 @@ class Api::V1::BattleProgressesController < ApplicationController
 
     new_battle_progress = BattleProgress.new(user: current_user, battle: battle, progress_date: Time.zone.today)
     return render_422("バトル進捗の作成に失敗しました") unless new_battle_progress.save
+
+
+    stamp = Stamp.create(user: current_user)
+    
+    # スタンプの画像を生成するジョブを非同期で実行
+    Stamps::StampImageJob.perform_later(stamp.id)
   end
 
   private

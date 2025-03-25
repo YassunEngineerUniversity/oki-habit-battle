@@ -18,4 +18,10 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Stamp < ApplicationRecord
+  include ImageHandling
+
+  belongs_to :user
+  has_one_attached :image
+  
+  validates :obtained, inclusion: { in: [true, false] }
 end

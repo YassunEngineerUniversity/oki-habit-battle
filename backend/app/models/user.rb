@@ -33,6 +33,8 @@ class User < ApplicationRecord
   has_many :battle_progresses, dependent: :destroy
   has_many :progress_battles, through: :battle_progresses, source: :battle
 
+  has_many :stamps, dependent: :destroy
+
   # Validation
   validates :name, presence: true, length: { in: 1..255 }
   validates :email, presence: true, uniqueness: true, on: :create

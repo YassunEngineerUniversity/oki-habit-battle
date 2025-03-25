@@ -101,8 +101,8 @@ RSpec.describe "users_controller update", type: :request do
     end
 
     context "不正な画像サイズの場合" do
-      let(:target_user) { { image: fixture_file_upload(Rails.root.join('spec/fixtures/files/2mb.jpg'), 'image/jpg') } }
-      include_examples "Error case", :bad_request, [ "Image upload a file that is 1MB or less" ]
+      let(:target_user) { { image: fixture_file_upload(Rails.root.join('spec/fixtures/files/3mb.jpg'), 'image/jpg') } }
+      include_examples "Error case", :bad_request, [ "Image upload a file that is 2MB or less" ]
     end
   end
 

@@ -38,6 +38,10 @@ RSpec.configure do |config|
     Rails.root.join('spec/fixtures')
   ]
 
+  config.after(:all) do
+    FileUtils.rm_rf(ActiveStorage::Blob.service.root) if Rails.env.test?
+  end
+
   Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
