@@ -21,24 +21,25 @@ Rails.application.routes.draw do
       put "me", to: "users#update"
       delete "me", to: "users#destroy"
       get "/battle-categories", to: "categories#index"
-      post "/battle-progress", to: 'battle_progresses#create'
-      get "/history-summary", to: 'history_summaries#show'
+      post "/battle-progress", to: "battle_progresses#create"
+      get "/history-summary", to: "history_summaries#show"
       resources :users, only: [ :create ]
       resources :battles, only: [ :index, :show, :create, :update, :destroy ] do
-        post '/participants', to: 'battle_participants#create'
-        delete '/participants', to: 'battle_participants#destroy'
+        post "/participants", to: "battle_participants#create"
+        delete "/participants", to: "battle_participants#destroy"
 
         collection do
-          get '/favorites', to: 'battle_favorites#index'
-          get '/histories/me', to: 'battle_histories#index'
+          get "/favorites", to: "battle_favorites#index"
+          get "/histories/me", to: "battle_histories#index"
         end
 
-        post '/favorites', to: 'battle_favorites#create'
-        delete '/favorites', to: 'battle_favorites#destroy'
+        post "/favorites", to: "battle_favorites#create"
+        delete "/favorites", to: "battle_favorites#destroy"
       end
-      resources :stamps, only: [ :index, :update ] do
+      resources :stamps, only: [ :index ] do
         collection do
-          get '/me', to: 'stamps#index'
+          get "/me", to: "stamps#index"
+          post "/today", to: "stamps#update"
         end
       end
     end
