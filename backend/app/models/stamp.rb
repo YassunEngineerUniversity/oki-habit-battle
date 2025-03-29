@@ -2,12 +2,12 @@
 #
 # Table name: stamps
 #
-#  id         :bigint           not null, primary key
-#  image_url  :string(255)
-#  obtained   :boolean          default(FALSE), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  user_id    :bigint           not null
+#  id             :bigint           not null, primary key
+#  generated_date :date
+#  obtained       :boolean          default(FALSE), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  user_id        :bigint           not null
 #
 # Indexes
 #
@@ -22,6 +22,9 @@ class Stamp < ApplicationRecord
 
   belongs_to :user
   has_one_attached :image
-  
+
   validates :obtained, inclusion: { in: [true, false] }
+  validates :user_id, uniqueness: { scope: :generated_date }
+
+  scope :obtained, -> { where(obtained: true) }
 end
