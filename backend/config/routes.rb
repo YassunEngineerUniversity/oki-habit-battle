@@ -39,7 +39,7 @@ Rails.application.routes.draw do
       resources :stamps, only: [ :index ] do
         collection do
           get "/me", to: "stamps#index"
-          post "/today", to: "stamps#update"
+          put "/today", to: "stamps#update"
         end
       end
     end
