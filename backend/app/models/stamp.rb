@@ -25,4 +25,6 @@ class Stamp < ApplicationRecord
 
   validates :obtained, inclusion: { in: [true, false] }
   validates :user_id, uniqueness: { scope: :generated_date }
+
+  scope :obtained, -> { where(obtained: true) }
 end
