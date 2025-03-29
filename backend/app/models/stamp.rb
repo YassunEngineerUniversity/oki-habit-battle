@@ -22,6 +22,7 @@ class Stamp < ApplicationRecord
 
   belongs_to :user
   has_one_attached :image
-  
+
   validates :obtained, inclusion: { in: [true, false] }
+  validates :user_id, uniqueness: { scope: :generated_date }
 end

@@ -11,8 +11,8 @@ class Api::V1::BattleProgressesController < ApplicationController
 
 
     stamp = Stamp.create(user: current_user)
-    
     # スタンプの画像を生成するジョブを非同期で実行
+    return render_422("スタンプの作成に失敗しました") unless stamp.persisted?
     Stamps::StampImageJob.perform_later(stamp.id)
   end
 
