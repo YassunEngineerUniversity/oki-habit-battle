@@ -10,10 +10,14 @@ class Api::V1::BattleProgressesController < ApplicationController
     return render_422("バトル進捗の作成に失敗しました") unless new_battle_progress.save
 
 
-    stamp = Stamp.create(user: current_user)
-    # スタンプの画像を生成するジョブを非同期で実行
+    stamp = Stamp.create(user: current_user, generated_date: Time.zone.today)
     return render_422("スタンプの作成に失敗しました") unless stamp.persisted?
+
+    # スタンプの画像を生成するジョブを非同期で実行
     Stamps::StampImageJob.perform_later(stamp.id)
+
+    obtain_date = stamp.created_at + 1.day
+    Stamps::StampUpdateObtainedJob.set.wait_until(obtain_date).perform_later(stamp.id)
   end
 
   private
