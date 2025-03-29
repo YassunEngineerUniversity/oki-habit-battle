@@ -20,6 +20,7 @@
 FactoryBot.define do
   factory :stamp do
     obtained { false }
+    generated_date { Time.zone.today }
     association :user
   end
 end

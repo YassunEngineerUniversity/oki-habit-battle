@@ -19,7 +19,7 @@ RSpec.describe "battles_progress_controller create", type: :request do
     it "バトルの進捗作成に成功" do
       subject
 
-      stamp = FactoryBot.create(:stamp, user: host_user)
+      stamp = FactoryBot.create(:stamp, user: host_user, generated_date: Time.zone.today)
 
       expect(response).to have_http_status(status)
       expect(response.content_type).to start_with('application/json')
@@ -54,41 +54,41 @@ RSpec.describe "battles_progress_controller create", type: :request do
       include_examples "Successful case", :ok, "バトルの進捗が作成されました"
     end
 
-    # context "自分がhost_userでないバトルの進捗を作成しようとした場合" do
-    #   let(:target_battle) { { battle_id: other_user_battle.id } }
-    #   include_examples "Successful case", :ok, "バトルの進捗が作成されました"
-    # end
+    context "自分がhost_userでないバトルの進捗を作成しようとした場合" do
+      let(:target_battle) { { battle_id: other_user_battle.id } }
+      include_examples "Successful case", :ok, "バトルの進捗が作成されました"
+    end
 
     # # 異常系
-    # context "存在しないbattle_idの場合" do
-    #   let(:target_battle) { { battle_id: 9999 } }
-    #   include_examples "Error case", :not_found, "バトルが見つかりません"
-    # end
+    context "存在しないbattle_idの場合" do
+      let(:target_battle) { { battle_id: 9999 } }
+      include_examples "Error case", :not_found, "バトルが見つかりません"
+    end
 
-    # context "battle_idが文字列の場合" do
-    #   let(:target_battle) { { battle_id: "invalid" } }
-    #   include_examples "Error case", :not_found, "バトルが見つかりません"
-    # end
+    context "battle_idが文字列の場合" do
+      let(:target_battle) { { battle_id: "invalid" } }
+      include_examples "Error case", :not_found, "バトルが見つかりません"
+    end
 
-    # context "バトルがactiveでない場合" do
-    #   let(:target_battle) { { battle_id: host_user_battle.id } }
-    #   before do
-    #     host_user_battle.battle_history.update(status: "completed")
-    #   end
-    #   include_examples "Error case", :not_found, "バトルが見つかりません"
-    # end
+    context "バトルがactiveでない場合" do
+      let(:target_battle) { { battle_id: host_user_battle.id } }
+      before do
+        host_user_battle.battle_history.update(status: "completed")
+      end
+      include_examples "Error case", :not_found, "バトルが見つかりません"
+    end
 
-    # context "一日に同じバトルに複数回進捗を登録しようとした場合" do
-    #   let(:target_battle) { { battle_id: host_user_battle.id } }
-    #   before do
-    #     host_user.battle_progresses.create(battle: host_user_battle, progress_date: Time.zone.today)
-    #   end
-    #   include_examples "Error case", :unprocessable_entity, "バトル進捗の作成に失敗しました"
-    # end
+    context "一日に同じバトルに複数回進捗を登録しようとした場合" do
+      let(:target_battle) { { battle_id: host_user_battle.id } }
+      before do
+        host_user.battle_progresses.create(battle: host_user_battle, progress_date: Time.zone.today)
+      end
+      include_examples "Error case", :unprocessable_entity, "バトル進捗の作成に失敗しました"
+    end
   end
 
-  # context "セッションで認証されていない場合" do
-  #   let(:target_battle) { { battle_id: host_user_battle.id } }
-  #   include_examples "Error case", :unauthorized, "認証されていないアクセスです。"
-  # end
+  context "セッションで認証されていない場合" do
+    let(:target_battle) { { battle_id: host_user_battle.id } }
+    include_examples "Error case", :unauthorized, "認証されていないアクセスです。"
+  end
 end
