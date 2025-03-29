@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe "stamps_controller update", type: :request do
   let!(:host_user) { FactoryBot.create(:user) }
   let!(:stamp_with_host_user) { FactoryBot.create(:stamp, user: host_user) }
-  let!(:other_user) { FactoryBot.create(:user) }
+  let(:json_response) { JSON.parse(response.body) }
 
-  subject { put "/api/stamps/today", as: :json }
+  subject { put "/api/v1/stamps/today", as: :json }
 
   shared_examples "Successful case" do | status, success_message |
     it "本日のスタンプの取得フラグの更新に成功" do
@@ -16,9 +16,9 @@ RSpec.describe "stamps_controller update", type: :request do
       expect(json_response["message"]).to eq(success_message)
 
       # DBにレコードが追加されているか確認
-      stamp = user.stamps.find_by(user_id: host_user.id, generated_date: Time.zone.today)
+      stamp = host_user.stamps.find_by(generated_date: Time.zone.today)
       expect(stamp).to be_present
-      expect(stamp_with_host_user.obtained).to eq(true)
+      expect(stamp_with_host_user.reload.obtained).to eq(true)
     end
   end
 
@@ -61,7 +61,7 @@ RSpec.describe "stamps_controller update", type: :request do
       before do
         stamp_with_host_user.update(generated_date: Time.zone.tomorrow)
       end
-      
+
       include_examples "Error case", :not_found, "スタンプが見つかりません"
     end
   end

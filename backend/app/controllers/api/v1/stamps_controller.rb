@@ -6,7 +6,7 @@ class Api::V1::StampsController < ApplicationController
   end
 
   def update
-    stamp = current_user.stamps.find_by(user_id: current_user.id, generated_date: Time.zone.today)
+    stamp = current_user.stamps.find_by(generated_date: Time.zone.today)
     return render_404("スタンプが見つかりません") unless stamp
     return render_400("スタンプは既に取得済みです") if stamp.obtained
 
