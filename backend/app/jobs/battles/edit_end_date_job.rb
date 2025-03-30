@@ -1,5 +1,4 @@
 class NotFoundParameterError < StandardError; end
-class NotFoundScheduledJobError < StandardError; end
 
 class Battles::EditEndDateJob < ApplicationJob
   include DeletingScheduledJob
