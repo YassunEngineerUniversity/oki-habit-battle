@@ -37,6 +37,7 @@ Rails.application.routes.draw do
         post "/favorites", to: "battle_favorites#create"
         delete "/favorites", to: "battle_favorites#destroy"
       end
+      resources :active_battles, only: [ :show ], path: "active-battles"
       resources :stamps, only: [ :index ] do
         collection do
           get "/me", to: "stamps#index"
