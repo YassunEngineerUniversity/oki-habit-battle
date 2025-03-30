@@ -14,9 +14,11 @@ json.host_user_id @active_battle.host_user_id
 json.created_at @active_battle.created_at
 json.updated_at @active_battle.updated_at
 
-json.participants @active_battle.participants do |participaint|
-  json.user_id participaint.id
-  json.name participaint.name
+json.participants @active_battle_participants do |participaint|
+  json.user_id participaint[:user_id]
+  json.name participaint[:name]
+  json.current_hp participaint[:current_hp]
+  json.total_hp participaint[:total_hp]
 end
 
 json.categories @active_battle.categories do |category|
