@@ -17,8 +17,8 @@ class Stamps::StampImageJob < ApplicationJob
     
     raise(OpenaiServiceError) if stamp_url.nil?
 
-    stamp_file = URI.open(stamp_url)
-    resized_stamp = ImageProcessing::MiniMagick.source(stamp_file).resize_to_fit(500, 500).call
-    stamp.image.attach(io: stamp_file, filename: "stamp-#{SecureRandom.hex(8)}.png")
+    stamp_tempfile = URI.open(stamp_url)
+    resized_stamp_tempfile = ImageProcessing::MiniMagick.source(stamp_tempfile).resize_to_fit(500, 500).call
+    stamp.image.attach(io: resized_stamp_tempfile, filename: "stamp-#{SecureRandom.hex(8)}.png")
   end
 end
