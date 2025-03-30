@@ -1,12 +1,12 @@
 require 'rails_helper'
 require 'sidekiq/api'
 
-RSpec.describe Battles::BattleDeleteJob, type: :job do
+RSpec.describe Battles::DeleteJob, type: :job do
   let!(:host_user) { FactoryBot.create(:user) }
   let!(:battle) { FactoryBot.create(:battle, host_user: host_user) }
 
   describe "perform" do
-    let(:scheduled_jobs) { double('scheduled_jobs', display_class: 'Battles::BattleUpdateStatusJob') }
+    let(:scheduled_jobs) { double('scheduled_jobs', display_class: 'Battles::UpdateStatusJob') }
     let(:scheduled_set) { double("scheduled_set") }
 
     before do
@@ -19,11 +19,11 @@ RSpec.describe Battles::BattleDeleteJob, type: :job do
     # 正常系
     context "正常にジョブが実行される場合" do
       before do
-        allow(scheduled_set).to receive(:scan).with("Battles::BattleUpdateStatusJob").and_return([scheduled_jobs])
+        allow(scheduled_set).to receive(:scan).with("Battles::UpdateStatusJob").and_return([scheduled_jobs])
       end
 
       it "ジョブが削除される" do
-        Battles::BattleDeleteJob.perform_now(battle.id)
+        Battles::DeleteJob.perform_now(battle.id)
       end
     end
 
@@ -31,18 +31,18 @@ RSpec.describe Battles::BattleDeleteJob, type: :job do
     context "Battleが見つからない場合" do
       it "NotFoundParameterErrorが発生する" do
         expect {
-          Battles::BattleDeleteJob.new.perform(nil)
+          Battles::DeleteJob.new.perform(nil)
         }.to raise_error(NotFoundParameterError)
       end
     end
 
     context "ScheduledJobが見つからない場合" do
       before do
-        allow(scheduled_set).to receive(:scan).with("Battles::BattleUpdateStatusJob").and_return([])
+        allow(scheduled_set).to receive(:scan).with("Battles::UpdateStatusJob").and_return([])
       end
       it "NotFoundScheduledJobErrorが発生する" do
         expect {
-          Battles::BattleDeleteJob.new.perform(battle.id)
+          Battles::DeleteJob.new.perform(battle.id)
         }.to raise_error(NotFoundScheduledJobError)
       end
     end
