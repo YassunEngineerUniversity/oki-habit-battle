@@ -16,6 +16,13 @@ RSpec.describe Battles::BattleUpdateStatusJob, type: :job do
         }.to have_enqueued_job(Battles::BattleUpdateStatusJob)
       end
   
+      it "対戦のtotal_hpとper_bonusが計算され、更新される" do
+        expect {
+          Battles::BattleUpdateStatusJob.perform_now(battle.id)
+        }.to change { battle.reload.total_hp }
+        .and change { battle.reload.per_bonus }
+      end
+
       it "対戦のステータスがActiveに更新される" do
         Battles::BattleUpdateStatusJob.perform_now(battle.id)
         expect(battle.reload.battle_history.status).to eq("active")
