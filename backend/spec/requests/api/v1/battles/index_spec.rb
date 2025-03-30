@@ -99,6 +99,7 @@ RSpec.describe "battles_controller index", type: :request do
       include_examples "Successful case", :ok
     end
 
+    # 異常系
     context "検索ワードが存在しない場合" do
       let(:query_params) { { q: "存在しない検索ワード" } }
       include_examples "Successful case", :ok

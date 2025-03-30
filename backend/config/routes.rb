@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
+      get "/home", to: "homes#index"
       post "/login", to: "sessions#create"
       delete "/logout", to: "sessions#destroy"
       get "me", to: "users#me"
