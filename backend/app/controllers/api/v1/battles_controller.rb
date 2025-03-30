@@ -101,9 +101,12 @@ class Api::V1::BattlesController < ApplicationController
       end
     end
 
-    # バトルのステータスを更新するジョブを登録
+    # バトルのステータスをアクティブに更新するジョブを登録
     return render_422("バトルが存在しません") unless @battle
-    Battles::BattleUpdateStatusJob.set(wait_until: @battle.battle_start_date).perform_later(@battle.id)
+    Battles::UpdateStatusJob.set(wait_until: @battle.battle_start_date).perform_later(@battle.id)
+
+    # バトルのステータスを終了に更新するジョブを登録
+    Battles::UpdateCompletedJob.set(wait_until: @battle.battle_end_date).perform_later(@battle.id)
   end
 
   def update
@@ -116,6 +119,7 @@ class Api::V1::BattlesController < ApplicationController
     battle_start_date = battle_params[:battle_start_date]
     previous_start_date = battle.battle_start_date
     battle_end_date = battle_params[:battle_end_date]
+    previous_end_date = battle.battle_end_date
     participant_limit = battle_params[:participant_limit]
     battle_title = battle_params[:title]
     battle_detail = battle_params[:detail]
@@ -153,7 +157,6 @@ class Api::V1::BattlesController < ApplicationController
       )
 
       battle.battle_categories.destroy_all unless battle.battle_categories.empty?
-     
       categories.each do |category|
         BattleCategory.create!(
           battle: battle,
@@ -162,9 +165,14 @@ class Api::V1::BattlesController < ApplicationController
       end
     end
 
-    # バトルのステータスを更新するジョブの更新
+    # バトルの開始日に変更があった場合にジョブを更新
     if previous_start_date != battle_start_date && battle.id
-      Battles::BattleUpdateJob.perform_later(battle.id, battle_start_date)
+      Battles::EditJob.perform_later(battle.id, battle_start_date)
+    end
+
+    # バトルの終了日に変更があった場合にジョブを更新
+    if previous_end_date != battle_end_date && battle.id
+      Battles::EditEndDateJob.perform_later(battle.id, battle_end_date)
     end
   end
 
@@ -176,7 +184,7 @@ class Api::V1::BattlesController < ApplicationController
     battle.destroy
 
     # バトルのステータスを更新するジョブを削除
-    Battles::BattleDeleteJob.perform_later(battle_id)
+    Battles::DeleteJob.perform_later(battle_id)
   end
 
   private

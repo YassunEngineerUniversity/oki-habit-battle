@@ -1,4 +1,4 @@
-class Battles::BattleUpdateStatusJob < ApplicationJob
+class Battles::UpdateStatusJob < ApplicationJob
   queue_as :default
 
   # 5秒後に再度実行する（最大2回まで、3となっているが最初の実行も含まれるため2回になる）
