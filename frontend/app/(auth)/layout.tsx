@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import '../globals.css';
 import AuthContainer from '@/components/layout/AuthContainer';
+import { Toaster } from '@/components/ui/sonner';
 
 const noto = Noto_Sans_JP({
   weight: ['400', '700'],
@@ -26,6 +27,7 @@ export default function RootLayout({
           <AuthContainer>
             {children}
           </AuthContainer>
+          <Toaster />
         </main>
       </body>
     </html>
