@@ -1,9 +1,7 @@
-export interface SignupState {
-  name: string | undefined;
+export interface LoginState {
   email: string | undefined;
   password: string | undefined;
   errors?: {
-    name: string[] | undefined;
     email: string[] | undefined;
     password: string[] | undefined;
   };

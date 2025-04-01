@@ -1,4 +1,3 @@
-import AuthPageTitle from "@/components/layout/AuthPageTitle"
 import Signup from "@/features/Signup"
 
 const SignUpPage = () => {
