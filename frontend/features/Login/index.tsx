@@ -6,48 +6,32 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Loading from "@/components/utils/Loading"
-import { signup } from "@/server/actions/signup/action"
+import { login } from "@/server/actions/login/action"
 import Image from "next/image"
 import Link from "next/link"
-import { use, useActionState, useEffect, useState } from "react"
+import { useActionState, useEffect, useState } from "react"
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri"
 import { toast } from "sonner"
 
 const INITIALSTATE = {
-  name: "",
   email: "",
   password: "",
 }
 
 const index = () => {
-  const [state, formAction, isPending] = useActionState(signup, INITIALSTATE);
+  const [state, formAction, isPending] = useActionState(login, INITIALSTATE);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   useEffect(() => {
     if(state.success !== undefined && !state.success) {
-      toast.error("エラーが発生しました", { style: { background: "#dc2626", color: "#fff" }});
+      toast.error(state.message, { style: { background: "#dc2626", color: "#fff" }});
     }
   }, [state])
 
   return (
     <form action={formAction} className="pt-[100px]">
-      <AuthPageTitle title="新規会員登録"/>
+      <AuthPageTitle title="ログイン"/>
       <Card className="mt-8 border border-gray-200 shadow-none px-4 py-8 gap-5">
-        <div>
-          <Label className="text-sm mb-1 block">ユーザ名</Label>
-          <Input
-            id="name"
-            name="name"
-            className="border-gray-200 focus-visible:ring-violet-500 py-5" 
-            type="text" 
-            placeholder="ユーザ名を入力してください"
-            autoComplete="username"
-            defaultValue={state.name}
-          />
-          {state.errors?.name && (
-            <p className="text-red-500 text-sm mt-1">{state.errors.name}</p>
-          )}
-        </div>
         <div>
           <Label className="text-sm mb-1 block">メールアドレス</Label>
           <Input
@@ -89,18 +73,18 @@ const index = () => {
         </div>
         <div>
           <Button type="submit" className="w-full py-6 bg-violet-500 text-base text-white mt-6 cursor-pointer hover:opacity-80">
-            {isPending? <Loading/> : "登録する" }
+            {isPending? <Loading/> : "ログインする" }
           </Button>
         </div>
         <span className="text-center block text-sm ">もしくは</span>
         <div>
           <Button className="w-full py-6 bg-white border border-gray-200 shadow-none cursor-pointer hover:opacity-80 flex justify-center items-center gap-2">
             <Image src="/images/logo/google.png" width={20} height={20} alt="google"/>
-            <span className="text-base">Sign up with Google</span>
+            <span className="text-base">Sign in with Google</span>
           </Button>
         </div>
         <div className="text-center">
-          <Link href="/login" className="underline text-sm cursor-pointer hover:opacity-80">ログインはこちら</Link>
+          <Link href="/signup" className="underline text-sm cursor-pointer hover:opacity-80">新規登録はこちら</Link>
         </div>
       </Card>
     </form>
