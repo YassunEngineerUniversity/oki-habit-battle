@@ -38,7 +38,10 @@ export const login = async (prevState: any, formData: FormData): Promise<LoginSt
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
+    credentials: 'include',
   });
+
+  console.log(response, "レスポンスログイン");
 
   if(!response.ok) {
     const data = await response.json();

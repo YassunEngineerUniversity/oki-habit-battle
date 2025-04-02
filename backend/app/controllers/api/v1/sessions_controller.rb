@@ -3,7 +3,7 @@ class Api::V1::SessionsController < ApplicationController
     @user = User.find_by(email: params[:email])
 
     return render_422("無効なメールアドレスかパスワードです。") unless @user && @user.authenticate(params[:password])
-
+    
     session[:user_id] = @user.id # セッションにユーザIDを保存
   end
 

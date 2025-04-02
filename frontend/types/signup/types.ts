@@ -10,3 +10,9 @@ export interface SignupState {
   message?: string;
   success?: boolean;
 }
+
+export interface SignupFormData {
+  name: string;
+  email: string;
+  password: string;
+}

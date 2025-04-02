@@ -8,3 +8,8 @@ export interface LoginState {
   message?: string;
   success?: boolean;
 }
+
+export interface LoginFormData {
+  email: string;
+  password: string;
+}
