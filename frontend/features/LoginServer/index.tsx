@@ -1,6 +1,6 @@
 "use client"
 
-import AuthPageTitle from "@/components/layout/AuthPageTitle"
+import AuthPageTitle from "@/components/utils/AuthPageTitle"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
