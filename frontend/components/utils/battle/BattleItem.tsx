@@ -18,7 +18,7 @@ const BattleItem = ({battle}:BattleItemProps) => {
         </div>
         <div className="w-[calc(100%-110px)]">
           <div className="flex justify-between items-center gap-1">
-            <h3 className="text-base font-bold line-clamp-1 w-[calc(100%-50px)]">テストテストテストテストテストテストテストテストテストテストテストテストテスト</h3>
+            <h3 className="text-base font-bold line-clamp-1 w-[calc(100%-50px)]">{ battle.title }</h3>
             <h4 className="font-bold text-2xl w-[50px] text-center">{battle.level}</h4>
           </div>
           <div className="mt-1">
