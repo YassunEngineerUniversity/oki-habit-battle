@@ -6,74 +6,90 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Loading from "@/components/utils/Loading"
-import { signup } from "@/server/actions/signup/action"
 import Image from "next/image"
 import Link from "next/link"
-import { use, useActionState, useEffect, useState } from "react"
+import { useActionState, useEffect, useState } from "react"
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri"
+import { useForm } from "react-hook-form"
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from "zod"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import signup from "@/utils/signup"
 
-const INITIALSTATE = {
-  name: "",
-  email: "",
-  password: "",
-}
+const signupSchema = z.object({
+  name: z.string().trim().min(1, {message: "ユーザ名は必須です"}).max(255, {message: "ユーザ名は255文字以内で入力してください"}),
+  email: z.string().email({message: "メールアドレスの形式が正しくありません"}),
+  password: z.string().trim().min(6, {message: "6字以上で入力してください"}).max(78, {message: "78字以内で入力してください"}),
+})
+
+type SignupFormData = z.infer<typeof signupSchema>
 
 const index = () => {
-  const [state, formAction, isPending] = useActionState(signup, INITIALSTATE);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isPending, setIsPending] = useState(false);
+  const router = useRouter();
 
-  useEffect(() => {
-    if(state.success !== undefined && !state.success) {
-      toast.error("エラーが発生しました", { style: { background: "#dc2626", color: "#fff" }});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+  });
+
+  const onSubmit = async (data: SignupFormData) => {
+    setIsPending(true);
+    const state = await signup(data);
+
+    if(state.success) {
+      router.push("/");
+    } else {
+      toast.error(state.message, { style: { background: "#dc2626", color: "#fff" }});
     }
-  }, [state])
+
+    setIsPending(false);
+  };
 
   return (
-    <form action={formAction} className="pt-[100px]">
+    <form onSubmit={handleSubmit(onSubmit)} className="pt-[100px]">
       <AuthPageTitle title="新規会員登録"/>
       <Card className="mt-8 border border-gray-200 shadow-none px-4 py-8 gap-5">
         <div>
           <Label className="text-sm mb-1 block">ユーザ名</Label>
           <Input
-            id="name"
-            name="name"
+            {...register("name")}
             className="border-gray-200 focus-visible:ring-violet-500 py-5" 
             type="text" 
             placeholder="ユーザ名を入力してください"
             autoComplete="username"
-            defaultValue={state.name}
           />
-          {state.errors?.name && (
-            <p className="text-red-500 text-sm mt-1">{state.errors.name}</p>
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
           )}
         </div>
         <div>
           <Label className="text-sm mb-1 block">メールアドレス</Label>
           <Input
-            id="email"
-            name="email"
+            {...register("email")}
             className="border-gray-200 focus-visible:ring-violet-500 py-5" 
             type="text" 
             placeholder="メールアドレスを入力してください"
             autoComplete="email"
-            defaultValue={state.email}
           />
-          {state.errors?.email && (
-            <p className="text-red-500 text-sm mt-1">{state.errors.email}</p>
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
           )}
         </div>
         <div>
           <Label className="text-sm mb-1 block">パスワード</Label>
           <div className="relative">
             <Input
-              id="password" 
-              name="password"
+              {...register("password")}
               type={isPasswordVisible ? "text" : "password"}
               className="border-gray-200 focus-visible:ring-violet-500 py-5 pr-8" 
               placeholder="パスワードを入力してください"
               autoComplete="current-password"
-              defaultValue={state.password}
             />
             <button 
               type="button"
@@ -83,8 +99,8 @@ const index = () => {
               {isPasswordVisible ? <RiEyeOffFill /> : <RiEyeFill />}
             </button>
           </div>
-          {state.errors?.password && (
-            <p className="text-red-500 text-sm mt-1">{state.errors.password}</p>
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
           )}
         </div>
         <div>

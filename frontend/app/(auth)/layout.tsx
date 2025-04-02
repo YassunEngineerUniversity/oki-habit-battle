@@ -3,6 +3,9 @@ import { Noto_Sans_JP } from 'next/font/google';
 import '../globals.css';
 import AuthContainer from '@/components/layout/AuthContainer';
 import { Toaster } from '@/components/ui/sonner';
+import { getCurrentUser } from '@/utils/getCurrentUser';
+import { redirect } from 'next/navigation';
+
 
 const noto = Noto_Sans_JP({
   weight: ['400', '700'],
@@ -15,11 +18,12 @@ export const metadata: Metadata = {
   description: '',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="ja">
       <body className={noto.className}>

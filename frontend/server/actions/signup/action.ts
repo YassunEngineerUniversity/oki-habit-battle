@@ -44,6 +44,8 @@ export const signup = async (prevState: any, formData: FormData): Promise<Signup
     body: JSON.stringify(payload),
   });
 
+  console.log(response, "レスポンスサインアップ");
+
   if(!response.ok) {
     const data = await response.json();
     return {
