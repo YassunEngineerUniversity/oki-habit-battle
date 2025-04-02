@@ -11,12 +11,10 @@ const HomePage = async () => {
     redirect("/login");
   }
 
-  console.log(currentUser, "currentUser");
-
   return (
     <div>
       <PageHeader profile={currentUser.data.image_url} title="ホーム"/>
-      <div className="pt-[60px]">
+      <div className="pt-[60px] pb-[90px]">
         <Home/>
       </div>
     </div>

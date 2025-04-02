@@ -15,8 +15,6 @@ export const getCurrentUser = async () => {
     credentials: 'include',
   });
 
-  console.log(response, "レスポンスcurrentUser");
-
   if (!response.ok) {
     const data = await response.json();
     return{

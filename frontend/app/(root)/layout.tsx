@@ -3,7 +3,7 @@ import { Noto_Sans_JP, Roboto } from 'next/font/google';
 import '../globals.css';
 import PageContainer from '@/components/layout/container/PageContainer';
 import { Toaster } from '@/components/ui/sonner';
-import PageHeader from '@/components/layout/header/PageHeader';
+import PageFooter from '@/components/layout/footer/PageFooter';
 
 const roboto = Roboto({
   weight: '400',
@@ -29,6 +29,7 @@ export default function RootLayout({
         </PageContainer>
         <Toaster />
       </main>
+      <PageFooter />
     </body>
   </html>
   );
