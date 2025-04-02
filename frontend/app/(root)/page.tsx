@@ -1,4 +1,5 @@
 import PageHeader from "@/components/layout/header/PageHeader";
+import Home from "@/features/Home";
 import { getCurrentUser } from "@/utils/getCurrentUser";
 import { redirect } from "next/navigation";
 
@@ -14,7 +15,10 @@ const HomePage = async () => {
 
   return (
     <div>
-      <PageHeader profile={currentUser.data.image_url} title="ホーム" backLink="/home"/>
+      <PageHeader profile={currentUser.data.image_url} title="ホーム"/>
+      <div className="pt-[60px]">
+        <Home/>
+      </div>
     </div>
   )
 }

@@ -21,9 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <html lang="ja" className="bg-gray-100">
     <body className={roboto.className}>
-      <main className="min-h-screen bg-gray-100">
+      <main className="min-h-screen">
         <PageContainer>
           {children}
         </PageContainer>

@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  images: {
+    domains: [
+      'www.pokemon.co.jp',
+      'iconbu.com'
+    ],
+  },
 };
-
 export default nextConfig;
