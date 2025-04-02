@@ -17,7 +17,7 @@ const PageHeader = ({title, profile, backLink}: PageHeaderProps) => {
             <MdArrowBackIos width={16} height={16}  className="w-4 h-4 block"/>
           </Link>
         ): (
-          <Link href="/profile" className="absolute top-[6px] left-3 flex block cursor-pointer"> 
+          <Link href="/profile" className="absolute top-[7px] left-3 flex block cursor-pointer"> 
             {profile ? (
               <Image src={profile} className="rounded-full" width={32} height={32} alt="profile"/>
             ) : (

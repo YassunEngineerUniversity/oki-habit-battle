@@ -1,64 +1,15 @@
 import BattleItem from "@/components/utils/battle/BattleItem"
+import { callApi } from "@/utils/callApi"
 import { FaFire, FaHourglassHalf } from "react-icons/fa6"
 
-const Index = () => {
-  const battles = [
-    {
-      id: 1,
-      title: "test",
-      detail: "testtesttesttesttesttesttesttesttesttesttest",
-      image: "https://www.pokemon.co.jp/ex/oras/pokemon/img/page25/img_01.png",
-      level: "AAA",
-      status: "test",
-      created_at: "test",
-      updated_at: "test",
-      host_user_id: 1,
-      participants: [
-        {
-          user_id: 1,
-          name: "test",
-          avatar: "https://iconbu.com/wp-content/uploads/2020/01/%E3%83%9A%E3%83%B3%E3%82%AE%E3%83%B3%E3%81%AE%E3%82%A2%E3%82%A4%E3%82%B3%E3%83%B3.jpg",
-        }
-      ]
-    },
-    {
-      id: 2,
-      title: "test",
-      detail: "testtesttesttesttesttest",
-      image: "https://www.pokemon.co.jp/ex/oras/pokemon/img/page25/img_01.png",
-      level: "AAA",
-      status: "test",
-      created_at: "test",
-      updated_at: "test",
-      host_user_id: 1,
-      participants: [
-        {
-          user_id: 1,
-          name: "test",
-          avatar: "https://iconbu.com/wp-content/uploads/2020/01/%E3%83%9A%E3%83%B3%E3%82%AE%E3%83%B3%E3%81%AE%E3%82%A2%E3%82%A4%E3%82%B3%E3%83%B3.jpg",
-        }
-      ]
-    },
-    {
-      id: 3,
-      title: "test",
-      detail: "testtesttesttesttesttesttesttest",
-      image: "",
-      level: "AAA",
-      status: "test",
-      created_at: "test",
-      updated_at: "test",
-      host_user_id: 1,
-      participants: [
-        {
-          user_id: 1,
-          name: "test",
-          avatar: "https://iconbu.com/wp-content/uploads/2020/01/%E3%83%9A%E3%83%B3%E3%82%AE%E3%83%B3%E3%81%AE%E3%82%A2%E3%82%A4%E3%82%B3%E3%83%B3.jpg",
-        }
-      ]
-    }
-  ]
+const Index = async () => {
+  const battles = await callApi("/home", {
+    method: "GET",
+    "ContentType": "application/json",
+  })
 
+  const activeBattles = battles?.data.active_battles
+  const waitingBattles = battles?.data.waiting_battles
 
   return (
     <div>
@@ -68,8 +19,11 @@ const Index = () => {
           <FaFire className="text-red-500 w-[24px] h-[24px]"/>
         </div>
         <ul className="grid grid-cols-1 gap-3">
-          {battles.map((battle) => 
-            <li className="" key={battle.id}>
+          {activeBattles.length === 0 && (
+            <li className="text-center text-gray-300 font-bold">対戦中のバトルはありません</li>
+          )}
+          {activeBattles.map((battle: Battle) => 
+            <li key={battle.id}>
               <BattleItem battle={battle}/>
             </li>
           )}
@@ -81,8 +35,11 @@ const Index = () => {
           <FaHourglassHalf className="text-teal-500 w-[24px] h-[24px]"/>
         </div>
         <ul className="grid grid-cols-1 gap-3">
-          {battles.map((battle) => 
-            <li className="" key={battle.id}>
+          {waitingBattles.length === 0 && (
+            <li className="text-center text-gray-500 font-bold">対戦待ちのバトルはありません</li>
+          )}
+          {waitingBattles.map((battle: Battle) => 
+            <li key={battle.id}>
               <BattleItem battle={battle}/>
             </li>
           )}
