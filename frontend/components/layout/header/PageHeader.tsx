@@ -21,7 +21,7 @@ const PageHeader = ({title, profile, backLink}: PageHeaderProps) => {
             {profile ? (
               <Image src={profile} className="rounded-full" width={32} height={32} alt="profile"/>
             ) : (
-              <Image src="/images/icon/no-avater.png" className="rounded-full" width={32} height={32} alt="profile"/>
+              <Image src="/images/icon/no-avatar.png" className="rounded-full" width={32} height={32} alt="profile"/>
             )}
           </Link>
         )}

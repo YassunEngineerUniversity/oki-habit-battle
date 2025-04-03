@@ -11,8 +11,8 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: 'Rails API and Next.js',
-  description: 'Create Rails API and Next.js',
+  title: 'ハビバト',
+  description: 'ハビバト',
 };
 
 export default function RootLayout({

@@ -9,7 +9,7 @@ interface ProfileCardProps {
 const ProfileCard = ({user}: ProfileCardProps) => {
   return (
     <div className="py-4 px-4 border border-gray-200 rounded-lg block">
-      <Link href="/profile/edit" className="flex gap-2 items-center justify-between">
+      <Link href="/profile/settings" className="flex gap-2 items-center justify-between">
         <div className="flex items-center gap-4">
           <Image src="/images/no-image.jpg" className="rounded-full" width={60} height={60} alt="no-image"/>
           <h1>{user.name}</h1>

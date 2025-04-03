@@ -19,8 +19,8 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: 'Habit Battle',
-  description: '',
+  title: 'ハビバト',
+  description: 'ハビバト',
 };
 
 export default async function RootLayout({

@@ -54,7 +54,6 @@ const index = async ({battle}: BattleDetailProps) => {
           <span className="text-sm">獲得報酬<span className="text-[10px]">（1人あたり）</span></span>
           <span className="text-sm">{battle.per_reword}P</span>
         </div>
-        
       </div>
       <div className="mt-4">
         <Button className="bg-amber-400 border border-vieolet-500 rounded-full w-full text-white flex justify-center gap-1 cursor-pointer hover:opacity-70">
