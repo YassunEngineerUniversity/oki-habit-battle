@@ -4,7 +4,7 @@ import { MdArrowBackIos } from "react-icons/md";
 
 interface PageHeaderProps {
   title: string;
-  profile: string;
+  profile?: string;
   backLink?: string;
 }
 

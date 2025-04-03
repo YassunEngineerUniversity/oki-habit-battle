@@ -12,7 +12,7 @@ const Index = async () => {
   const waitingBattles = battles?.data.waiting_battles
 
   return (
-    <div>
+    <>
       <div>
         <div className="flex justify-center gap-1 mb-2">
           <h2 className="text-lg font-bold">対戦中</h2>
@@ -45,8 +45,7 @@ const Index = async () => {
           )}
         </ul>
       </div>
-
-    </div>
+    </>
   )
 }
 

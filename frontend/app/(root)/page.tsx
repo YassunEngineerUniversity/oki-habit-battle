@@ -1,3 +1,4 @@
+import ContentContainer from "@/components/layout/container/ContentContainer";
 import PageHeader from "@/components/layout/header/PageHeader";
 import Home from "@/features/Home";
 import { getCurrentUser } from "@/utils/getCurrentUser";
@@ -12,12 +13,12 @@ const HomePage = async () => {
   }
 
   return (
-    <div>
+    <>
       <PageHeader profile={currentUser.data.image_url} title="ホーム"/>
-      <div className="pt-[60px] pb-[90px]">
+      <ContentContainer>
         <Home/>
-      </div>
-    </div>
+      </ContentContainer>
+    </>
   )
 }
 
