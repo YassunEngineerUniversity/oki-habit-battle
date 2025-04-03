@@ -1,4 +1,3 @@
-import { callApi } from "@/utils/callApi";
 import ProfileCard from "./components/ProfileCard";
 import { MdArrowForwardIos } from "react-icons/md";
 import Link from "next/link";
@@ -7,8 +6,7 @@ interface ProfileProps {
   user: User
 }
 
-
-const Index = async ({user}: ProfileProps) => {
+const index = async ({user}: ProfileProps) => {
 
   const PROFILECONTENT = [
     {
@@ -57,4 +55,4 @@ const Index = async ({user}: ProfileProps) => {
     </div>
   );
 }
-export default Index;
+export default index;

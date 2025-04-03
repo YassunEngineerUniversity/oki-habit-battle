@@ -24,7 +24,7 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>
 
-const Index = () => {
+const index = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
@@ -109,4 +109,4 @@ const Index = () => {
   )
 }
 
-export default Index
+export default index

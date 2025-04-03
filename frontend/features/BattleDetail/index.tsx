@@ -7,7 +7,7 @@ interface BattleDetailProps {
   battle: BattleDetail;
 }
 
-const Index = async ({battle}: BattleDetailProps) => {
+const index = async ({battle}: BattleDetailProps) => {
   return (
     <div className="p-3">
       <div>
@@ -72,4 +72,4 @@ const Index = async ({battle}: BattleDetailProps) => {
   )
 }
 
-export default Index
+export default index
