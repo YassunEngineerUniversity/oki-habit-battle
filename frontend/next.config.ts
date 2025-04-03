@@ -12,7 +12,9 @@ const nextConfig: NextConfig = {
   images: {
     domains: [
       'www.pokemon.co.jp',
-      'iconbu.com'
+      'iconbu.com',
+      'localhost',
+      'backend.local',
     ],
   },
 };

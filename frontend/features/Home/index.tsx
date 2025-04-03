@@ -2,7 +2,7 @@ import BattleItem from "@/components/utils/battle/BattleItem"
 import { callApi } from "@/utils/callApi"
 import { FaFire, FaHourglassHalf } from "react-icons/fa6"
 
-const Index = async () => {
+const index = async () => {
   const battles = await callApi("/home", {
     method: "GET",
     "ContentType": "application/json",
@@ -49,4 +49,4 @@ const Index = async () => {
   )
 }
 
-export default Index
+export default index

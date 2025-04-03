@@ -8,7 +8,7 @@ import { MdHistory, MdHome, MdSearch } from "react-icons/md";
 const PageFooter = () => {
   const pathname = usePathname();
 
-  const content = [
+  const CONTENT = [
     {
       href: "/",
       icon: "home",
@@ -29,7 +29,7 @@ const PageFooter = () => {
   return (
     <footer className="w-full max-w-[375px] fixed bottom-0 left-0 right-0 m-auto bg-white z-10 border-t border-gray-200">
       <div className="flex justify-around items-center py-3">
-        {content.map((item) => (
+        {CONTENT.map((item) => (
           <Link key={item.href} href={item.href} className="flex flex-col items-center">
             {item.icon === "home" && (
               <MdHome className={`text-xl ${pathname === item.href ? "text-violet-500" : ""}`}/>

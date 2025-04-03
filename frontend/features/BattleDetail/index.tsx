@@ -1,13 +1,16 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { formatDate, formatDateTime, formatPeriod } from "@/lib/formatDate";
 import Image from "next/image";
-import { FaRegStar } from "react-icons/fa6";
+import { FaCrown, FaRegStar } from "react-icons/fa6";
 
 interface BattleDetailProps {
   battle: BattleDetail;
 }
 
-const Index = async ({battle}: BattleDetailProps) => {
+const index = async ({battle}: BattleDetailProps) => {
+
+  console.log(battle);
   return (
     <div className="p-3">
       <div>
@@ -15,13 +18,22 @@ const Index = async ({battle}: BattleDetailProps) => {
       </div>
       <div className="mt-6">
         <p className="text-center">一緒に協力してくれる仲間</p>
-        <div className="flex gap-4 mt-4 justify-center">
+        <div className="flex gap-4 mt-5 justify-center">
           {battle.participants.map((participant) => (
-            participant.avatar ? (
-              <Image src={participant.avatar} className="rounded-full" width={50} height={50} alt="avater" key={participant.name}/>
-            ) : (
-              <Image src="/images/no-image.jpg" className="rounded-full" width={50} height={50} alt="no-image" key={participant.name}/>
-            )
+            <div key={participant.name} className="relative">
+              {participant.user_id === battle.host_user_id && (
+                <FaCrown className="w-4 h-4 text-yellow-500 absolute top-[-16px] left-0 right-0 m-auto"/>
+              )}
+              <Avatar className="w-[50px] h-[50px]" key={participant.name}>
+                {participant.avatar ? (
+                  <AvatarImage src={participant.avatar} alt="avatar" className="rounded-full" />
+                ) : (
+                  <AvatarFallback className="rounded-full">
+                    <Image src="/images/icon/no-avatar.png" className="rounded-full" width={50} height={50} alt="no-avatar"/>
+                  </AvatarFallback>
+                )}
+              </Avatar>
+            </div>
           ))}
         </div>
       </div>
@@ -54,7 +66,6 @@ const Index = async ({battle}: BattleDetailProps) => {
           <span className="text-sm">獲得報酬<span className="text-[10px]">（1人あたり）</span></span>
           <span className="text-sm">{battle.per_reword}P</span>
         </div>
-        
       </div>
       <div className="mt-4">
         <Button className="bg-amber-400 border border-vieolet-500 rounded-full w-full text-white flex justify-center gap-1 cursor-pointer hover:opacity-70">
@@ -72,4 +83,4 @@ const Index = async ({battle}: BattleDetailProps) => {
   )
 }
 
-export default Index
+export default index

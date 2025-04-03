@@ -35,6 +35,5 @@ module Backend
     config.session_store :cookie_store, key: "_habitbattle_session"
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, key: "_habitbattle_session"
-
   end
 end
