@@ -1,3 +1,4 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -26,11 +27,15 @@ const BattleItem = ({battle}:BattleItemProps) => {
           </div>
           <div className="flex gap-[10px] mt-2">
             {battle.participants.map((participant) => 
-              participant.avatar ? (
-                <Image src={participant.avatar} className="rounded-full" width={30} height={30} alt="avater" key={participant.name}/>
-              ) : (
-                <Image src="/images/no-image.jpg" className="rounded-full" width={30} height={30} alt="no-image" key={participant.name}/>
-              )
+              <Avatar className="w-[30px] h-[30px]" key={participant.name}>
+                {participant.avatar ? (
+                  <AvatarImage src={participant.avatar} alt="avatar" className="rounded-full" />
+                ) : (
+                  <AvatarFallback className="rounded-full">
+                    <Image src="/images/icon/no-avatar.png" className="rounded-full" width={30} height={30} alt="no-avatar"/>
+                  </AvatarFallback>
+                )}
+              </Avatar>
             )}
           </div>
         </div>

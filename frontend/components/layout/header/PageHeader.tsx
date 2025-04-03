@@ -1,3 +1,5 @@
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { AvatarFallback } from "@radix-ui/react-avatar";
 import Image from "next/image";
 import Link from "next/link";
 import { MdArrowBackIos } from "react-icons/md";
@@ -18,11 +20,15 @@ const PageHeader = ({title, profile, backLink}: PageHeaderProps) => {
           </Link>
         ): (
           <Link href="/profile" className="absolute top-[7px] left-3 flex block cursor-pointer"> 
-            {profile ? (
-              <Image src={profile} className="rounded-full" width={32} height={32} alt="profile"/>
-            ) : (
-              <Image src="/images/icon/no-avatar.png" className="rounded-full" width={32} height={32} alt="profile"/>
-            )}
+            <Avatar className="w-8 h-8">
+              {profile ? (
+                <AvatarImage src={profile} alt="avatar" className="rounded-full" />
+              ) : (
+                <AvatarFallback className="rounded-full">
+                  <Image src="/images/icon/no-avatar.png" className="rounded-full" width={32} height={32} alt="no-avatar"/>
+                </AvatarFallback>
+              )}
+            </Avatar>
           </Link>
         )}
         <h1 className="text-center font-bold text-[15px] pt-3 pb-3">{ title }</h1>

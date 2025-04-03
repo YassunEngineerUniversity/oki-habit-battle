@@ -89,7 +89,6 @@ const index = ({user}: ProfileSettingsState) => {
             className="hidden"
             type="file"
             accept="image/*"
-            defaultValue={state.image}
           />
           {state.errors?.image && (
             <p className="text-red-500 text-sm mt-1">{state.errors.image}</p>
