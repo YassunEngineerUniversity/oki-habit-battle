@@ -77,7 +77,7 @@ interface Pagination {
   total_pages: number;
 }
 
-interface CategorizedBattleList {
+interface SearchResultBattleList {
   battles: Battle[];
   pagination: Pagination
 }
