@@ -2,15 +2,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { formatDate, formatDateTime, formatPeriod } from "@/lib/formatDate";
 import Image from "next/image";
-import { FaCrown, FaRegStar } from "react-icons/fa6";
+import { FaCrown } from "react-icons/fa6";
+import FavoriteButton from "./components/FavoriteButton";
 
 interface BattleDetailProps {
   battle: BattleDetail;
 }
 
 const index = async ({battle}: BattleDetailProps) => {
-
-  console.log(battle);
+  console.log(battle, "バトル詳細");
   return (
     <div className="p-3">
       <div>
@@ -68,10 +68,7 @@ const index = async ({battle}: BattleDetailProps) => {
         </div>
       </div>
       <div className="mt-4">
-        <Button className="bg-amber-400 border border-vieolet-500 rounded-full w-full text-white flex justify-center gap-1 cursor-pointer hover:opacity-70">
-          <span>お気に入りに追加</span>
-          <FaRegStar className="w-3 block mt-[-2px]"/>
-        </Button>
+        <FavoriteButton />
       </div>
       <div className="mt-4">
         <p className="text-sm">{battle.detail}</p>
