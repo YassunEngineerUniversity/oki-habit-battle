@@ -11,8 +11,8 @@ module BattleHelpers
       achievement_rate: [50, 60, 70, 80, 90, 100].sample,
       backimage_image: png_image,
       categories: [
-        { id: categories[0].id, name: categories[0].name },
-        { id: categories[1].id, name: categories[1].name }
+        { id: categories[0].id, name: categories[0].name, query: categories[0].query },
+        { id: categories[1].id, name: categories[1].name, query: categories[1].query },
       ]
     }.merge(overrides)
   end

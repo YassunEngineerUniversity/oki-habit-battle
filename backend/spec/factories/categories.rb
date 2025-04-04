@@ -11,5 +11,6 @@
 FactoryBot.define do
   factory :category do
     name { Faker::Lorem.word }
+    query { Faker::Lorem.word }
   end
 end

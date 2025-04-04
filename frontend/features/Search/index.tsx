@@ -29,7 +29,7 @@ const Index = async () => {
       <ul className="mt-4 grid grid-cols-2 gap-x-[10px] gap-y-3">
         {categories?.data.map((category: Category) => 
           <li key={category.id} className="border border-gray-200 rounded-lg py-2 px-1">
-            <Link href={`/battles/search?category=${category.id}`} className="block cursor-pointer flex items-center gap-2 ">
+            <Link href={`/battles/search/category/?category=${category.query}&title=${category.name}`} className="block cursor-pointer flex items-center gap-2 ">
               <div>
                 {category.image_url ? (
                   <Image src={category.image_url} width={50} height={50} className="rounded-sm" alt="battle-image" unoptimized/>
