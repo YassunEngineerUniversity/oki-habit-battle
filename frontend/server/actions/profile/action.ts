@@ -40,8 +40,6 @@ export const editProfile = async (prevState: any, formData: FormData): Promise<P
     body: formData,
   });
 
-  console.log("responseProfile", response);
-
   if(!response.ok) {
     const data = await response.json();
     const errorMessage = Array.isArray(data.errors) ? data.errors[0] : data.errors;

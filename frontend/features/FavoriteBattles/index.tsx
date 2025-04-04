@@ -1,3 +1,4 @@
+
 import BattleList from "@/components/utils/battle/BattleList";
 import { MdArrowForwardIos } from "react-icons/md";
 
@@ -19,5 +20,4 @@ const index = ({battles}: SearchResultBattleListProps) => {
     </div>
   );
 }
-
 export default index;

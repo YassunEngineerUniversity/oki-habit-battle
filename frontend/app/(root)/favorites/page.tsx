@@ -1,24 +1,29 @@
 import ContentContainer from '@/components/layout/container/ContentContainer';
 import PageHeader from '@/components/layout/header/PageHeader';
-import Profile from '@/features/Profile'
+import FavoriteBattles from '@/features/FavoriteBattles';
+import { callApi } from '@/utils/callApi';
 import { getCurrentUser } from '@/utils/getCurrentUser';
 import { redirect } from 'next/navigation';
 
-const ProfilePage = async () => {
+const FavoritePage = async () => {
   const currentUser = await getCurrentUser();
  
   if (!currentUser || !currentUser?.success) {
     redirect("/login");
   }
 
+  const battles = await callApi("/battles/favorites", {
+    method: "GET",
+  })
+
   return (
     <>
-      <PageHeader backLink="/" title="プロフィール"/>
+      <PageHeader backLink="/profile" title="お気に入りの対戦"/>
       <ContentContainer>
-        <Profile user={currentUser.data}/>
+        <FavoriteBattles battles={battles?.data}/>
       </ContentContainer>
     </>
   )
 }
 
-export default ProfilePage
+export default FavoritePage

@@ -13,6 +13,7 @@ json.total_hp @battle.total_hp
 json.host_user_id @battle.host_user_id
 json.created_at @battle.created_at
 json.updated_at @battle.updated_at
+json.isFavorite @isBattleFavorite
 
 json.participants @battle.participants do |participaint|
   json.user_id participaint.id

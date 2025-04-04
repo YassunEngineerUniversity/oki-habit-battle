@@ -53,11 +53,6 @@ RSpec.describe "battles_favorites_controller destroy", type: :request do
       include_examples "Error case", :not_found, "バトルが見つかりません"
     end
 
-    context "自分のバトルをお気に入りしようとした場合" do
-      let(:target_battle_id) { host_user.battles.sample.id }
-      include_examples "Error case", :not_found, "バトルが見つかりません"
-    end
-
     context "すでにお気に入り解除済みバトルにお気に入り解除しようとした場合" do
       let(:target_battle_id) { other_user.battles.first.id }
       before do

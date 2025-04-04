@@ -19,7 +19,7 @@ const WordPage = async ({
   const wordQuery = await searchParams.q
   const wordTitle = wordQuery && !Array.isArray(wordQuery) ? wordQuery : "フリーワードなし"
 
-  const battles = await callApi(`/battles`, {
+  const battles = await callApi(`/battles?q=${wordQuery}`, {
     method: "GET",
   })
 
