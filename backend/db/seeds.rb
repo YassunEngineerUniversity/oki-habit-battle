@@ -28,11 +28,29 @@ Category.destroy_all
     )
   end
 
-  categories = ["健康", "生活習慣", "プログラミング", "英語", "読書", "映画", "音楽", "スポーツ", "料理", "ゲーム", "旅行", "その他"]
+  categories = [
+    { name: "健康", query: "health", image: "category-health.png" },
+    { name: "生活習慣", query: "lifestyle", image: "category-lifestyle.png" },
+    { name: "プログラミング", query: "programming", image: "category-programming.png" },
+    { name: "英語", query: "english", image: "category-english.png" },
+    { name: "読書", query: "reading", image: "category-reading.png" },
+    { name: "映画", query: "movies", image: "category-movies.png" },
+    { name: "音楽", query: "music", image: "no-image-category.png" },
+    { name: "スポーツ", query: "sports", image: "no-image-category.png" },
+    { name: "料理", query: "cooking", image: "no-image-category.png" },
+    { name: "ゲーム", query: "gaming", image: "no-image-category.png" },
+    { name: "旅行", query: "travel", image: "no-image-category.png" },
+    { name: "その他", query: "other", image: "no-image-category.png" }
+  ]
+
   categories.each do |category|
     Category.create!(
-      name: category,
-      category_image: ActiveStorage::Blob.create_and_upload!(io: File.open(Rails.root.join("app/assets/images/categories/no-image-category.png")),filename: 'no-image-category.png')
+      name: category[:name],
+      query: category[:query],
+      category_image: ActiveStorage::Blob.create_and_upload!(
+        io: File.open(Rails.root.join("app/assets/images/categories/#{category[:image]}")),
+        filename: category[:image]
+      )
     )
   end
 

@@ -12,7 +12,7 @@ const BattleItem = ({battle}:BattleItemProps) => {
       <div className="flex gap-3 items-center justify-between">
         <div className="w-[110px]">
           {battle.image ? (
-            <Image src={battle.image} width={116} height={116} className="rounded-sm" alt="battle-image"/>
+            <Image src={battle.image} width={116} height={116} className="rounded-sm" alt="battle-image" unoptimized/>
           ): (
             <Image src="/images/no-image.jpg" width={116} height={116} className="rounded-sm" alt="no-image"/>
           )}

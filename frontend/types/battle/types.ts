@@ -69,3 +69,16 @@ interface BattleDetail {
     name: string;
   }[];
 }
+
+interface Pagination {
+  current_page: number;
+  per_page: number;
+  total_count: number;
+  total_pages: number;
+}
+
+interface CategorizedBattleList {
+  battles: Battle[];
+  pagination: Pagination
+}
+

@@ -16,7 +16,7 @@ class Api::V1::BattleFavoritesController < ApplicationController
     @battles = @battles.where(battle_histories: { status: status_params }).distinct if status_params.present?
 
     # カテゴリーが指定されている場合
-    @battles = @battles.where(categories: { name: category_params }).distinct if category_params.present?
+    @battles = @battles.where(categories: { query: category_params }).distinct if category_params.present?
 
     # レベルが指定されている場合
     @battles = @battles.where(level: level_params).distinct if level_params.present?

@@ -15,12 +15,12 @@ const PageFooter = () => {
       text: "ホーム"
     },
     {
-      href: "/battle/search",
+      href: "/battles/search",
       icon: "search",
       text: "対戦検索"
     },
     {
-      href: "/battle/history",
+      href: "/battles/history",
       icon: "history",
       text: "戦歴"
     }
