@@ -14,7 +14,7 @@ const index = async ({battle}: BattleDetailProps) => {
   return (
     <div className="p-3">
       <div>
-        <h2 className="text-2xl font-bold text-center">難易度{battle.level}級</h2>
+        <h2 className="text-2xl font-bold text-center">{battle.level}級</h2>
       </div>
       <div className="mt-6">
         <p className="text-center">一緒に協力してくれる仲間</p>
