@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/utils/getCurrentUser";
 import { redirect } from "next/navigation";
-import CategorizedBattleList from "@/features/CategorizedBattleList";
+import SearchResults from "@/features/SearchResults";
 import PageHeader from "@/components/layout/header/PageHeader";
 import ContentContainer from "@/components/layout/container/ContentContainer";
 import { callApi } from "@/utils/callApi";
@@ -29,7 +29,7 @@ const CategoryPage = async ({
     <>
       <PageHeader backLink="/battles/search" title={categoryTitle}/>
       <ContentContainer>
-        <CategorizedBattleList battles={battles?.data}/>
+        <SearchResults battles={battles?.data}/>
       </ContentContainer>
     </>
   )
