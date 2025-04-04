@@ -11,8 +11,6 @@ const ProfileEditPage = async () => {
     redirect("/login");
   }
 
-  console.log("currentUser", currentUser);
-
   return (
     <>
       <PageHeader backLink="/" title="プロフィール設定"/>
