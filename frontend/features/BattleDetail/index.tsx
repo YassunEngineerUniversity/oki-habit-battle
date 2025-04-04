@@ -68,7 +68,7 @@ const index = async ({battle}: BattleDetailProps) => {
         </div>
       </div>
       <div className="mt-4">
-        <FavoriteButton />
+        <FavoriteButton isFavorite={battle.isFavorite} battleId={battle.id}/>
       </div>
       <div className="mt-4">
         <p className="text-sm">{battle.detail}</p>

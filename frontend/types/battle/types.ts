@@ -59,6 +59,7 @@ interface BattleDetail {
   host_user_id: number;
   created_at: string;
   updated_at: string;
+  isFavorite: boolean;
   participants: {
     user_id: number;
     name: string;

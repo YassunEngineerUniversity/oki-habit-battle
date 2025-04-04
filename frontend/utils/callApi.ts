@@ -1,14 +1,20 @@
 import { cookies } from 'next/headers';
 
-export const callApi = async (url:string, headers: any) => {
-  const cookieStore = await cookies(); 
+export const callApi = async (url:string, options: any) => {
+  const cookieStore = await cookies();
   const session = cookieStore.get('_habitbattle_session');
   if (!session) return null;
    
   const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + url;
+
+  const headers = {
+    Cookie: cookieStore.toString(),
+    ...options.headers,
+  }
+
   const response = await fetch(endpoint, {
+    ...options,
     headers: {
-      Cookie: cookieStore.toString(),
       ...headers,
     },
     credentials: 'include',
@@ -16,9 +22,10 @@ export const callApi = async (url:string, headers: any) => {
 
   if (!response.ok) {
     const data = await response.json();
+    const errorMessage = Array.isArray(data.errors) ? data.errors[0] : data.errors
     return{
       success: false,
-      message: Array.isArray(data.errors) ? data.errors[0] : data.errors,
+      message: errorMessage ? errorMessage : "エラーが発生しました",
     };
   }
 
