@@ -2,7 +2,7 @@ class Api::V1::BattleProgressesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    active_battles = Battle.joins(:battle_history).where(battle_histories: { status: "active" })
+    active_battles = Battle.joins(:battle_history).where(battle_histories: { status: Status::ACTIVE })
     battle = active_battles.find_by(id: battle_progpress_params[:battle_id])
     return render_404("バトルが見つかりません") unless battle
 

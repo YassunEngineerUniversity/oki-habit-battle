@@ -11,7 +11,7 @@ class Api::V1::BattleHistoriesController < ApplicationController
 
     @battles = current_user.battles.joins(:battle_history, :categories)
                                   .preload(:battle_history, :categories)
-                                  .where(battle_histories: { status: "completed" })
+                                  .where(battle_histories: { status: Status::COMPLETE })
                                   .page(page)
                                   .per(per_page)
 

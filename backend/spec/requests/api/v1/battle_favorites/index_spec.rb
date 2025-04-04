@@ -91,17 +91,17 @@ RSpec.describe "battles_favorites_controller index", type: :request do
     end
 
     context "ステータスパラメータがwaitingで指定されている場合" do
-      let(:query_params) { { status: "waiting" } }
+      let(:query_params) { { status: Status::WAITING } }
       include_examples "Successful case", :ok
     end
 
     context "ステータスパラメータがactiveで指定されている場合" do
-      let(:query_params) { { status: "active" } }
+      let(:query_params) { { status: Status::ACTIVE } }
       include_examples "Successful case", :ok
     end
 
     context "ステータスパラメータがcompletedで指定されている場合" do
-      let(:query_params) { { status: "completed" } }
+      let(:query_params) { { status: Status::COMPLETE } }
       include_examples "Successful case", :ok
     end
 
