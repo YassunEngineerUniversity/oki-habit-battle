@@ -11,14 +11,6 @@ export const createFavorite = async(battleId:string) => {
     }
   })
 
-
-  if(!response) {
-    return {
-      success: false,
-      message: "エラーが発生しました",
-    }
-  }
-
   return response;
 }
 
@@ -29,13 +21,6 @@ export const deleteFavorite = async(battleId:string) => {
       'Content-Type': 'application/json',
     }
   })
-
-  if(!response) {
-    return {
-      success: false,
-      message: "エラーが発生しました",
-    }
-  }
 
   return response;
 }

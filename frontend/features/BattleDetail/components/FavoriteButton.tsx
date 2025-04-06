@@ -21,7 +21,7 @@ const FavoriteButton = ({isFavorite, battleId}:FavoriteButtonProps) => {
     if (isFavoriteState) {
       const response = await handleDeleteFavorite();
 
-      if(response.success !== undefined && !response.success) {
+      if(response?.success !== undefined && !response.success) {
         toast.error(response.message, { style: { background: "#dc2626", color: "#fff" }});
       } else {
         setIsFavoriteState(false);
@@ -29,7 +29,7 @@ const FavoriteButton = ({isFavorite, battleId}:FavoriteButtonProps) => {
     } else {
       const response = await handleCreateFavorite();
       
-      if(response.success !== undefined && !response.success) {
+      if(response?.success !== undefined && !response.success) {
         toast.error(response.message, { style: { background: "#dc2626", color: "#fff" }});
       } else {
         setIsFavoriteState(true);
