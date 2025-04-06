@@ -34,13 +34,16 @@ Category.destroy_all
     { name: "プログラミング", query: "programming", image: "category-programming.png" },
     { name: "英語", query: "english", image: "category-english.png" },
     { name: "読書", query: "reading", image: "category-reading.png" },
-    { name: "映画", query: "movies", image: "category-movies.png" },
-    { name: "音楽", query: "music", image: "no-image-category.png" },
-    { name: "スポーツ", query: "sports", image: "no-image-category.png" },
+    { name: "早起き", query: "morning", image: "category-morning.png" },
+    { name: "音楽", query: "music", image: "category-music.png" },
+    { name: "スポーツ", query: "sports", image: "category-sports.png" },
+    { name: "趣味", query: "hobby", image: "category-hobby.png" },
+    { name: "勉強", query: "studying", image: "no-image-category.png" },
     { name: "料理", query: "cooking", image: "no-image-category.png" },
-    { name: "ゲーム", query: "gaming", image: "no-image-category.png" },
-    { name: "旅行", query: "travel", image: "no-image-category.png" },
-    { name: "その他", query: "other", image: "no-image-category.png" }
+    { name: "筋トレ", query: "workingout", image: "no-image-category.png" },
+    { name: "ダイエット", query: "diet", image: "no-image-category.png" },
+    { name: "美容", query: "beauty", image: "no-image-category.png" },
+    { name: "その他", query: "others", image: "no-image-category.png" }
   ]
 
   categories.each do |category|
