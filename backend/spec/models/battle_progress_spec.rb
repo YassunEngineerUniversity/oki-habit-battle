@@ -25,7 +25,7 @@ require 'rails_helper'
 RSpec.describe BattleProgress, type: :model do
   let!(:host_user) { FactoryBot.create(:user, :with_battles) }
   let!(:host_user_battle) { 
-    host_user.battles.first.battle_history.update(status: "active")
+    host_user.battles.first.battle_history.update(status: Status::ACTIVE)
     host_user.battles.first
   }
 

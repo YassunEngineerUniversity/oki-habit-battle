@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe "battles_progress_controller create", type: :request do
   let!(:host_user) { FactoryBot.create(:user, :with_battles) }
   let!(:host_user_battle) { 
-    host_user.battles.first.battle_history.update(status: "active")
+    host_user.battles.first.battle_history.update(status: Status::ACTIVE)
     host_user.battles.first
   }
   let!(:other_user) { FactoryBot.create(:user, :with_battles) }
   let!(:other_user_battle) {
-    other_user.battles.first.battle_history.update(status: "active")
+    other_user.battles.first.battle_history.update(status: Status::ACTIVE)
     other_user.battles.first
   }
   let(:json_response) { JSON.parse(response.body) }
@@ -73,7 +73,7 @@ RSpec.describe "battles_progress_controller create", type: :request do
     context "バトルがactiveでない場合" do
       let(:target_battle) { { battle_id: host_user_battle.id } }
       before do
-        host_user_battle.battle_history.update(status: "completed")
+        host_user_battle.battle_history.update(status: Status::COMPLETE)
       end
       include_examples "Error case", :not_found, "バトルが見つかりません"
     end

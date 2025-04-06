@@ -49,7 +49,7 @@ RSpec.describe "battles_histories_controller index", type: :request do
     it "10件のバトル一覧が取得できる" do
       host_user.battles.each_with_index do |battle, index|
         next if index == 20
-        battle.battle_history.update(status: "completed")
+        battle.battle_history.update(status: Status::COMPLETE)
       end
 
       subject

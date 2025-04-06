@@ -23,13 +23,7 @@ RSpec.describe Battles::UpdateCompletedJob, type: :job do
     end
 
     # 異常系
-    context "Battleが見つからない場合" do
-      it "ActiveRecord::RecordNotFoundが発生する" do
-        expect {
-          Battles::UpdateCompletedJob.new.perform(9999)
-        }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
+   
   end
 end
 

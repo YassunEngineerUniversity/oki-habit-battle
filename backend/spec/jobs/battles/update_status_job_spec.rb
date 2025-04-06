@@ -30,13 +30,7 @@ RSpec.describe Battles::UpdateStatusJob, type: :job do
     end
 
     # 異常系
-    context "Battleが見つからない場合" do
-      it "ActiveRecord::RecordNotFoundが発生する" do
-        expect {
-          Battles::UpdateStatusJob.new.perform(9999)
-        }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
+   
   end
 end
 

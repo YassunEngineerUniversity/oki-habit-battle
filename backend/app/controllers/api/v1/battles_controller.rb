@@ -165,16 +165,6 @@ class Api::V1::BattlesController < ApplicationController
         )
       end
     end
-
-    # バトルの開始日に変更があった場合にジョブを更新
-    if previous_start_date != battle_start_date && battle.id
-      Battles::EditJob.perform_later(battle.id, battle_start_date)
-    end
-
-    # バトルの終了日に変更があった場合にジョブを更新
-    if previous_end_date != battle_end_date && battle.id
-      Battles::EditEndDateJob.perform_later(battle.id, battle_end_date)
-    end
   end
 
   def destroy
@@ -183,9 +173,6 @@ class Api::V1::BattlesController < ApplicationController
 
     battle_id = battle.id
     battle.destroy
-
-    # バトルのステータスを更新するジョブを削除
-    Battles::DeleteJob.perform_later(battle_id)
   end
 
   private

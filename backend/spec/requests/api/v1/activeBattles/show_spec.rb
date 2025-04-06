@@ -75,7 +75,7 @@ RSpec.describe "active_battles_controller show", type: :request do
   context "セッションで認証されている場合" do
     before do
       post "/api/v1/login", params: { email: host_user.email, password: host_user.password }
-      active_battle.battle_history.update(status: "active")
+      active_battle.battle_history.update(status: Status::ACTIVE)
     end
 
     # 正常系
@@ -93,7 +93,7 @@ RSpec.describe "active_battles_controller show", type: :request do
     context "バトルが対戦中でない場合" do
       let(:target_battle_id) { active_battle.id }
       before do
-        active_battle.battle_history.update(status: "waiting")
+        active_battle.battle_history.update(status: Status::WAITING)
       end
       include_examples "Error case", :unprocessable_entity, "バトルが対戦中ではありません"
     end
@@ -106,7 +106,7 @@ RSpec.describe "active_battles_controller show", type: :request do
     context "バトルに参加していない場合" do
       let(:target_battle_id) { other_user.battles.first.id }
       before do
-        other_user.battles.first.battle_history.update(status: "active")
+        other_user.battles.first.battle_history.update(status: Status::ACTIVE)
       end
       include_examples "Error case", :unprocessable_entity, "バトルに参加していません"
     end
