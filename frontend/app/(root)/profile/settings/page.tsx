@@ -13,7 +13,7 @@ const ProfileEditPage = async () => {
 
   return (
     <>
-      <PageHeader backLink="/" title="プロフィール設定"/>
+      <PageHeader backLink="/profile" title="プロフィール設定"/>
       <ContentContainer>
         <ProfileSettings user={currentUser.data}/>
       </ContentContainer>

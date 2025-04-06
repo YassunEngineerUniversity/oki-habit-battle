@@ -1,10 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useSwitchState } from "@/hooks/useSwitchState";
 import { createFavorite, deleteFavorite } from "@/server/actions/favorite/action";
-import { useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa6";
-import { toast } from "sonner"
 
 interface FavoriteButtonProps {
   isFavorite: boolean;
@@ -12,30 +11,12 @@ interface FavoriteButtonProps {
 }
 
 const FavoriteButton = ({isFavorite, battleId}:FavoriteButtonProps) => {
-  const [isFavoriteState, setIsFavoriteState] = useState(isFavorite);
-
-  const handleCreateFavorite = createFavorite.bind(null, battleId.toString());
-  const handleDeleteFavorite = deleteFavorite.bind(null, battleId.toString());
-
-  const handleFavorite = async () => {
-    if (isFavoriteState) {
-      const response = await handleDeleteFavorite();
-
-      if(response?.success !== undefined && !response.success) {
-        toast.error(response.message, { style: { background: "#dc2626", color: "#fff" }});
-      } else {
-        setIsFavoriteState(false);
-      }
-    } else {
-      const response = await handleCreateFavorite();
-      
-      if(response?.success !== undefined && !response.success) {
-        toast.error(response.message, { style: { background: "#dc2626", color: "#fff" }});
-      } else {
-        setIsFavoriteState(true);
-      }
-    }
-  }
+  const {isSwitchState: isFavoriteState, handleSwitchState: handleFavorite} = useSwitchState(
+    battleId.toString(),
+    isFavorite,
+    createFavorite,
+    deleteFavorite
+  )
 
   return (
     <form action={handleFavorite}>
