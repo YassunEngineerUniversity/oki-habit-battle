@@ -4,13 +4,16 @@ import { formatDate, formatDateTime, formatPeriod } from "@/lib/formatDate";
 import Image from "next/image";
 import { FaCrown } from "react-icons/fa6";
 import FavoriteButton from "./components/FavoriteButton";
+import ParticipantButton from "./components/ParticipantButton";
 
 interface BattleDetailProps {
   battle: BattleDetail;
+  currentUserId: number;
 }
 
-const index = async ({battle}: BattleDetailProps) => {
-  console.log(battle, "バトル詳細");
+const index = async ({battle, currentUserId}: BattleDetailProps) => {
+  const isHost = currentUserId=== battle.host_user_id;
+  const isParticipant = battle.participants.some((participant) => participant.user_id === currentUserId);
   return (
     <div className="p-3">
       <div>
@@ -74,7 +77,7 @@ const index = async ({battle}: BattleDetailProps) => {
         <p className="text-sm">{battle.detail}</p>
       </div>
       <div className="mt-4">
-        <Button className="bg-violet-500 border border-vieolet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70">この対戦に参加する</Button>
+        {!isHost && (<ParticipantButton battleId={battle.id} isParticipant={isParticipant}/>)}
       </div>
     </div>
   )

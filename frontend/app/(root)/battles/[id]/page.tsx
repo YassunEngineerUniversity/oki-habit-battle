@@ -4,7 +4,6 @@ import { getCurrentUser } from "@/utils/getCurrentUser";
 import BattleDetail from "@/features/BattleDetail";
 import { redirect } from "next/navigation";
 import { callApi } from "@/utils/callApi";
-import { toast } from "sonner";
 
 const BattleDetailPage = async (
   {
@@ -19,7 +18,7 @@ const BattleDetailPage = async (
   if (!currentUser || !currentUser?.success) {
     redirect("/login");
   }
-
+  
   const battleId = id
   const battle = await callApi(`/battles/${battleId}`, {
     method: "GET",
@@ -30,7 +29,7 @@ const BattleDetailPage = async (
     <>
       <PageHeader backLink="/" title={battle?.data.title}/>
       <ContentContainer>
-        <BattleDetail battle={battle?.data}/>
+        <BattleDetail battle={battle?.data} currentUserId={currentUser?.data.id}/>
       </ContentContainer>
     </>
   )

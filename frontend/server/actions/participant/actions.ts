@@ -3,8 +3,8 @@
 
 import { callApi } from "@/utils/callApi";
 
-export const createFavorite = async(battleId:string) => {
-  const response = await callApi(`/battles/${battleId}/favorites`, {
+export const createParitipant = async(battleId:string) => {
+  const response = await callApi(`/battles/${battleId}/participants`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -20,12 +20,12 @@ export const createFavorite = async(battleId:string) => {
 
   return {
     success: true,
-    message: "お気に入りに追加しました",
+    message: "バトルに参加しました",
   }
 }
 
-export const deleteFavorite = async(battleId:string) => {
-  const response = await callApi(`/battles/${battleId}/favorites`, {
+export const deleteParitipant = async(battleId:string) => {
+  const response = await callApi(`/battles/${battleId}/participants`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -41,6 +41,6 @@ export const deleteFavorite = async(battleId:string) => {
 
   return {
     success: true,
-    message: "お気に入りを削除しました",
+    message: "バトルから退出しました",
   }
 }
