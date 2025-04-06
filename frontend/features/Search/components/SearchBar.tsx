@@ -38,8 +38,8 @@ const SearchBar = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="relative w-full">
-        <FaSearch className="absolute top-[11px] left-3 w-5 h-5 text-gray-300" />
+      <div className="relative w-full px-3 bg-white">
+        <FaSearch className="absolute top-[11px] left-[22px] w-5 h-5 text-gray-300" />
         <Input
           id="search"
           name="search"
@@ -49,7 +49,7 @@ const SearchBar = () => {
           value={searchWord}
           onChange={handleChange}
         />
-        {isDeleteWordVisible && (<IoCloseCircle onClick={handleDeleteWordClick}  className="absolute top-[11px] right-3 w-5 h-5 cursor-pointer"/>)}
+        {isDeleteWordVisible && (<IoCloseCircle onClick={handleDeleteWordClick}  className="absolute top-[11px] right-[22px] w-5 h-5 cursor-pointer"/>)}
       </div>
       <Button type="submit" className="hidden"></Button>
     </form>
