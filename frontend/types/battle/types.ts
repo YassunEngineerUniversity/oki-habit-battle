@@ -14,7 +14,7 @@ interface BattleItemParticipants {
   avatar: string;
 }
 
-interface Category {
+interface BattleCategory {
   id: number;
   name: string;
 }
@@ -39,7 +39,7 @@ interface Battle {
     name: string;
     avatar: string;
   }[];
-  categories: Category[];
+  categories: BattleCategory[];
 }
 
 
@@ -81,5 +81,18 @@ interface Pagination {
 interface SearchResultBattleList {
   battles: Battle[];
   pagination: Pagination
+}
+
+export interface BattleCreateState {
+  title: string | undefined;
+  image?: string | undefined;
+  category: string | undefined;
+  errors?: {
+    title?: string[] | undefined;
+    image?: string[] | undefined;
+    category?: string[] | undefined;
+  };
+  message?: string;
+  success?: boolean;
 }
 
