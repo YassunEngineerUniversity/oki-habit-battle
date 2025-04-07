@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useSwitchState } from "@/hooks/useSwitchState";
+import { useToggle } from "@/hooks/useToggle";
 import { createFavorite, deleteFavorite } from "@/server/actions/favorite/action";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 
@@ -11,13 +11,12 @@ interface FavoriteButtonProps {
 }
 
 const FavoriteButton = ({isFavorite, battleId}:FavoriteButtonProps) => {
-  const {isSwitchState: isFavoriteState, handleSwitchState: handleFavorite} = useSwitchState(
-    battleId.toString(),
-    isFavorite,
-    createFavorite,
-    deleteFavorite
-  )
-
+  const {isToggle: isFavoriteState, toggle: handleFavorite} = useToggle({
+    state: isFavorite,
+    on: () => createFavorite.bind(null, battleId.toString()),
+    off: () => deleteFavorite.bind(null, battleId.toString()),
+  })
+  
   return (
     <form action={handleFavorite}>
       {isFavoriteState ? (

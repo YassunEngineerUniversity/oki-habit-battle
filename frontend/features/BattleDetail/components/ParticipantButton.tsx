@@ -1,8 +1,8 @@
 "use client"
 
 import { Button } from '@/components/ui/button'
-import { useSwitchState } from '@/hooks/useSwitchState'
-import { createParitipant, deleteParitipant } from '@/server/actions/participant/actions'
+import { useToggle } from '@/hooks/useToggle'
+import { createParticipant, deleteParticipant } from '@/server/actions/participant/actions'
 
 interface ParticipantButtonProps {
   isParticipant: boolean,
@@ -10,14 +10,13 @@ interface ParticipantButtonProps {
 }
 
 const ParticipantButton = ({battleId, isParticipant}: ParticipantButtonProps) => {
-  console.log("isParticipant", isParticipant)
-  const {isSwitchState: isParicipantState, handleSwitchState: handleParticipant} = useSwitchState(
-    battleId.toString(),
-    isParticipant,
-    createParitipant,
-    deleteParitipant,
-    true
-  )
+  const {isToggle: isParicipantState, toggle: handleParticipant} = useToggle({
+    state: isParticipant,
+    on: () => createParticipant.bind(null, battleId.toString()),
+    off: () => deleteParticipant.bind(null, battleId.toString()),
+    isSuccessToast: true,
+  })
+  
   return (
     <form action={handleParticipant}>
       {isParicipantState ? (

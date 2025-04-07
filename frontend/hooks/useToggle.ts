@@ -2,23 +2,26 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 interface AsyncFunc {
-  (battleId: string): Promise<{ success: boolean; message: string }>;
+  (): () => Promise<{ success: boolean; message: string }>;
 }
 
-export const useSwitchState = (
-  battleId: string,
-  isState: boolean,
-  createFunc: AsyncFunc,
-  deleteFunc: AsyncFunc,
-  isSuccessToast: boolean = false,
+interface UseToggleProps {
+  state: boolean;
+  on: AsyncFunc;
+  off: AsyncFunc;
+  isSuccessToast?: boolean;
+}
+
+export const useToggle = (
+  { state: isState, on: createFunc, off: deleteFunc, isSuccessToast = false }: UseToggleProps
 ) => {
-  const [isSwitchState, setIsSwitchState] = useState(isState);
+  const [isToggle, setIsToggle] = useState(isState);
 
-  const handleCreate = createFunc.bind(null, battleId);
-  const handleDelete = deleteFunc.bind(null, battleId);
+  const handleCreate = createFunc()
+  const handleDelete = deleteFunc()
 
-  const handleSwitchState = async () => {
-    if (isSwitchState) {
+  const toggle = async () => {
+    if (isToggle) {
       const response = await handleDelete();
 
       if(response?.success !== undefined && !response.success) {
@@ -27,7 +30,7 @@ export const useSwitchState = (
         if(isSuccessToast) {
           toast.success(response.message, { style: { background: "#4ade80", color: "#fff" }});
         }
-        setIsSwitchState(false);
+        setIsToggle(false);
       }
     } else {
       const response = await handleCreate();
@@ -38,14 +41,13 @@ export const useSwitchState = (
         if(isSuccessToast) {
           toast.success(response.message, { style: { background: "#4ade80", color: "#fff" }});
         }
-        setIsSwitchState(true);
+        setIsToggle(true);
       }
     }
   }
 
   return {
-    isSwitchState,
-    setIsSwitchState,
-    handleSwitchState,
+    isToggle,
+    toggle,
   }
 }
