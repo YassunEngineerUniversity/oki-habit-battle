@@ -24,7 +24,7 @@ interface HomeBattleResponse {
   waiting_battles: Battle[];
 }
 
-interface Battle {
+export interface Battle {
   id: number;
   title: string;
   detail: string;
@@ -43,7 +43,7 @@ interface Battle {
 }
 
 
-interface BattleDetail {
+export interface BattleDetail {
   id: number;
   title: string;
   detail: string;
@@ -60,6 +60,7 @@ interface BattleDetail {
   created_at: string;
   updated_at: string;
   isFavorite: boolean;
+  participant_limit: number;
   participants: {
     user_id: number;
     name: string;
@@ -94,5 +95,20 @@ export interface BattleCreateState {
   };
   message?: string;
   success?: boolean;
+}
+
+export interface BattleCreateValues {
+  title: string;
+  categories: BattleCreateCategory[];
+  backgroundImage: File;
+  participants: string;
+  applyPeriod: string;
+  battlePeriod: string;
+  achievementRate: "0" | "50" | "60" | "70" | "80" | "90" | "100";
+  detail: string;
+}
+
+interface BattleCreateCategory{
+  name: string;
 }
 

@@ -14,7 +14,7 @@ const BattleDetailPage = async (
 ) => {
   const { id } = await params
   const currentUser = await getCurrentUser();
- 
+   
   if (!currentUser || !currentUser?.success) {
     redirect("/login");
   }
@@ -22,7 +22,6 @@ const BattleDetailPage = async (
   const battleId = id
   const battle = await callApi(`/battles/${battleId}`, {
     method: "GET",
-    "ContentType": "application/json",
   })
 
   return (

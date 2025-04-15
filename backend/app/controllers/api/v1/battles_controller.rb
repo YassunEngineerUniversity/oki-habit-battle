@@ -82,7 +82,8 @@ class Api::V1::BattlesController < ApplicationController
         participant_limit: participant_limit,
         per_reword: per_reword,
         level: level,
-        host_user_id: current_user.id
+        host_user_id: current_user.id,
+        background_image: battle_params[:background_image]
       )
 
       BattleHistory.create!(
@@ -186,8 +187,8 @@ class Api::V1::BattlesController < ApplicationController
         :detail, 
         :achievement_rate, 
         :participant_limit, 
-        :backimage_image,
-        categories: [:id, :name]
+        :background_image,
+        categories: [:name]
       )
     end
 

@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 
 const FavoritePage = async () => {
   const currentUser = await getCurrentUser();
- 
+   
   if (!currentUser || !currentUser?.success) {
     redirect("/login");
   }

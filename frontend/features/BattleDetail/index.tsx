@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FaCrown } from "react-icons/fa6";
 import FavoriteButton from "./components/FavoriteButton";
 import ParticipantButton from "./components/ParticipantButton";
+import { BattleDetail } from "@/types/battle/types";
 
 interface BattleDetailProps {
   battle: BattleDetail;
@@ -14,6 +15,10 @@ interface BattleDetailProps {
 const index = async ({battle, currentUserId}: BattleDetailProps) => {
   const isHost = currentUserId=== battle.host_user_id;
   const isParticipant = battle.participants.some((participant) => participant.user_id === currentUserId);
+
+  console.log(battle);
+  
+
   return (
     <div className="p-3">
       <div>
@@ -47,7 +52,7 @@ const index = async ({battle, currentUserId}: BattleDetailProps) => {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-sm">人数</span>
-          <span className="text-sm">{battle.participants.length}人</span>
+          <span className="text-sm">{battle.participant_limit}人</span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-sm">募集締切日</span>

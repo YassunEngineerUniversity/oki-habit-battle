@@ -43,8 +43,8 @@ class Battle < ApplicationRecord
   has_many :battle_favorites, dependent: :destroy
   has_many :favorite_battles, through: :battle_favorites, source: :user
 
-  self.image_attachment_name = :backimage_image
-  has_one_attached :backimage_image
+  self.image_attachment_name = :background_image
+  has_one_attached :background_image
 
   # Validation
   validates :title, presence: true, length: { in: 1..255 }

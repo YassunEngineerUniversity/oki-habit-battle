@@ -1,4 +1,5 @@
 import BattleItem from "@/components/utils/battle/BattleItem"
+import { Battle } from "@/types/battle/types"
 import { callApi } from "@/utils/callApi"
 import { FaFire, FaHourglassHalf } from "react-icons/fa6"
 
@@ -11,6 +12,7 @@ const index = async () => {
   const activeBattles = battles?.data.active_battles
   const waitingBattles = battles?.data.waiting_battles
 
+  console.log(waitingBattles)
   return (
     <>
       <div>

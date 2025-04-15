@@ -11,6 +11,7 @@ json.level @battle.level
 json.achievement_rate @battle.achievement_rate
 json.total_hp @battle.total_hp
 json.host_user_id @battle.host_user_id
+json.participant_limit @battle.participant_limit
 json.created_at @battle.created_at
 json.updated_at @battle.updated_at
 json.isFavorite @isBattleFavorite

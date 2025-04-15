@@ -25,3 +25,19 @@ export const formatPeriod = (startDate: string, endDate: string) => {
 
   return `${diffDays}日`;
 }
+
+export const formatPeriodWithTime = (minutes: number) => {
+  const currentDate = new Date();
+  const date = new Date(currentDate);
+  if (minutes > 0) {
+    date.setMinutes(date.getMinutes() + minutes);
+  }
+
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString();
+  const day = date.getDate().toString();
+  const hour = date.getHours().toString();
+  const minute = date.getMinutes().toString().padStart(2, '0'); 
+
+  return `${year}年${month}月${day}日${hour}:${minute}`;
+};

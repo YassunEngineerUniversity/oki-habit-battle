@@ -23,6 +23,7 @@ RSpec.describe "battles_controller show", type: :request do
         expect(json_response["per_reword"]).to eq(battle.per_reword)
         expect(json_response["per_bonus"]).to eq(battle.per_bonus)
         expect(json_response["level"]).to eq(battle.level)
+        expect(json_response["participant_limit"]).to eq(battle.participant_limit)
         expect(json_response["achievement_rate"]).to eq(battle.achievement_rate)
         expect(json_response["total_hp"]).to eq(battle.total_hp)
         expect(json_response["host_user_id"]).to eq(battle.host_user_id)

@@ -19,7 +19,7 @@ module ImageHandling
     
     def check_content_type
       attachment = current_image_attachment
-      if attachment.attached? && !attachment.content_type.in?(%w[image/jpeg image/png image/webp])
+      if attachment.attached? && !attachment.content_type.in?(%w[image/jpeg image/png image/webp image/jpg])
         errors.add(self.class.image_attachment_name, "is not one of JPEG, PNG, or WEBP")
       end
     end
