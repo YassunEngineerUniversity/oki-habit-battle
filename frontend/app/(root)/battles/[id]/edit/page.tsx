@@ -1,11 +1,11 @@
 import ContentContainer from "@/components/layout/container/ContentContainer";
 import PageHeader from "@/components/layout/header/PageHeader";
 import { getCurrentUser } from "@/utils/getCurrentUser";
-import BattleDetail from "@/features/BattleDetail";
+import BattleEdit from "@/features/BattleEdit";
 import { redirect } from "next/navigation";
 import { callApi } from "@/utils/callApi";
 
-const BattleDetailPage = async (
+const BattleEditPage = async (
   {
     params,
   }: {
@@ -28,10 +28,10 @@ const BattleDetailPage = async (
     <>
       <PageHeader backLink="/" title={battle?.data.title}/>
       <ContentContainer>
-        <BattleDetail battle={battle?.data} currentUserId={currentUser?.data.id}/>
+        <BattleEdit battle={battle?.data}/>
       </ContentContainer>
     </>
   )
 }
 
-export default BattleDetailPage
+export default BattleEditPage

@@ -6,7 +6,7 @@ import ProfileSettings from "@/features/ProfileSettings";
 
 const ProfileEditPage = async () => {
   const currentUser = await getCurrentUser();
- 
+   
   if (!currentUser || !currentUser?.success) {
     redirect("/login");
   }

@@ -3,7 +3,7 @@
 
 import { callApi } from "@/utils/callApi";
 
-export const createParitipant = async(battleId:string) => {
+export const createParticipant = async(battleId:string) => {
   const response = await callApi(`/battles/${battleId}/participants`, {
     method: 'POST',
     headers: {
@@ -24,7 +24,7 @@ export const createParitipant = async(battleId:string) => {
   }
 }
 
-export const deleteParitipant = async(battleId:string) => {
+export const deleteParticipant = async(battleId:string) => {
   const response = await callApi(`/battles/${battleId}/participants`, {
     method: 'DELETE',
     headers: {

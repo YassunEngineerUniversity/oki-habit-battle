@@ -69,12 +69,12 @@ RSpec.describe "battles_controller create", type: :request do
     end
 
     context "JPGの画像の場合" do
-      let(:target_battle) { valid_battle_attributes({backimage_image: jpg_image }) }
+      let(:target_battle) { valid_battle_attributes({background_image: jpg_image }) }
       include_examples "Successful case", :ok, "バトルが作成されました"
     end
 
     context "WEBPの画像の場合" do
-      let(:target_battle) { valid_battle_attributes({backimage_image: webp_image }) }
+      let(:target_battle) { valid_battle_attributes({background_image: webp_image }) }
       include_examples "Successful case", :ok, "バトルが作成されました"
     end
 

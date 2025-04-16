@@ -63,13 +63,13 @@ RSpec.describe "battles_controller update", type: :request do
 
     context "JPGの画像の場合" do
       let(:target_battle_id) { host_user.battles.sample.id }
-      let(:target_battle) { valid_battle_attributes({backimage_image: jpg_image }) }
+      let(:target_battle) { valid_battle_attributes({background_image: jpg_image }) }
       include_examples "Successful case", :ok, "バトルが更新されました"
     end
 
     context "WEBPの画像の場合" do
       let(:target_battle_id) { host_user.battles.sample.id }
-      let(:target_battle) { valid_battle_attributes({backimage_image: webp_image }) }
+      let(:target_battle) { valid_battle_attributes({background_image: webp_image }) }
       include_examples "Successful case", :ok, "バトルが更新されました"
     end
 

@@ -11,7 +11,7 @@ const WordPage = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const currentUser = await getCurrentUser();
- 
+   
   if (!currentUser || !currentUser?.success) {
     redirect("/login");
   }

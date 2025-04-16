@@ -2,10 +2,11 @@ import { getCurrentUser } from "@/utils/getCurrentUser";
 import { redirect } from "next/navigation";
 import Search from "@/features/Search";
 import BattleCreateButton from "@/components/utils/battle/BattleCreateButton";
+import { checkCurrentUser } from "@/lib/checkCurrentUser";
 
 const SearchPage = async () => {
   const currentUser = await getCurrentUser();
- 
+   
   if (!currentUser || !currentUser?.success) {
     redirect("/login");
   }

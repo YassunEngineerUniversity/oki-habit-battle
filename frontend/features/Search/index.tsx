@@ -2,6 +2,7 @@ import { callApi } from "@/utils/callApi";
 import Image from "next/image";
 import Link from "next/link";
 import SearchBar from "./components/SearchBar";
+import { Category } from "@/types/category/types";
 
 const Index = async () => {
   const categories = await callApi("/battle-categories", {

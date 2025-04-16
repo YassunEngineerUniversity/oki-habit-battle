@@ -25,12 +25,14 @@ const index = ({user}: ProfileSettingsState) => {
 
   const [state, formAction, isPending] = useActionState(editProfile, INITIALSTATE);
   const [preview, setPreview] = useState<string | null>(user.image_url || null);
+  const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file)
+      setIsEditing(true)
       setPreview(imageUrl)
     }
   }
@@ -83,7 +85,7 @@ const index = ({user}: ProfileSettingsState) => {
           </Button>
           <Input
             id="image"
-            name="image"
+            name={isEditing ? "image" : ""} // 編集した時だけimageをserver actionsに送信する
             ref={fileInputRef}
             onChange={handleFileChange}
             className="hidden"

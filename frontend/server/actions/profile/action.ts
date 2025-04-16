@@ -1,21 +1,21 @@
 import { IMAGE_TYPES, MAX_IMAGE_SIZE } from "@/constants/image";
 import { sizeInMB } from "@/lib/sizeInMb";
 import { ProfileSettingsState } from "@/types/profile/types";
+import { FileEdit } from "lucide-react";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const profileSettingsSchema = z.object({
   name: z.string().trim().min(1, { message: "ユーザ名は必須です" }).max(255, { message: "ユーザ名は255文字以内で入力してください" }),
   image: z.custom<File>()
-          .refine((file) => sizeInMB(file.size) <= MAX_IMAGE_SIZE, { message: 'ファイルサイズは最大2MBです' })
-          .refine((file) => IMAGE_TYPES.includes(file.type), {
+          .refine((file) => !file || sizeInMB(file.size) <= MAX_IMAGE_SIZE, { message: 'ファイルサイズは最大2MBです' })
+          .refine((file) => !file || IMAGE_TYPES.includes(file.type), {
             message: 'jpg、jpeg, png、webpのいずれかの画像形式にしてください',
           }),
   profile: z.string().trim().max(255, { message: "プロフィールは255文字以内で入力してください" }),
 })
 
 export const editProfile = async (prevState: any, formData: FormData): Promise<ProfileSettingsState> => {
-  console.log("formData entries:", Array.from(formData.entries()));
   const editProfileFormData = Object.fromEntries(formData);
   const validatedEditProfileFormData = profileSettingsSchema.safeParse(editProfileFormData);
 

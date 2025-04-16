@@ -14,7 +14,7 @@ interface BattleItemParticipants {
   avatar: string;
 }
 
-interface Category {
+interface BattleCategory {
   id: number;
   name: string;
 }
@@ -24,7 +24,7 @@ interface HomeBattleResponse {
   waiting_battles: Battle[];
 }
 
-interface Battle {
+export interface Battle {
   id: number;
   title: string;
   detail: string;
@@ -39,11 +39,11 @@ interface Battle {
     name: string;
     avatar: string;
   }[];
-  categories: Category[];
+  categories: BattleCategory[];
 }
 
 
-interface BattleDetail {
+export interface BattleDetail {
   id: number;
   title: string;
   detail: string;
@@ -54,12 +54,14 @@ interface BattleDetail {
   per_reword: number;
   per_bonus: number;
   level: string;
+  image: string;
   achievement_rate: number;
   total_hp: number;
   host_user_id: number;
   created_at: string;
   updated_at: string;
   isFavorite: boolean;
+  participant_limit: number;
   participants: {
     user_id: number;
     name: string;
@@ -81,5 +83,33 @@ interface Pagination {
 interface SearchResultBattleList {
   battles: Battle[];
   pagination: Pagination
+}
+
+export interface BattleCreateState {
+  title: string | undefined;
+  image?: string | undefined;
+  category: string | undefined;
+  errors?: {
+    title?: string[] | undefined;
+    image?: string[] | undefined;
+    category?: string[] | undefined;
+  };
+  message?: string;
+  success?: boolean;
+}
+
+export interface BattleValues {
+  title: string;
+  categories: BattleCreateCategory[];
+  backgroundImage: File;
+  participants: string;
+  applyPeriod: string;
+  battlePeriod: string;
+  achievementRate: "0" | "50" | "60" | "70" | "80" | "90" | "100";
+  detail: string;
+}
+
+interface BattleCreateCategory{
+  name: string;
 }
 

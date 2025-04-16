@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 
 const ProfilePage = async () => {
   const currentUser = await getCurrentUser();
- 
+   
   if (!currentUser || !currentUser?.success) {
     redirect("/login");
   }
