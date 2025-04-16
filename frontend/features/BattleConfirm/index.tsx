@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { createPeriodISOS } from "@/lib/createPeriod";
 import { formatPeriodWithTime } from "@/lib/formatDate";
-import { BattleCreateFormData } from "@/schema/battle/schema";
+import { BattleFormData } from "@/schema/battle/schema";
 import { createBattle } from "@/server/actions/battle/actions";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ import { toast } from "sonner"
 const Index = () => {
   const router = useRouter()
 
-  const form = useFormContext<BattleCreateFormData>()
+  const form = useFormContext<BattleFormData>()
   const values = form.getValues()
   const imageUrl = values.backgroundImage ? URL.createObjectURL(values.backgroundImage) : null
 
@@ -38,8 +38,10 @@ const Index = () => {
     formData.append("achievement_rate", values.achievementRate)
     formData.append("detail", values.detail)
 
-    for (let index = 0; index < values.categories.length; index++) {
-      formData.append("categories[][name]", values.categories[index].name)
+    if(values.categories && values.categories.length > 0) {
+      for (let index = 0; index < values.categories.length; index++) {
+        formData.append("categories[][name]", values.categories[index].name)
+      }
     }
 
     if(values.backgroundImage) {
@@ -55,7 +57,7 @@ const Index = () => {
       toast.error(respose?.message, { style: { background: "#dc2626", color: "#fff" }})
     }
   }
-  
+
   return (
     <div className="grid gap-6 px-2">
       <div>

@@ -1,5 +1,5 @@
 import { callApi } from "@/utils/callApi";
-import BattleCreateForm from "./components/BattleCreateForm";
+import BattleForm from "../../components/utils/battle/BattleForm";
 
 const Index = async () => {
   const categories = await callApi("/battle-categories", {
@@ -7,7 +7,7 @@ const Index = async () => {
   })
 
   return (
-    <BattleCreateForm categories={categories?.data}/>
+    <BattleForm categories={categories?.data}/>
   );
 }
 export default Index;

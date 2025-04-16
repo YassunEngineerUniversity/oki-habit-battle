@@ -54,6 +54,7 @@ export interface BattleDetail {
   per_reword: number;
   per_bonus: number;
   level: string;
+  image: string;
   achievement_rate: number;
   total_hp: number;
   host_user_id: number;
@@ -97,7 +98,7 @@ export interface BattleCreateState {
   success?: boolean;
 }
 
-export interface BattleCreateValues {
+export interface BattleValues {
   title: string;
   categories: BattleCreateCategory[];
   backgroundImage: File;

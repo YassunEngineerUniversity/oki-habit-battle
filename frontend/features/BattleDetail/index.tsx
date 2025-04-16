@@ -6,6 +6,8 @@ import { FaCrown } from "react-icons/fa6";
 import FavoriteButton from "./components/FavoriteButton";
 import ParticipantButton from "./components/ParticipantButton";
 import { BattleDetail } from "@/types/battle/types";
+import { MdEdit } from "react-icons/md";
+import Link from "next/link";
 
 interface BattleDetailProps {
   battle: BattleDetail;
@@ -16,11 +18,16 @@ const index = async ({battle, currentUserId}: BattleDetailProps) => {
   const isHost = currentUserId=== battle.host_user_id;
   const isParticipant = battle.participants.some((participant) => participant.user_id === currentUserId);
 
-  console.log(battle);
-  
-
   return (
-    <div className="p-3">
+    <div className="p-3 relative">
+      {isHost && (
+        <Link href={`/battles/${battle.id}/edit`} className="absolute top-0 right-0 flex items-center gap-1 border border-gray-300 rounded-md px-[10px] pt-[10px] pb-2 hover:bg-gray-50">
+          <span className="text-sm text-gray-500 leading-3">
+            編集
+          </span>
+          <MdEdit className="w-[14px] h-[14px] mb-[2px] text-gray-500 inline-block"/>
+        </Link>
+      )}
       <div>
         <h2 className="text-2xl font-bold text-center">{battle.level}級</h2>
       </div>

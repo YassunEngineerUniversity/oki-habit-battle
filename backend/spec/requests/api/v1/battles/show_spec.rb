@@ -16,6 +16,7 @@ RSpec.describe "battles_controller show", type: :request do
         expect(json_response["id"]).to eq(battle.id)
         expect(json_response["title"]).to eq(battle.title)
         expect(json_response["detail"]).to eq(battle.detail)
+        expect(json_response["image"]).to eq(battle.image_url)
         expect(json_response["apply_start_date"]).to eq(battle.apply_start_date.strftime("%Y-%m-%dT%H:%M:%S.%L%:z"))
         expect(json_response["apply_end_date"]).to eq(battle.apply_end_date.strftime("%Y-%m-%dT%H:%M:%S.%L%:z"))
         expect(json_response["battle_start_date"]).to eq(battle.battle_start_date.strftime("%Y-%m-%dT%H:%M:%S.%L%:z"))

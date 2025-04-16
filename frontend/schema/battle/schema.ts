@@ -22,5 +22,5 @@ export const battleCreateSchema = z.object({
   detail: z.string().trim().min(1, { message: "対戦タイトルは必須です" }),
 })
 
-export type BattleCreateFormData = z.infer<typeof battleCreateSchema>;
+export type BattleFormData = z.infer<typeof battleCreateSchema>;
 

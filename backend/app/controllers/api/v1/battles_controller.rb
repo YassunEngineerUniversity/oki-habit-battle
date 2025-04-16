@@ -113,29 +113,22 @@ class Api::V1::BattlesController < ApplicationController
 
   def update
     battle = current_user.battles.find_by(id: params[:id])
-
     return render_404("バトルが見つかりません") unless battle
 
-    categories = battle_params[:categories]
-    achievement_rate = battle_params[:achievement_rate].to_i / 100.0
-    battle_start_date = battle_params[:battle_start_date]
-    previous_start_date = battle.battle_start_date
-    battle_end_date = battle_params[:battle_end_date]
-    previous_end_date = battle.battle_end_date
-    participant_limit = battle_params[:participant_limit]
-    battle_title = battle_params[:title]
-    battle_detail = battle_params[:detail]
+    categories = battle_params[:categories].present? ? battle_params[:categories] : []
+    achievement_rate = battle_params[:achievement_rate].present? ? battle_params[:achievement_rate].to_i / 100.0 : battle.achievement_rate / 100.0
+    participant_limit = battle_params[:participant_limit].present? ? battle_params[:participant_limit] : battle.participant_limit
+    battle_title = battle_params[:title].present? ? battle_params[:title] : battle.title
+    battle_detail = battle_params[:detail].present? ? battle_params[:detail] : battle.detail
 
     fixed_damage = 50
-    battle_period = create_battle_period(battle_start_date, battle_end_date)
-    old_battle_period = create_battle_period(battle.battle_start_date.to_s, battle.battle_end_date.to_s)
-
+    battle_period = create_battle_period(battle.battle_start_date.to_s, battle.battle_end_date.to_s)
     return render_422("バトル期間は2日以上8日未満で設定してください") unless battle_period
 
     per_reword = create_per_reword(fixed_damage, battle_period, achievement_rate)
-    
+
     # タイトル or 詳細 or バトル期間が変更された場合、AIによる5段階難易度を再計算
-    if battle.title != battle_title || battle.detail != battle_detail || old_battle_period != battle_period
+    if battle.title != battle_title || battle.detail != battle_detail
       battle_input = { title: battle_title, detail: battle_detail, period: battle_period, archievement_rate: achievement_rate * 100 }
       level_five_rate = Battles::OpenaiService.new.create_five_rate(battle_input)
       return render_422("AIによる難易度の取得に失敗しました") unless level_five_rate
@@ -147,23 +140,22 @@ class Api::V1::BattlesController < ApplicationController
     ActiveRecord::Base.transaction do
       updated_battle = battle.update!(
         title: battle_title,
-        apply_start_date: battle_params[:apply_start_date],
-        apply_end_date: battle_params[:apply_end_date],
-        battle_start_date: battle_start_date,
-        battle_end_date: battle_end_date,
         detail: battle_detail,
-        achievement_rate: battle_params[:achievement_rate],
+        achievement_rate: achievement_rate,
         participant_limit: participant_limit,
         per_reword: per_reword,
         level: level,
+        background_image: battle_params[:background_image]
       )
 
-      battle.battle_categories.destroy_all unless battle.battle_categories.empty?
-      categories.each do |category|
-        BattleCategory.create!(
-          battle: battle,
-          category_id: Category.find_by(name: category[:name]).id
-        )
+      if !categories.empty?
+        battle.battle_categories.destroy_all
+        categories.each do |category|
+          BattleCategory.create!(
+            battle: battle,
+            category_id: Category.find_by(name: category[:name]).id
+          )
+        end
       end
     end
   end

@@ -1,6 +1,7 @@
 json.id @battle.id
 json.title @battle.title
 json.detail @battle.detail
+json.image @battle.image_url
 json.apply_start_date @battle.apply_start_date
 json.apply_end_date @battle.apply_end_date
 json.battle_start_date @battle.battle_start_date

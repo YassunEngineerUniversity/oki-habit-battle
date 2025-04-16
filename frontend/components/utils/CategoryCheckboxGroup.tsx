@@ -64,6 +64,7 @@ const CategoryCheckboxGroup = ({categories, className, onChange}: CategoryCheckb
               checked={categoriesState[index].isChecked}
               onCheckedChange={() => toggleCategory(category.name)}
               className="sr-only"
+              defaultChecked={categoriesState[index].isChecked}
             />
             <span>{category.name}</span>
           </label>

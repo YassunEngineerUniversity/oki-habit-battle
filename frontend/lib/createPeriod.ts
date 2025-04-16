@@ -46,3 +46,18 @@ const toISOStringWithTimezone = (date: Date) => {
 const zeroPadding = (s: string) => {
   return ('0' + s).slice(-2);
 }
+
+export const createPeriodISOSToMinutes = (applyStartDate: string, applyEndDate: string, battleStartDate: string, battleEndDate: string) => {
+  const applyStart = new Date(applyStartDate);
+  const applyEnd = new Date(applyEndDate);
+  const battleStart = new Date(battleStartDate);
+  const battleEnd = new Date(battleEndDate);
+
+  const applyMinutes = Math.floor((applyEnd.getTime() - applyStart.getTime()) / (1000 * 60));
+  const battleMinutes = Math.floor((battleEnd.getTime() - battleStart.getTime()) / (1000 * 60));
+
+  return {
+    applyMinutes,
+    battleMinutes,
+  }
+}

@@ -14,25 +14,24 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea";
 import CategoryCheckboxGroup from "@/components/utils/CategoryCheckboxGroup";
-import { BattleCreateFormData } from "@/schema/battle/schema";
-import { createBattle } from "@/server/actions/battle/actions";
+import { BattleFormData } from "@/schema/battle/schema";
 import { Category } from "@/types/category/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useActionState, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { IoIosCamera } from "react-icons/io";
 
-interface BattleCreateFormProps {
+interface BattleFormProps {
   categories: Category[]
 }
 
-const BattleCreateForm = ({categories}:BattleCreateFormProps) => {
+const BattleForm = ({categories}:BattleFormProps) => {
   const router = useRouter()
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const form = useFormContext<BattleCreateFormData>()
+  const form = useFormContext<BattleFormData>()
   const { register, setValue, formState: { errors } } = form
 
   const categoriesCheckGroup = categories.map((category) => {
@@ -69,7 +68,6 @@ const BattleCreateForm = ({categories}:BattleCreateFormProps) => {
         className="border-gray-200 focus-visible:ring-violet-500 py-5" 
         type="text" 
         placeholder="タイトルを入力してください"
-        autoComplete="email"
         {...register("title")}
       />
       {errors.title && <p className="text-red-500 text-sm mt-2">{errors.title.message}</p>}
@@ -100,7 +98,7 @@ const BattleCreateForm = ({categories}:BattleCreateFormProps) => {
             type="button"
             >
             {preview? (
-              <Image src={preview} className="rounded-md object-contain" width={100} height={100} alt="battle create image"/>
+              <Image src={preview} className="rounded-md object-contain" width={100} height={100} alt="battle create image" unoptimized/>
             ):(
               <Image src="/images/no-image.jpg" className="rounded-md" width={100} height={100} alt="no-image"/>
             )}
@@ -250,4 +248,4 @@ const BattleCreateForm = ({categories}:BattleCreateFormProps) => {
   )
 }
 
-export default BattleCreateForm
+export default BattleForm
