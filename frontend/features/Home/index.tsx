@@ -6,7 +6,6 @@ import { FaFire, FaHourglassHalf } from "react-icons/fa6"
 const index = async () => {
   const battles = await callApi("/home", {
     method: "GET",
-    "ContentType": "application/json",
   })
 
   const activeBattles = battles?.data.active_battles

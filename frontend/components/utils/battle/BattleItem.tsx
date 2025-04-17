@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import type { BattleItem } from "@/types/battle/types"
 import Image from "next/image"
 import Link from "next/link"
 

@@ -1,10 +1,10 @@
 
 import BattleList from "@/components/utils/battle/BattleList";
-import { SearchResultBattleList } from "@/types/battle/types";
+import type { BattleListType } from "@/types/battle/types";
 import { MdArrowForwardIos } from "react-icons/md";
 
 interface SearchResultBattleListProps {
-  battles: SearchResultBattleList
+  battles: BattleListType
 }
 
 const index = ({battles}: SearchResultBattleListProps) => {

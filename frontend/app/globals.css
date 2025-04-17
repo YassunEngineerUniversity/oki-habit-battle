@@ -1,10 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-/* 
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
+  /* --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -40,11 +40,11 @@
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 4px); */
 }
 
 :root {
-  --radius: 0.625rem;
+  /* --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -75,10 +75,17 @@
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-ring: oklch(0.708 0 0); */
+
+  --fc-button-bg-color:oklch(60.6% 0.25 292.717);
+  --fc-button-border-color: oklch(60.6% 0.25 292.717);
+  --fc-button-hover-bg-color: oklch(55.8% 0.288 302.321);
+  --fc-button-hover-border-color: oklch(60.6% 0.25 292.717);
+  --fc-button-active-bg-color: oklch(60.6% 0.25 292.717);
+  --fc-button-active-border-color: oklch(60.6% 0.25 292.717);
 }
 
-.dark {
+/* .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -110,9 +117,9 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-}
+} */
 
-@layer base {
+/* @layer base {
   * {
     @apply border-border outline-ring/50;
   }
@@ -133,4 +140,9 @@
   border-bottom: 2px solid oklch(92.8% 0.006 264.531) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
+}
+
+.fc-event {
+  border: none;
+  background: white;
 }
