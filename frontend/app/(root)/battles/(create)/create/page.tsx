@@ -13,7 +13,7 @@ const BattleCreatePage = async () => {
 
   return (
     <>
-      <PageHeader backLink="/" title="対戦の作成"/>
+      <PageHeader backLink="/battles/search" title="対戦の作成"/>
       <ContentContainer>
         <BattleCreate/>
       </ContentContainer>

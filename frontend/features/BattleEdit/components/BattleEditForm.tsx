@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea";
 import CategoryCheckboxGroup from "@/components/utils/CategoryCheckboxGroup";
-import { createPeriodISOS, createPeriodISOSToMinutes } from "@/lib/createPeriod";
 import { formatDate, formatDateTime, formatPeriod } from "@/lib/formatDate";
 import { BattleFormData } from "@/schema/battle/schema";
-import { updateBattle } from "@/server/actions/battle/actions";
+import { updateBattle } from "@/server/actions/battle/updateBattle";
+
 import { BattleDetail } from "@/types/battle/types";
 import { Category } from "@/types/category/types";
 import Image from "next/image";
@@ -129,9 +129,9 @@ const BattleEditForm = ({battle, categories}:BattleEditFormProps) => {
           </div>
           <div>
             <Button
-            onClick={handleFileClick} 
-            className="w-[100px] h-[100px] relative rounded-full cursor-pointer block shadow-none border-none p-0"
-            type="button"
+              onClick={handleFileClick} 
+              className="w-[100px] h-[100px] relative rounded-full cursor-pointer block shadow-none border-none p-0"
+              type="button"
             >
             {preview? (
               <Image src={preview} className="rounded-md object-contain" width={100} height={100} alt="battle create image" unoptimized/>

@@ -27,14 +27,24 @@ interface BattleFormProps {
 }
 
 const BattleForm = ({categories}:BattleFormProps) => {
-  const router = useRouter()
-  const [preview, setPreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   const form = useFormContext<BattleFormData>()
   const { register, setValue, formState: { errors } } = form
 
+  const router = useRouter()
+  const backgroundImageUrl = form.getValues("backgroundImage")? URL.createObjectURL(form.getValues("backgroundImage")) : null
+  const [preview, setPreview] = useState<string | null>(backgroundImageUrl)
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+
   const categoriesCheckGroup = categories.map((category) => {
+    if(form.getValues("categories")?.some((selectedCategory) => selectedCategory.name === category.name)) {
+      return {
+        id: category.id,
+        name: category.name,
+        isChecked: true,
+      }
+    }
+
     return {
       id: category.id,
       name: category.name,
@@ -69,6 +79,7 @@ const BattleForm = ({categories}:BattleFormProps) => {
         type="text" 
         placeholder="タイトルを入力してください"
         {...register("title")}
+        defaultValue={form.getValues("title")}
       />
       {errors.title && <p className="text-red-500 text-sm mt-2">{errors.title.message}</p>}
       </div>
@@ -93,9 +104,9 @@ const BattleForm = ({categories}:BattleFormProps) => {
           </div>
           <div>
             <Button
-            onClick={handleFileClick} 
-            className="w-[100px] h-[100px] relative rounded-full cursor-pointer block shadow-none border-none p-0"
-            type="button"
+              onClick={handleFileClick} 
+              className="w-[100px] h-[100px] relative rounded-full cursor-pointer block shadow-none border-none p-0"
+              type="button"
             >
             {preview? (
               <Image src={preview} className="rounded-md object-contain" width={100} height={100} alt="battle create image" unoptimized/>
@@ -124,7 +135,7 @@ const BattleForm = ({categories}:BattleFormProps) => {
             <span className="text-sm">参加人数</span>
           </div>
           <div>
-            <Select onValueChange={(value) => setValue("participants", value)}>
+            <Select defaultValue={form.getValues("participants")} onValueChange={(value) => setValue("participants", value)}>
               <SelectTrigger className="w-[160px] border-gray-200 focus-visible:ring-violet-500">
               <SelectValue placeholder="選択してください" />
               </SelectTrigger>
@@ -149,7 +160,7 @@ const BattleForm = ({categories}:BattleFormProps) => {
             <span className="text-sm">募集期間</span>
           </div>
           <div>
-            <Select onValueChange={(value) => setValue("applyPeriod", value)}>
+            <Select defaultValue={form.getValues("applyPeriod")} onValueChange={(value) => setValue("applyPeriod", value)}>
               <SelectTrigger className="w-[160px] border-gray-200 focus-visible:ring-violet-500">
               <SelectValue placeholder="選択してください" />
               </SelectTrigger>
@@ -184,7 +195,7 @@ const BattleForm = ({categories}:BattleFormProps) => {
             <span className="text-sm">対戦期間</span>
           </div>
           <div>
-          <Select onValueChange={(value) => setValue("battlePeriod", value)}>
+          <Select defaultValue={form.getValues("battlePeriod")} onValueChange={(value) => setValue("battlePeriod", value)}>
             <SelectTrigger className="w-[160px] border-gray-200 focus-visible:ring-violet-500">
             <SelectValue placeholder="選択してください" />
             </SelectTrigger>
@@ -211,7 +222,7 @@ const BattleForm = ({categories}:BattleFormProps) => {
             <span className="text-sm">達成率</span>
           </div>
           <div>
-            <Select onValueChange={(value) => setValue("achievementRate", value)}>
+            <Select defaultValue={form.getValues("achievementRate")} onValueChange={(value) => setValue("achievementRate", value)}>
               <SelectTrigger className="w-[160px] border-gray-200 focus-visible:ring-violet-500">
               <SelectValue placeholder="選択してください" />
               </SelectTrigger>
@@ -235,6 +246,7 @@ const BattleForm = ({categories}:BattleFormProps) => {
         <Label className="text-sm mb-1 block">対戦詳細</Label>
         <Textarea
           id="detail"
+          defaultValue={form.getValues("detail")}
           {...register("detail")}
           className="border-gray-200 focus-visible:ring-violet-500 py-4 min-h-[300px]"
           placeholder="対戦の詳細を記入してください"

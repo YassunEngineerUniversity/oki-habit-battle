@@ -1,5 +1,4 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { formatDate, formatDateTime, formatPeriod } from "@/lib/formatDate";
 import Image from "next/image";
 import { FaCrown } from "react-icons/fa6";
@@ -8,6 +7,7 @@ import ParticipantButton from "./components/ParticipantButton";
 import { BattleDetail } from "@/types/battle/types";
 import { MdEdit } from "react-icons/md";
 import Link from "next/link";
+import BattleDeleteButton from "./components/BattleDeleteButton";
 
 interface BattleDetailProps {
   battle: BattleDetail;
@@ -17,6 +17,8 @@ interface BattleDetailProps {
 const index = async ({battle, currentUserId}: BattleDetailProps) => {
   const isHost = currentUserId=== battle.host_user_id;
   const isParticipant = battle.participants.some((participant) => participant.user_id === currentUserId);
+
+  console.log("battle", battle);
 
   return (
     <div className="p-3 relative">
@@ -89,7 +91,11 @@ const index = async ({battle, currentUserId}: BattleDetailProps) => {
         <p className="text-sm">{battle.detail}</p>
       </div>
       <div className="mt-4">
-        {!isHost && (<ParticipantButton battleId={battle.id} isParticipant={isParticipant}/>)}
+        {isHost? 
+          (<BattleDeleteButton battleId={battle.id.toString()}/>)
+          :
+          (<ParticipantButton battleId={battle.id} isParticipant={isParticipant}/>)
+        }
       </div>
     </div>
   )

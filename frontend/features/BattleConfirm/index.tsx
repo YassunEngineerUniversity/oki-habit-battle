@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { createPeriodISOS } from "@/lib/createPeriod";
 import { formatPeriodWithTime } from "@/lib/formatDate";
 import { BattleFormData } from "@/schema/battle/schema";
-import { createBattle } from "@/server/actions/battle/actions";
+import { createBattle } from "@/server/actions/battle/createBattle";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useFormContext } from "react-hook-form";
 import { toast } from "sonner"
@@ -48,13 +49,13 @@ const Index = () => {
       formData.append("background_image", values.backgroundImage)
     }
 
-    const respose = await createBattle(formData)
+    const response = await createBattle(formData)
 
-    if(respose?.success) {
+    if(response?.success) {
       toast.success("対戦を作成しました", { style: { background: "#4ade80", color: "#fff" }})
       router.push("/")
     } else {
-      toast.error(respose?.message, { style: { background: "#dc2626", color: "#fff" }})
+      toast.error(response?.message, { style: { background: "#dc2626", color: "#fff" }})
     }
   }
 
@@ -105,6 +106,9 @@ const Index = () => {
       </div>
       <div className="mt-4">
         <Button onClick={handleSubmit} className="bg-violet-500 border border-vieolet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70">対戦を作成する</Button>
+      </div>
+      <div>
+        <Link href="/battles/create" className="bg-gray-400 border border-gray-400 w-full block text-center rounded-full w-full text-white pt-[14px] pb-[15px] text-[18px] cursor-pointer hover:opacity-70">戻る</Link>
       </div>
     </div>
   );
