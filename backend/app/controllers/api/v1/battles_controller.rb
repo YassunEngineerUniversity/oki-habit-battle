@@ -141,7 +141,7 @@ class Api::V1::BattlesController < ApplicationController
       updated_battle = battle.update!(
         title: battle_title,
         detail: battle_detail,
-        achievement_rate: achievement_rate,
+        achievement_rate: achievement_rate * 100,
         participant_limit: participant_limit,
         per_reword: per_reword,
         level: level,

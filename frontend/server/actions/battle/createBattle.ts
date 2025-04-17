@@ -3,7 +3,6 @@
 
 import { callApi } from "@/utils/callApi"
 
-
 export const createBattle = async (formData: FormData) => {
   const response = await callApi("/battles", {
     method: "POST",
@@ -13,12 +12,4 @@ export const createBattle = async (formData: FormData) => {
   return response
 }
 
-export const updateBattle = async (formData: FormData, id: string) => {
-  const response = await callApi(`/battles/${id}`, {
-    method: "PUT",
-    body: formData
-  })
-
-  return response
-}
 

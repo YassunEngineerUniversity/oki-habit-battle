@@ -120,3 +120,17 @@
     @apply bg-background text-foreground;
   }
 } */
+
+.custom-tab[data-state="active"] {
+  border-bottom: 2px solid oklch(62.7% 0.265 303.9) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: oklch(62.7% 0.265 303.9) !important;
+  font-weight: 700 !important;
+}
+
+.custom-tab {
+  border-bottom: 2px solid oklch(92.8% 0.006 264.531) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
