@@ -80,7 +80,7 @@ interface Pagination {
   total_pages: number;
 }
 
-interface SearchResultBattleList {
+export interface SearchResultBattleList {
   battles: Battle[];
   pagination: Pagination
 }

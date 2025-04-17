@@ -18,8 +18,8 @@ RSpec.describe "battles_histories_controller index", type: :request do
         expect(json_response["battles"]).to eq([])
       else
         json_response["battles"].each do |battle|
-          # バトルのステータスがcompletedのもののみ取得されていることを確認
-          expect(battle["status"]).to eq("completed")
+          # バトルのステータスがcompleteのもののみ取得されていることを確認
+          expect(battle["status"]).to eq("complete")
 
           # バトルの詳細情報が取得されていることを確認
           expect(battle).to have_key("id")

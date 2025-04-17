@@ -43,8 +43,8 @@ RSpec.describe "battles_favorites_controller index", type: :request do
             expect(battle["status"]).to eq("waiting")
           when "active"
             expect(battle["status"]).to eq("active")
-          when "completed"
-            expect(battle["status"]).to eq("completed")
+          when "complete"
+            expect(battle["status"]).to eq("complete")
           end
           
           battle["participants"].each do |participant|
@@ -100,7 +100,7 @@ RSpec.describe "battles_favorites_controller index", type: :request do
       include_examples "Successful case", :ok
     end
 
-    context "ステータスパラメータがcompletedで指定されている場合" do
+    context "ステータスパラメータがcompleteで指定されている場合" do
       let(:query_params) { { status: Status::COMPLETE } }
       include_examples "Successful case", :ok
     end
