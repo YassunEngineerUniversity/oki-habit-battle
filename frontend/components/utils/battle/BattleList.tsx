@@ -1,7 +1,8 @@
+import type { Battle, BattleListType } from "@/types/battle/types"
 import BattleItem from "./BattleItem"
 
 interface BattleListProps {
-  battles: SearchResultBattleList
+  battles: BattleListType
   noBattleText?: string
 }
 

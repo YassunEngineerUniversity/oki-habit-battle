@@ -18,7 +18,7 @@ RSpec.describe Battles::UpdateCompletedJob, type: :job do
 
       it "対戦のステータスがCompletedに更新される" do
         Battles::UpdateCompletedJob.perform_now(battle.id)
-        expect(battle.reload.battle_history.status).to eq("completed")
+        expect(battle.reload.battle_history.status).to eq("complete")
       end
     end
 

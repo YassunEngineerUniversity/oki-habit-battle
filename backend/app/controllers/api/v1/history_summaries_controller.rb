@@ -3,7 +3,8 @@ class Api::V1::HistorySummariesController < ApplicationController
 
   def show
     @reword_total = current_user.reword_total
-    @battle_total_count = current_user.battles.count
+    @battle_total_count = current_user.battles.joins(:battle_history).preload(:battle_history).where(battle_history: { status: Status::COMPLETE }).distinct.count
+
     @progresses = current_user.battle_progresses
 
     weekly_progress = current_user.battle_progresses.weekly_progress(Time.zone.today.beginning_of_week, Time.zone.today.end_of_week)

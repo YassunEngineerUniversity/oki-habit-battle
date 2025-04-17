@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea";
 import CategoryCheckboxGroup from "@/components/utils/CategoryCheckboxGroup";
-import { formatDate, formatDateTime, formatPeriod } from "@/lib/formatDate";
+import { formatDate, formatDateTime, formatDateWithYear, formatPeriod } from "@/lib/formatDate";
 import { BattleFormData } from "@/schema/battle/schema";
 import { updateBattle } from "@/server/actions/battle/updateBattle";
 
@@ -189,11 +189,11 @@ const BattleEditForm = ({battle, categories}:BattleEditFormProps) => {
       </div>
       <div className="flex justify-between items-center">
         <span className="text-sm">対戦開始日</span>
-        <span className="text-sm">{formatDate(battle.battle_start_date)}</span>
+        <span className="text-sm">{formatDateWithYear(battle.battle_start_date)}</span>
       </div>
       <div className="flex justify-between items-center">
         <span className="text-sm">対戦終了日</span>
-        <span className="text-sm">{formatDate(battle.battle_end_date)}</span>
+        <span className="text-sm">{formatDateWithYear(battle.battle_end_date)}</span>
       </div>
       <div>
         <div className="flex justify-between items-center">

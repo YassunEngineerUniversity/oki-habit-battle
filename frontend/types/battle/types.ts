@@ -1,4 +1,4 @@
-interface BattleItem {
+export interface BattleItem {
   id: number;
   title: string;
   detail: string;
@@ -80,7 +80,7 @@ interface Pagination {
   total_pages: number;
 }
 
-interface SearchResultBattleList {
+export interface BattleListType {
   battles: Battle[];
   pagination: Pagination
 }

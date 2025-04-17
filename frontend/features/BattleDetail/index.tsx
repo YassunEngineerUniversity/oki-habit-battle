@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { formatDate, formatDateTime, formatPeriod } from "@/lib/formatDate";
+import { formatDate, formatDateTime, formatDateWithYear, formatPeriod } from "@/lib/formatDate";
 import Image from "next/image";
 import { FaCrown } from "react-icons/fa6";
 import FavoriteButton from "./components/FavoriteButton";
@@ -73,11 +73,11 @@ const index = async ({battle, currentUserId}: BattleDetailProps) => {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-sm">対戦開始日</span>
-          <span className="text-sm">{formatDate(battle.battle_start_date)}</span>
+          <span className="text-sm">{formatDateWithYear(battle.battle_start_date)}</span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-sm">対戦終了日</span>
-          <span className="text-sm">{formatDate(battle.battle_end_date)}</span>
+          <span className="text-sm">{formatDateWithYear(battle.battle_end_date)}</span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-sm">獲得報酬<span className="text-[10px]">（1人あたり）</span></span>

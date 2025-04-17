@@ -4,6 +4,7 @@ json.battles do
     json.id battle.id
     json.title battle.title
     json.detail battle.detail
+    json.image battle.image_url
     json.level battle.level
     json.status battle.battle_history.status
     json.created_at battle.created_at
@@ -13,6 +14,7 @@ json.battles do
     json.participants battle.participants do |participaint|
       json.user_id participaint.id
       json.name participaint.name
+      json.avatar participaint.image_url
     end
 
     json.categories battle.categories do |category|

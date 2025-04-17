@@ -59,7 +59,7 @@ Category.destroy_all
 
   battles = []
   battle_levels = ["E", "D", "C", "B", "A", "AA", "AAA", "S", "SS", "SSS"]
-  status = ["waiting", "active", "completed"]
+  status = ["waiting", "active", "complete"]
   20.times do |i|
     battles << Battle.create!(
       title: "バトル#{i + 1}",

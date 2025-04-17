@@ -1,4 +1,4 @@
-export const formatDate = (date: string) => {
+export const formatDateWithYear = (date: string) => {
   const convertDate = new Date(date);
   const year = convertDate.getFullYear();
   const month = convertDate.getMonth() + 1;
@@ -41,3 +41,17 @@ export const formatPeriodWithTime = (minutes: number) => {
 
   return `${year}年${month}月${day}日${hour}:${minute}`;
 };
+
+export const formatDate = (date: Date) => {
+  const convertDate = new Date(date);
+  const month = convertDate.getMonth() + 1;
+  const day = convertDate.getDate();
+  return `${month}月${day}日`;
+}
+
+export const formatDateWithSlash = (date: Date) => {
+  const convertDate = new Date(date);
+  const month = convertDate.getMonth() + 1;
+  const day = convertDate.getDate();
+  return `${month}/${day}`;
+}
