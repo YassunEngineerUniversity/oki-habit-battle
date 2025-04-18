@@ -5,11 +5,12 @@ import Link from "next/link"
 
 interface BattleItemProps {
   battle: BattleItem
+  active?: boolean
 }
 
-const BattleItem = ({battle}:BattleItemProps) => {
+const BattleItem = ({battle, active}:BattleItemProps) => {
   return (
-    <Link href={`/battles/${battle.id}`} className="py-4 px-3 border border-gray-200 rounded-lg block">
+    <Link href={active? `/battles/${battle.id}/active`: `/battles/${battle.id}`} className="py-4 px-3 border border-gray-200 rounded-lg block">
       <div className="flex gap-3 items-center justify-between">
         <div className="w-[110px]">
           {battle.image ? (

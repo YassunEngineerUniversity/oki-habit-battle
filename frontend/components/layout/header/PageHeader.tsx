@@ -1,4 +1,5 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import HamburgerMenu from "@/components/utils/HamburgerMenu";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,9 +9,11 @@ interface PageHeaderProps {
   title: string;
   profile?: string;
   backLink?: string;
+  isHumburger?: boolean;
+  battleId?: string;
 }
 
-const PageHeader = ({title, profile, backLink}: PageHeaderProps) => {
+const PageHeader = ({title, profile, backLink, isHumburger, battleId}: PageHeaderProps) => {
   return (
     <div className="w-full max-w-[375px] fixed top-0 left-0 right-0 m-auto bg-white z-10 border-b border-gray-200">
       <div className="relative w-full">
@@ -32,6 +35,7 @@ const PageHeader = ({title, profile, backLink}: PageHeaderProps) => {
           </Link>
         )}
         <h1 className="text-center font-bold text-[15px] pt-3 pb-3">{ title }</h1>
+        {isHumburger && <HamburgerMenu battleId={battleId}/> }
       </div>
     </div>
   )
