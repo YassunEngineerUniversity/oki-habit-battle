@@ -43,6 +43,8 @@ class Battle < ApplicationRecord
   has_many :battle_favorites, dependent: :destroy
   has_many :favorite_battles, through: :battle_favorites, source: :user
 
+  has_many :battle_progresses, dependent: :destroy
+
   self.image_attachment_name = :background_image
   has_one_attached :background_image
 

@@ -26,7 +26,7 @@ const BattleDeleteButton = ({battleId}:BattleDeleteButtonProps) => {
 
   return (
     <form action={handleDelete}>
-      <Button type="submit" className="bg-red-500 border border-red-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70">この対戦を削除する</Button>
+      <Button type="submit" className="bg-red-500 border border-red-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-red-500">この対戦を削除する</Button>
     </form>
   )
 }

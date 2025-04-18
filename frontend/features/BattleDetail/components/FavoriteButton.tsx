@@ -20,12 +20,12 @@ const FavoriteButton = ({isFavorite, battleId}:FavoriteButtonProps) => {
   return (
     <form action={handleFavorite}>
       {isFavoriteState ? (
-        <Button type="submit" className="bg-white border border-amber-400 rounded-full w-full text-white flex justify-center gap-1 cursor-pointer hover:opacity-70">
+        <Button type="submit" className="bg-white border border-amber-400 rounded-full w-full text-white flex justify-center gap-1 cursor-pointer hover:opacity-70 hover:bg-white">
           <span className="text-amber-400">お気に入りを解除</span>
           <FaStar className="w-3 block mt-[-2px] text-amber-400"/>
         </Button>
       ):(
-        <Button type="submit" className="bg-amber-400 rounded-full w-full text-white flex justify-center gap-1 cursor-pointer hover:opacity-70">
+        <Button type="submit" className="bg-amber-400 rounded-full w-full text-white flex justify-center gap-1 cursor-pointer hover:opacity-70 hover:bg-amber-400">
           <span>お気に入りに追加</span>
           <FaRegStar className="w-3 block mt-[-2px]"/>
         </Button>

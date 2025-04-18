@@ -2,6 +2,8 @@ import ContentContainer from "@/components/layout/container/ContentContainer";
 import PageHeader from "@/components/layout/header/PageHeader";
 import { getCurrentUser } from "@/utils/getCurrentUser";
 import { redirect } from "next/navigation";
+import BattleActive from "@/features/BattleActive";
+import { callApi } from "@/utils/callApi";
 
 const BattleActivePage = async (
   {
@@ -19,13 +21,15 @@ const BattleActivePage = async (
 
   const battleId = id
 
-  console.log("battleId", battleId)
+  const activeBattle = await callApi(`/active-battles/${battleId}`, {
+    method: "GET",
+  })
 
   return (
     <>
       <PageHeader backLink="/" title="対戦中" battleId={battleId} isHumburger={true}/>
-      <ContentContainer>
-        <h1>対戦中</h1>
+      <ContentContainer >
+        <BattleActive activeBattle={activeBattle?.data}/>
       </ContentContainer>
     </>
   )
