@@ -9,6 +9,7 @@ json.battle_end_date @battle.battle_end_date
 json.per_reword @battle.per_reword
 json.per_bonus @battle.per_bonus
 json.level @battle.level
+json.status @battle.battle_history.status
 json.achievement_rate @battle.achievement_rate
 json.total_hp @battle.total_hp
 json.host_user_id @battle.host_user_id

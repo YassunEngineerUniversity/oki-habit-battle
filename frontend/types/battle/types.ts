@@ -61,6 +61,7 @@ export interface BattleDetail {
   created_at: string;
   updated_at: string;
   isFavorite: boolean;
+  status: string
   participant_limit: number;
   participants: {
     user_id: number;

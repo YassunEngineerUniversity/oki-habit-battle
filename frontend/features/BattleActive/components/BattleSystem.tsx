@@ -71,7 +71,10 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
         </svg>
 
         {/* 中央のHPテキスト */}
-        <div className="absolute flex flex-col items-center justify-center">
+        <div className="absolute flex flex-col items-center justify-center mt-[-10px]">
+          <div className="">
+            <Image src="/images/battle/battleActive-character.webp" alt="character" width={100} height={100} className="w-[100px] h-[100px]" />
+          </div>
           <span className="text-4xl font-bold">{targetHp}</span>
           <span className="text-sm text-gray-500">/ {MAXTARGETHP}</span>
         </div>

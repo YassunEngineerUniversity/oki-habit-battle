@@ -55,3 +55,19 @@ export const formatDateWithSlash = (date: Date) => {
   const day = convertDate.getDate();
   return `${month}/${day}`;
 }
+
+export const formatRemainingTime = (endDateISOS: string) => {
+  const now = new Date();
+  const endDate = new Date(endDateISOS);
+  const diff = endDate.getTime() - now.getTime();
+
+  if (diff < 0) {
+    return "0日";
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+  return `${days}日${hours}時間${minutes}分`;
+}
