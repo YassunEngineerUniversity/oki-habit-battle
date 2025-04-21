@@ -84,13 +84,13 @@ const BattleEditForm = ({battle, categories}:BattleEditFormProps) => {
 
     data.backgroundImage && formData.append("background_image", data.backgroundImage)
 
-    const respose = await updateBattle(formData, battle.id.toString())
+    const response = await updateBattle(formData, battle.id.toString())
 
-    if(respose?.success) {
+    if(response?.success) {
       toast.success("対戦を編集しました", { style: { background: "#4ade80", color: "#fff" }})
       router.push(`/battles/${battle.id}`)
     } else {
-      toast.error(respose?.message, { style: { background: "#dc2626", color: "#fff" }})
+      toast.error(response?.message, { style: { background: "#dc2626", color: "#fff" }})
     }
   }
 

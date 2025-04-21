@@ -13,6 +13,7 @@ json.total_hp @active_battle.total_hp
 json.host_user_id @active_battle.host_user_id
 json.battle_period @battle_period
 json.progress_count @active_battle_progress_count
+json.is_today_progress @is_today_progress
 
 json.participants @active_battle_participants do |participaint|
   json.user_id participaint[:user_id]

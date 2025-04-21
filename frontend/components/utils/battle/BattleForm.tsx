@@ -167,6 +167,7 @@ const BattleForm = ({categories}:BattleFormProps) => {
               <SelectContent className="border-gray-200 bg-white">
               <SelectGroup>
                 <SelectLabel>募集期間</SelectLabel>
+                <SelectItem value="3">3分</SelectItem>
                 <SelectItem value="15">15分</SelectItem>
                 <SelectItem value="30">30分</SelectItem>
                 <SelectItem value="45">45分</SelectItem>

@@ -20,10 +20,10 @@ const StampsGallery = ({stamps}: StampsGalleryProps) => {
   return (
     <div>
       {stamps.length > 0? (
-        <ul className="grid grid-cols-4 gap-4">
+        <ul className="grid grid-cols-3 gap-4">
           {stamps.map((stamp: Stamp) => (
-            <li key={stamp.id} className="" onClick={() => handleImageClick(stamp)}>
-              <Image src={stamp.image_url} alt="stamp" width={80} height={80}/>
+            <li key={stamp.id} className="cursor-pointer" onClick={() => handleImageClick(stamp)}>
+              <Image src={stamp.image_url} alt="stamp" width={105} height={105} unoptimized/>
             </li>
           ))}
         </ul>

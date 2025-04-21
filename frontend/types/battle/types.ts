@@ -130,6 +130,7 @@ export interface ActiveBattle {
   host_user_id: number;
   battle_period: number;
   progress_count: number;
+  is_today_progress: boolean;
   participants: {
     user_id: number;
     name: string;

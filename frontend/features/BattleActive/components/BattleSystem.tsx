@@ -8,6 +8,9 @@ import { useState } from "react";
 import ProgressButton from "./ProgressButton";
 import { ActiveBattle } from "@/types/battle/types";
 import { ATTACKPOINT } from "@/constants/battle";
+import { Button } from "@/components/ui/button";
+import { createProgress } from "@/server/actions/progress/createProgress";
+import { toast } from "sonner";
 
 interface BattleSystemProps {
   activeBattle: ActiveBattle
@@ -16,10 +19,12 @@ interface BattleSystemProps {
 const BattleSystem = ({activeBattle}: BattleSystemProps) => {
   const hp = activeBattle.total_hp - (activeBattle.progress_count * ATTACKPOINT)
   const [targetHp, setTargetHp] = useState(hp)
+  const [attackEffect, setAttackEffect] = useState(false)
+  const [isProgress, setIsProgress] = useState(activeBattle.is_today_progress)
   const [avatar, setAvatar] = useState("")
   const MAXTARGETHP = activeBattle.total_hp
 
-  console.log("activeBattle", activeBattle)
+
   // 円形ゲージの計算
   const RADIUS = 70
   const circumference = 2 * Math.PI * RADIUS
@@ -36,9 +41,39 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
   // ターゲットの色
   const targetColor = getColor(targetHp, MAXTARGETHP)
 
+  const handleProgressClick = async () => {
+    const response = await createProgress(activeBattle.id.toString())
+    
+    if(response?.success) {
+      setAttackEffect(true)
+      setTargetHp((prevHp) => {
+        const newHp = prevHp - ATTACKPOINT
+        if (newHp <= 0) {
+          return 0
+        }
+        return newHp
+      })
+  
+      setTimeout(() => {
+        setAttackEffect(false)
+      }, 500)
+
+      setIsProgress(true)
+      toast.success("本日の習慣を達成しました", { style: { background: "#4ade80", color: "#fff" }})
+    } else {
+      toast.error(response?.message, { style: { background: "#dc2626", color: "#fff" }})
+    }
+  }
+
   return (
     <div>
       <div className="relative w-full h-full flex items-center justify-center">
+        {attackEffect && (
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <div className="w-full h-full bg-red-500 opacity-30 rounded-full animate-pulse"></div>
+          </div>
+        )}
+
         {/* 背景の円 */}
         <svg className="w-full h-full -rotate-90" viewBox="0 0 200 200">
           <circle
@@ -105,7 +140,11 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
         ))}
       </div>
       <div className="mt-8">
-        <ProgressButton />
+        {isProgress ? (
+          <span className="bg-gray-300 border border-gray-300 w-full block text-center rounded-full w-full text-white py-[14px] text-[18px]">本日の習慣は達成済み</span>
+        ): (
+          <Button onClick={handleProgressClick} type="submit" className="bg-violet-500 border border-vieolet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">本日の習慣を達成する</Button>
+        )}
       </div>
     </div>
   )

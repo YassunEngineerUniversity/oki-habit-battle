@@ -11,6 +11,7 @@ class Api::V1::ActiveBattlesController < ApplicationController
     @battle_period = (@active_battle.battle_end_date.to_date - @active_battle.battle_start_date.to_date).to_i
     per_total_hp = (@active_battle.total_hp || 0) / @active_battle.participants.count
 
+    @is_today_progress = @active_battle.battle_progresses.where(user_id: current_user.id, progress_date: Time.zone.today).exists?
 
     @active_battle_participants = @active_battle.battle_participants.map do |participant|
       user = User.find_by(id: participant.user_id)
