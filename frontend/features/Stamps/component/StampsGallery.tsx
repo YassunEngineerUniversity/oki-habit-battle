@@ -1,6 +1,7 @@
 "use client"
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import { formatDateWithYear } from "@/lib/formatDate"
 import Image from "next/image"
 import { useState } from "react"
 
@@ -17,6 +18,8 @@ const StampsGallery = ({stamps}: StampsGalleryProps) => {
     setOpen(true)
   }
 
+  console.log(stamps)
+
   return (
     <div>
       {stamps.length > 0? (
@@ -24,6 +27,7 @@ const StampsGallery = ({stamps}: StampsGalleryProps) => {
           {stamps.map((stamp: Stamp) => (
             <li key={stamp.id} className="cursor-pointer" onClick={() => handleImageClick(stamp)}>
               <Image src={stamp.image_url} alt="stamp" width={105} height={105} unoptimized/>
+              <span className="text-center block font-bold pt-1 text-[11px]">{formatDateWithYear(stamp.generated_date)}</span>
             </li>
           ))}
         </ul>
@@ -34,18 +38,18 @@ const StampsGallery = ({stamps}: StampsGalleryProps) => {
       )}
 
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="p-0 border-none w-[300px] max-w-300px sm:max-w-[300px]">
+      <DialogContent className="p-0 border-none w-[315px] max-w-300px sm:max-w-[315px]">
         <DialogTitle className="hidden"></DialogTitle>
           <div className="flex flex-col items-center justify-center p-4 ">
             {selectedImage && (
-            <div className="relative max-w-[300px] w-full m-auto">
+            <div className="relative max-w-[315px] w-full m-auto">
             <Image
               src={selectedImage.image_url}
               alt="stamp"
               unoptimized
               width={300}
               height={300}
-              className="w-[300px] h-[300px] object-contain"
+              className="w-[315px] h-[315px] object-contain"
             />
             </div>
           )}

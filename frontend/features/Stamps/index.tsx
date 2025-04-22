@@ -7,8 +7,6 @@ const Index = async () => {
     method: "GET",
   })
 
-  console.log(stamps)
-
   return (
     <>
       <StampsGallery stamps={stamps?.data} />

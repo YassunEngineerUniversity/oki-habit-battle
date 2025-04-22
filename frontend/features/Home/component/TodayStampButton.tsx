@@ -3,24 +3,23 @@
 import { Button } from "@/components/ui/button"
 import { updateTodayStamp } from "@/server/actions/stamp/updateTodayStamp"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { toast } from "sonner"
 
 interface TodayStampButtonProps {
   isTodayStamp: boolean
+  setOpen: (open: boolean) => void
 }
 
-const TodayStampButton = ({isTodayStamp}: TodayStampButtonProps) => {
+const TodayStampButton = ({isTodayStamp, setOpen}: TodayStampButtonProps) => {
   const [isTodayStampState, setIsTodayStampState] = useState(isTodayStamp)
-  const router = useRouter()
 
   const hanldeStampClick = async () => {
     const response = await updateTodayStamp()
-
+    
     if(response?.success) {
-      toast.success("本日のスタンプをゲットしました", { style: { background: "#4ade80", color: "#fff" }})
-      router.push("/stamps")
+      setOpen(true)
+      setIsTodayStampState(false)
     } else {
       toast.error(response?.message, { style: { background: "#dc2626", color: "#fff" }})
     }
