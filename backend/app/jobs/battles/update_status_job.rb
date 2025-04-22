@@ -3,14 +3,15 @@ class Battles::UpdateStatusJob < ApplicationJob
 
   def perform(*args)
     battle_id = args[0]
-    battle = Battle.find_by(battle_id)
+    per_bonus_rate = { "1" => 0, "2" => 0.2, "3" => 0.4, "4" => 0.6, "5" => 0.8 }
+
+    battle = Battle.find_by(id: battle_id)
 
     # バトルが存在しない場合は、ジョブを終了する
     return unless battle
 
-    total_hp = (battle.per_reword * battle.participants.count * battle.achievement_rate).to_i
-
-    per_bonus_rate = { "1" => 0, "2" => 0.2, "3" => 0.4, "4" => 0.6, "5" => 0.8 }
+    achievement_rate = battle.achievement_rate / 100.0
+    total_hp = (battle.per_reword * battle.participants.count * achievement_rate).to_i
     per_bonus = total_hp * per_bonus_rate[battle.participants.count.to_s]
 
     ActiveRecord::Base.transaction do

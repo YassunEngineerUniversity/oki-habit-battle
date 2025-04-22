@@ -11,12 +11,15 @@ json.level @active_battle.level
 json.achievement_rate @active_battle.achievement_rate
 json.total_hp @active_battle.total_hp
 json.host_user_id @active_battle.host_user_id
+json.battle_period @battle_period
+json.progress_count @active_battle_progress_count
+json.is_today_progress @is_today_progress
 
 json.participants @active_battle_participants do |participaint|
   json.user_id participaint[:user_id]
   json.name participaint[:name]
-  json.current_hp participaint[:current_hp]
-  json.total_hp participaint[:total_hp]
+  json.avatar participaint[:avatar]
+  json.progress_count participaint[:progress_count]
 end
 
 json.categories @active_battle.categories do |category|

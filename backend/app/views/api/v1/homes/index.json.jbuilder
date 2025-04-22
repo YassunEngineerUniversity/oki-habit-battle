@@ -47,3 +47,5 @@ json.waiting_battles do
     end
   end
 end
+
+json.today_stamp @today_stamp

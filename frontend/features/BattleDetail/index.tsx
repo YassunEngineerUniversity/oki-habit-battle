@@ -8,6 +8,7 @@ import { BattleDetail } from "@/types/battle/types";
 import { MdEdit } from "react-icons/md";
 import Link from "next/link";
 import BattleDeleteButton from "./components/BattleDeleteButton";
+import { BATTLE_STATUS_WAITING } from "@/constants/battle";
 
 interface BattleDetailProps {
   battle: BattleDetail;
@@ -22,7 +23,7 @@ const index = async ({battle, currentUserId}: BattleDetailProps) => {
 
   return (
     <div className="p-3 relative">
-      {isHost && (
+      {isHost && battle.status === BATTLE_STATUS_WAITING && (
         <Link href={`/battles/${battle.id}/edit`} className="absolute top-0 right-0 flex items-center gap-1 border border-gray-300 rounded-md px-[10px] pt-[10px] pb-2 hover:bg-gray-50">
           <span className="text-sm text-gray-500 leading-3">
             編集
@@ -91,11 +92,12 @@ const index = async ({battle, currentUserId}: BattleDetailProps) => {
         <p className="text-sm">{battle.detail}</p>
       </div>
       <div className="mt-4">
-        {isHost? 
+        {battle.status === BATTLE_STATUS_WAITING && (
+          isHost? 
           (<BattleDeleteButton battleId={battle.id.toString()}/>)
           :
           (<ParticipantButton battleId={battle.id} isParticipant={isParticipant}/>)
-        }
+        )}
       </div>
     </div>
   )

@@ -19,17 +19,16 @@ export const callApi = async (url:string, options: any) => {
     },
     credentials: 'include',
   });
+  const data = await response.json();
 
   if (!response.ok) {
-    const data = await response.json();
     const errorMessage = Array.isArray(data.errors) ? data.errors[0] : data.errors
     return{
       success: false,
       message: errorMessage ? errorMessage : "エラーが発生しました",
     };
   }
-
-  const data = await response.json();
+  
   return {
     success: true,
     data

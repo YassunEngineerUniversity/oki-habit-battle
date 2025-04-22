@@ -11,19 +11,14 @@ interface HistoryCalenderProps {
 }
 
 const HistoryCalender = ({progresses}: HistoryCalenderProps) => {
-  // const events = Array.from({ length: 30 }, (_, i) => ({
-  //   title: 'Meeting',
-  //   start: new Date(new Date().setDate(new Date().getDate() - (30 - i))),
-  // }))
-  const eventValues = progresses.map((progress) => {
+  const progressArray = progresses.map((progress) => {
     return {
       title: "達成",
       start: progress.progress_date,
     }
   })
 
-  console.log(eventValues)
-
+  const eventValues = [...new Map(progressArray.map((item) => [item.start, item])).values()]
   const [ events, setEvents ] = useState(eventValues)
 
   return (

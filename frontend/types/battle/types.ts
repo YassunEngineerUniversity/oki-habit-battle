@@ -61,6 +61,7 @@ export interface BattleDetail {
   created_at: string;
   updated_at: string;
   isFavorite: boolean;
+  status: string
   participant_limit: number;
   participants: {
     user_id: number;
@@ -113,3 +114,31 @@ interface BattleCreateCategory{
   name: string;
 }
 
+export interface ActiveBattle {
+  id: number;
+  title: string;
+  detail: string;
+  apply_start_date: string;
+  apply_end_date: string;
+  battle_start_date: string;
+  battle_end_date: string;
+  per_reword: number;
+  per_bonus: number;
+  level: string;
+  achievement_rate: number;
+  total_hp: number;
+  host_user_id: number;
+  battle_period: number;
+  progress_count: number;
+  is_today_progress: boolean;
+  participants: {
+    user_id: number;
+    name: string;
+    avatar: string;
+    progress_count: number;
+  }[];
+  categories: {
+    id: number;
+    name: string;
+  }[];
+}

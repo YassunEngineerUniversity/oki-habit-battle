@@ -12,8 +12,8 @@ const BattleList = ({battles, noBattleText = "対戦はありません"}: Battle
       {battles.battles.length === 0 && (
         <li className="text-center text-gray-300 font-bold">{noBattleText}</li>
       )}
-      {battles.battles.map((battle: Battle) => 
-        <li key={battle.id}>
+      {battles.battles.map((battle: Battle, index:number) => 
+        <li key={index}>
           <BattleItem battle={battle}/>
         </li>
       )}

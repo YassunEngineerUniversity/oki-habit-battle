@@ -19,7 +19,7 @@ const TabBattleList = () => {
     }
   };
   return (
-    <TabsList className="w-full grid grid-cols-2">
+    <TabsList className="w-full grid grid-cols-2 bg-white">
       <TabsTrigger value="data" className="pb-3 custom-tab cursor-pointer" onClick={() => handleTabClick('data')}>
         データ
       </TabsTrigger>
