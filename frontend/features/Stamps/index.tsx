@@ -1,6 +1,5 @@
 import { callApi } from "@/utils/callApi"
-import Image from "next/image"
-import StampsGallery from "./component/StampsGallery"
+import StampsGallery from "./components/StampsGallery"
 
 const Index = async () => {
   const stamps = await callApi("/stamps/me", {
