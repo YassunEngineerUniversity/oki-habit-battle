@@ -1,8 +1,10 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import { deleteUser } from "@/server/actions/user/deleteUser"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { toast } from "sonner"
 
 const WithDrawalDialog = () => {
   const [open, setOpen] = useState(true)
@@ -16,9 +18,15 @@ const WithDrawalDialog = () => {
     setOpen(false)
   }
 
-  const handleAccoutnDelete = () => {
-    // アカウント削除の処理をここに追加
-    setOpen(true)
+  const handleAccoutnDelete = async () => {
+    const response = await deleteUser()
+
+    if(response?.success) {
+      setOpen(true)
+      router.push("/signup")
+    } else {
+      toast.error(response?.message, { style: { background: "#dc2626", color: "#fff" }})
+    }
   }
 
   return(
