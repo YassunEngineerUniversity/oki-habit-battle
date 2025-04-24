@@ -105,7 +105,7 @@ const Index = () => {
         <span className="text-sm block mt-2">{values.detail}</span>
       </div>
       <div className="mt-4">
-        <Button onClick={handleSubmit} className="bg-violet-500 border border-vieolet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">対戦を作成する</Button>
+        <Button onClick={handleSubmit} className="bg-violet-500 border border-violet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">対戦を作成する</Button>
       </div>
       <div>
         <Link href="/battles/create" className="bg-gray-400 border border-gray-400 w-full block text-center rounded-full w-full text-white pt-[14px] pb-[15px] text-[18px] cursor-pointer hover:opacity-70">戻る</Link>

@@ -5,6 +5,7 @@ import { callApi } from "@/utils/callApi"
 import Image from "next/image"
 import { FaFire, FaHourglassHalf } from "react-icons/fa6"
 import TodayStampButton from "./component/TodayStampButton"
+import TodayStampDialog from "./component/TodayStampDialog"
 
 const index = async () => {
   const battles = await callApi("/home", {
@@ -48,7 +49,7 @@ const index = async () => {
           )}
         </ul>
       </div>
-      <TodayStampButton isTodayStamp={battles?.data.today_stamp} />
+      <TodayStampDialog isTodayStamp={battles?.data.today_stamp}/>
     </>
   )
 }

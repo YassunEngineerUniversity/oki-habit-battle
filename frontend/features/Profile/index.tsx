@@ -44,8 +44,8 @@ const index = async ({user}: ProfileProps) => {
       <ProfileCard user={user}/>
       <ul className="grid grid-cols-1 gap-3 mt-3">
         {PROFILECONTENT.map((content, index) => (
-          <li key={index} className="py-4 px-4 border border-gray-200 rounded-lg block">
-            <Link href={content.Link} className="flex items-center gap-2 justify-between cursor-pointer">
+          <li key={index} className="border border-gray-200 rounded-lg block">
+            <Link href={content.Link} className="py-4 px-4 block flex items-center gap-2 justify-between cursor-pointer">
               <span className="text-base">{content.title}</span>
               <MdArrowForwardIos className="w-4 h-4 text-gray-400"/>
             </Link>

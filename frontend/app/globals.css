@@ -142,6 +142,10 @@
   box-shadow: none !important;
 }
 
+.vieolet-border {
+  border: 1px solid oklch(70.2% 0.183 293.541) !important;
+}
+
 .fc-event {
   border: none;
   background: white;

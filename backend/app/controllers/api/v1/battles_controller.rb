@@ -4,12 +4,12 @@ class Api::V1::BattlesController < ApplicationController
   # 使用想定画面: 対戦検索画面
   def index
     page = params[:page] || 0  
-    per_page = params[:per_page] || 10
+    per_page = params[:per_page] || 20
 
     status_params = params[:status] || "waiting"
     category_params = params[:category]
     level_params = params[:level]
-    order_params = params[:order]
+    order_params = params[:order] || "desc"
     query_params = params[:q]
 
      # 条件 : 自分がホストではない、かつ、自分が参加していない、かつ、バトルのステータスがwaitingのもののみ取得
@@ -25,14 +25,13 @@ class Api::V1::BattlesController < ApplicationController
     @battles = @battles.where(categories: { query: category_params }).distinct if category_params.present?
 
     # レベルが指定されている場合
-    @battles = @battles.where(level: level_params).distinct if level_params.present?
+    @battles = @battles.where(level: level_params.split(",")).distinct if level_params.present?
    
     # ソート順が指定されている場合
     @battles = @battles.order(created_at: order_params).distinct if order_params.present? && order_params.in?(%w(asc desc))
 
     # 検索ワードが指定されている場合
     @battles = @battles.where("title LIKE :query OR detail LIKE :query", query: "%#{query_params}%").distinct if query_params.present?
-
   end
 
   # 使用想定画面: 対戦詳細画面
@@ -123,6 +122,7 @@ class Api::V1::BattlesController < ApplicationController
 
     fixed_damage = 50
     battle_period = create_battle_period(battle.battle_start_date.to_s, battle.battle_end_date.to_s)
+
     return render_422("バトル期間は2日以上8日未満で設定してください") unless battle_period
 
     per_reword = create_per_reword(fixed_damage, battle_period, achievement_rate)
@@ -192,7 +192,7 @@ class Api::V1::BattlesController < ApplicationController
       return unless start_date && end_date
 
       period = (end_date - start_date) / one_day
-      return period if period > 2 && period < 8 # 2日以上8日未満
+      return period if period > 0 && period < 8 # 2日以上8日未満
     end
 
     def create_per_reword(fixed_damage, battle_period, achievement_rate)

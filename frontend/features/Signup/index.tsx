@@ -104,15 +104,15 @@ const index = () => {
           )}
         </div>
         <div>
-          <Button type="submit" className="w-full py-6 bg-violet-500 text-base text-white mt-6 cursor-pointer hover:opacity-80">
+          <Button type="submit" className="w-full py-6 bg-violet-500 text-base text-white mt-6 cursor-pointer hover:opacity-80 hover:bg-violet-500">
             {isPending? <Loading/> : "登録する" }
           </Button>
         </div>
         <span className="text-center block text-sm ">もしくは</span>
         <div>
-          <Button className="w-full py-6 bg-white border border-gray-200 shadow-none cursor-pointer hover:opacity-80 flex justify-center items-center gap-2">
+          <Button className="w-full py-6 bg-white border border-gray-200 shadow-none cursor-pointer hover:opacity-80 hover:bg-white flex justify-center items-center gap-2">
             <Image src="/images/logo/google.png" width={20} height={20} alt="google"/>
-            <span className="text-base">Sign up with Google</span>
+            <span className="text-base text-gray-700">Sign up with Google</span>
           </Button>
         </div>
         <div className="text-center">

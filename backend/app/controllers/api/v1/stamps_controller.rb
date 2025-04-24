@@ -2,7 +2,7 @@ class Api::V1::StampsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @stamps = current_user.stamps.obtained
+    @stamps = current_user.stamps.order(generated_date: :desc).obtained
   end
 
   def update
