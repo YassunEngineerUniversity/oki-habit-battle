@@ -3,7 +3,7 @@ class Api::V1::BattleFavoritesController < ApplicationController
 
   def index 
     page = params[:page] || 0
-    per_page = params[:per_page] || 10
+    per_page = params[:per_page] || 20
 
     status_params = params[:status]
     category_params = params[:category]

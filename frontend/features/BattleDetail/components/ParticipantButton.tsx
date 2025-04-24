@@ -20,9 +20,9 @@ const ParticipantButton = ({battleId, isParticipant}: ParticipantButtonProps) =>
   return (
     <form action={handleParticipant}>
       {isParicipantState ? (
-        <Button type="submit" className="bg-white border border-vieolet-500 rounded-full w-full text-violet-500 py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-white">この対戦から退出する</Button>
+        <Button type="submit" className="bg-white border border-violet-500 rounded-full w-full text-violet-500 py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-white">この対戦から退出する</Button>
       ):(
-        <Button type="submit" className="bg-violet-500 border border-vieolet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">この対戦に参加する</Button>
+        <Button type="submit" className="bg-violet-500 border border-violet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">この対戦に参加する</Button>
       )}
     </form>
     

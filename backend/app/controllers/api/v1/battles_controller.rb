@@ -4,12 +4,12 @@ class Api::V1::BattlesController < ApplicationController
   # 使用想定画面: 対戦検索画面
   def index
     page = params[:page] || 0  
-    per_page = params[:per_page] || 10
+    per_page = params[:per_page] || 20
 
     status_params = params[:status] || "waiting"
     category_params = params[:category]
     level_params = params[:level]
-    order_params = params[:order]
+    order_params = params[:order] || "desc"
     query_params = params[:q]
 
      # 条件 : 自分がホストではない、かつ、自分が参加していない、かつ、バトルのステータスがwaitingのもののみ取得
@@ -25,14 +25,13 @@ class Api::V1::BattlesController < ApplicationController
     @battles = @battles.where(categories: { query: category_params }).distinct if category_params.present?
 
     # レベルが指定されている場合
-    @battles = @battles.where(level: level_params).distinct if level_params.present?
+    @battles = @battles.where(level: level_params.split(",")).distinct if level_params.present?
    
     # ソート順が指定されている場合
     @battles = @battles.order(created_at: order_params).distinct if order_params.present? && order_params.in?(%w(asc desc))
 
     # 検索ワードが指定されている場合
     @battles = @battles.where("title LIKE :query OR detail LIKE :query", query: "%#{query_params}%").distinct if query_params.present?
-
   end
 
   # 使用想定画面: 対戦詳細画面

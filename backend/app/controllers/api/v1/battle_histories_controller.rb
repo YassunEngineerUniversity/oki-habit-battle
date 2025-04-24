@@ -3,11 +3,11 @@ class Api::V1::BattleHistoriesController < ApplicationController
 
   def index
     page = params[:page] || 0
-    per_page = params[:per_page] || 10
+    per_page = params[:per_page] || 20
 
     category_params = params[:category]
     level_params = params[:level]
-    order_params = params[:order]
+    order_params = params[:order] || "desc"
 
     @battles = current_user.battles.joins(:battle_history, :categories)
                                   .preload(:battle_history, :categories)

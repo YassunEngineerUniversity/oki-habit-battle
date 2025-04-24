@@ -8,7 +8,7 @@ const index = () => {
         <p>ご質問やご要望がございましたら、下記フォームよりお問い合わせください</p>
       </div>
       <div className="mt-4">
-        <Link href="/" target="_blank" className="bg-violet-500 border block text-center border-vieolet-500 rounded-full w-full text-white py-4 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">
+        <Link href="/" target="_blank" className="bg-violet-500 border block text-center border-violet-500 rounded-full w-full text-white py-4 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">
           お問い合わせフォームに進む
         </Link>
       </div>

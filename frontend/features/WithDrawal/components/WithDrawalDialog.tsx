@@ -31,7 +31,7 @@ const WithDrawalDialog = () => {
 
   return(
     <>
-      <Button onClick={handleOpen} className="bg-violet-500 border border-vieolet-500 rounded-full w-full text-white py-7 text-base cursor-pointer hover:opacity-70 hover:bg-violet-500">
+      <Button onClick={handleOpen} className="bg-violet-500 border border-violet-500 rounded-full w-full text-white py-7 text-base cursor-pointer hover:opacity-70 hover:bg-violet-500">
         アカウントを削除する
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -41,7 +41,7 @@ const WithDrawalDialog = () => {
               <div className="relative max-w-[315px] w-full m-auto">
                 <p className="text-base text-center">本当にアカウントを削除しますか？</p>
                 <div className="mt-6">
-                  <Button onClick={handleAccoutnDelete} className="bg-violet-500 border border-vieolet-500 rounded-full w-full text-white py-7 text-base cursor-pointer hover:opacity-70 hover:bg-violet-500">
+                  <Button onClick={handleAccoutnDelete} className="bg-violet-500 border border-violet-500 rounded-full w-full text-white py-7 text-base cursor-pointer hover:opacity-70 hover:bg-violet-500">
                     アカウントを削除する
                   </Button>
                 </div>

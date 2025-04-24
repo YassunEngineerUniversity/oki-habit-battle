@@ -30,7 +30,7 @@ const TodayStampButton = ({isTodayStamp, setOpen}: TodayStampButtonProps) => {
     <>
       {isTodayStampState && (
         <div className="fixed bottom-20 left-0 right-0 m-auto max-w-[351px] w-full flex justify-center items-center">
-          <Button onClick={hanldeStampClick} type="submit" className="bg-violet-500 border border-vieolet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">
+          <Button onClick={hanldeStampClick} type="submit" className="bg-violet-500 border border-violet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">
             <span>本日のスタンプをゲットする</span>
             <Image src="/images/icon/stamp-icon.webp" alt="archivement-icon" width={36} height={36} className=""/>
           </Button>

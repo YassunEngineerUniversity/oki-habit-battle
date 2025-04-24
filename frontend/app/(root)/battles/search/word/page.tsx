@@ -16,12 +16,23 @@ const WordPage = async ({
     redirect("/login");
   }
 
-  const wordQuery = await searchParams.q
-  const wordTitle = wordQuery && !Array.isArray(wordQuery) ? wordQuery : "フリーワードなし"
+  const wordParams = await searchParams.q
+  const wordTitle = wordParams && !Array.isArray(wordParams) ? wordParams : "フリーワードなし"
 
-  const battles = await callApi(`/battles?q=${wordQuery}`, {
+  const levelParams = await searchParams.level;
+  const orderParams = await searchParams.order;
+
+  let query = `/battles?q=${wordParams}`;
+  if (levelParams) {
+    query += `&level=${levelParams}`;
+  }
+  if (orderParams) {
+    query += `&order=${orderParams}`;
+  }
+
+  const battles = await callApi(query, {
     method: "GET",
-  })
+  });
 
   return (
     <>

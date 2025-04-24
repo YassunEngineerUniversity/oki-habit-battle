@@ -24,13 +24,10 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
   const [avatar, setAvatar] = useState("")
   const MAXTARGETHP = activeBattle.total_hp
 
-
-  // 円形ゲージの計算
   const RADIUS = 70
   const circumference = 2 * Math.PI * RADIUS
   const dashOffset = circumference - (targetHp / MAXTARGETHP) * circumference
 
-   // HPに基づく色の取得
    const getColor = (current: number, max: number) => {
     const percentage = (current / max) * 100
     if (percentage > 70) return "green"
@@ -38,7 +35,6 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
     return "red"
   }
 
-  // ターゲットの色
   const targetColor = getColor(targetHp, MAXTARGETHP)
 
   const handleProgressClick = async () => {
@@ -74,7 +70,6 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
           </div>
         )}
 
-        {/* 背景の円 */}
         <svg className="w-full h-full -rotate-90" viewBox="0 0 200 200">
           <circle
             cx="100"
@@ -86,7 +81,6 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
             className="text-gray-200"
           />
 
-          {/* HPインジケーター */}
           <circle
             cx="100"
             cy="100"
@@ -105,7 +99,6 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
           />
         </svg>
 
-        {/* 中央のHPテキスト */}
         <div className="absolute flex flex-col items-center justify-center mt-[-10px]">
           <div className="">
             <Image src="/images/battle/battleActive-character.webp" alt="character" width={100} height={100} className="w-[100px] h-[100px]" />
@@ -143,7 +136,7 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
         {isProgress ? (
           <span className="bg-gray-300 border border-gray-300 w-full block text-center rounded-full w-full text-white py-[14px] text-[18px]">本日の習慣は達成済み</span>
         ): (
-          <Button onClick={handleProgressClick} type="submit" className="bg-violet-500 border border-vieolet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">本日の習慣を達成する</Button>
+          <Button onClick={handleProgressClick} type="submit" className="bg-violet-500 border border-violet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">本日の習慣を達成する</Button>
         )}
       </div>
     </div>

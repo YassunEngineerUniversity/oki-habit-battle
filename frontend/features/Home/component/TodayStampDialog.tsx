@@ -30,7 +30,7 @@ const TodayStampDialog = ({isTodayStamp}: TodayStampDialogProps) => {
                   height={200}
                   className="flex justify-center m-auto object-contain"
                 />
-                <Link href="/stamps" className="bg-violet-500 border block text-center border-vieolet-500 rounded-full w-full text-white py-4 text-base cursor-pointer hover:opacity-70 hover:bg-violet-500">獲得したスタンプを見る</Link>
+                <Link href="/stamps" className="bg-violet-500 border block text-center border-violet-500 rounded-full w-full text-white py-4 text-base cursor-pointer hover:opacity-70 hover:bg-violet-500">獲得したスタンプを見る</Link>
               </div>
           </div>
         </DialogContent>

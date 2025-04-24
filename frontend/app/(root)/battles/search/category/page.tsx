@@ -16,14 +16,24 @@ const CategoryPage = async ({
     redirect("/login");
   }
 
-  const categoryQuery = await searchParams.category
-  const categoryTitleParams = await searchParams.title
+  const categoryParams = await searchParams.category;
+  const categoryTitleParams = await searchParams.title;
+  const levelParams = await searchParams.level;
+  const orderParams = await searchParams.order;
 
-  const categoryTitle = categoryTitleParams && !Array.isArray(categoryTitleParams) ? categoryTitleParams : "カテゴリーなし"
+  const categoryTitle = categoryTitleParams && !Array.isArray(categoryTitleParams) ? categoryTitleParams : "カテゴリーなし";
 
-  const battles = await callApi(`/battles?category=${categoryQuery}`, {
+  let query = `/battles?category=${categoryParams}`;
+  if (levelParams) {
+    query += `&level=${levelParams}`;
+  }
+  if (orderParams) {
+    query += `&order=${orderParams}`;
+  }
+
+  const battles = await callApi(query, {
     method: "GET",
-  })
+  });
 
   return (
     <>
