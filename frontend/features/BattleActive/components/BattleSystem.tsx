@@ -21,7 +21,6 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
   const [targetHp, setTargetHp] = useState(hp)
   const [attackEffect, setAttackEffect] = useState(false)
   const [isProgress, setIsProgress] = useState(activeBattle.is_today_progress)
-  const [avatar, setAvatar] = useState("")
   const MAXTARGETHP = activeBattle.total_hp
 
   const RADIUS = 70

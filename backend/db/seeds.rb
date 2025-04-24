@@ -29,21 +29,20 @@ Category.destroy_all
   end
 
   categories = [
-    { name: "健康", query: "health", image: "category-health.png" },
-    { name: "生活習慣", query: "lifestyle", image: "category-lifestyle.png" },
-    { name: "プログラミング", query: "programming", image: "category-programming.png" },
-    { name: "英語", query: "english", image: "category-english.png" },
-    { name: "読書", query: "reading", image: "category-reading.png" },
-    { name: "早起き", query: "morning", image: "category-morning.png" },
-    { name: "音楽", query: "music", image: "category-music.png" },
-    { name: "スポーツ", query: "sports", image: "category-sports.png" },
-    { name: "趣味", query: "hobby", image: "category-hobby.png" },
-    { name: "勉強", query: "studying", image: "no-image-category.png" },
-    { name: "料理", query: "cooking", image: "no-image-category.png" },
-    { name: "筋トレ", query: "workingout", image: "no-image-category.png" },
-    { name: "ダイエット", query: "diet", image: "no-image-category.png" },
-    { name: "美容", query: "beauty", image: "no-image-category.png" },
-    { name: "その他", query: "others", image: "no-image-category.png" }
+    { name: "健康", query: "health", image: "category-health.webp" },
+    { name: "生活習慣", query: "lifestyle", image: "category-lifestyle.webp" },
+    { name: "資格勉強", query: "studying", image: "category-studying.webp" },
+    { name: "英語", query: "english", image: "category-english.webp" },
+    { name: "読書", query: "reading", image: "category-reading.webp" },
+    { name: "筋トレ", query: "workingout", image: "category-workingout.webp" },
+    { name: "料理", query: "cooking", image: "category-cooking.webp" },
+    { name: "早起き", query: "morning", image: "category-morning.webp" },
+    { name: "スポーツ", query: "sports", image: "category-sports.webp" },
+    { name: "趣味", query: "hobby", image: "category-hobby.webp" },
+    { name: "プログラミング", query: "programming", image: "category-programming.webp" },
+    { name: "ダイエット", query: "diet", image: "category-diet.webp" },
+    { name: "美容", query: "beauty", image: "category-beauty.webp" },
+    { name: "その他", query: "others", image: "category-others.webp" }
   ]
 
   categories.each do |category|
@@ -58,22 +57,40 @@ Category.destroy_all
   end
 
   battles = []
-  battle_levels = ["E", "D", "C", "B", "A", "AA", "AAA", "S", "SS", "SSS"]
+  participant_limit_array = ["1", "2", "3", "4", "5"]
+  five_rate = { "1" => 1, "2" => 1.2, "3" => 1.5, "4" => 1.7, "5" => 2 }
+  level_rate = { 
+    "E" => 75, 
+    "D" => 150, 
+    "C" => 300, 
+    "B" => 450, 
+    "A" => 600, 
+    "AA" => 675, 
+    "AAA" => 700, 
+    "S" => 725, 
+    "SS" => 740, 
+    "SSS" => 750 
+  }
   status = ["waiting", "active", "complete"]
   20.times do |i|
+    per_reword = (1..350).to_a.sample
+    participant_limit = participant_limit_array.sample
+    level_number = per_reword * five_rate[participant_limit]
+    level = level_rate.each { | key, value | break key if value >= level_number }
+
     battles << Battle.create!(
       title: "バトル#{i + 1}",
       apply_start_date: Time.current + i.days,
       apply_end_date: Time.current + i.days + 1.day,
       battle_start_date: Time.current + i.days + 2.days,
       battle_end_date: Time.current + i.days + 3.days,
-      per_reword: (1..350).to_a.sample,
+      per_reword: per_reword,
       per_bonus: nil,
       participant_limit: 3,
       detail: "これはバトル#{i + 1}の詳細です。参加して熱い戦いを繰り広げましょう！",
       achievement_rate: [50, 60, 70, 80, 90, 100].sample,
       total_hp: nil,
-      level: battle_levels.sample,
+      level: level,
       host_user_id: users.sample.id
     )
   end
@@ -125,7 +142,7 @@ Category.destroy_all
       BattleProgress.create!(
         user_id: user.id,
         battle_id: battle.id,
-        progress_date: Time.current + i.days
+        progress_date: Time.current - (i.days + 1.day)
       )
     end
   end

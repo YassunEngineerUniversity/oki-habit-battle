@@ -19,7 +19,7 @@ class Api::V1::BattleProgressesController < ApplicationController
       Stamps::StampImageJob.perform_later(stamp.id)
   
       obtain_date = stamp.created_at + 1.day
-      Stamps::StampUpdateObtainedJob.set.(wait_until: obtain_date).perform_later(stamp.id)
+      Stamps::StampUpdateObtainedJob.set(wait_until: obtain_date).perform_later(stamp.id)
     end
   end
 

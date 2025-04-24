@@ -30,7 +30,6 @@ const CategoryPage = async ({
   if (orderParams) {
     query += `&order=${orderParams}`;
   }
-
   const battles = await callApi(query, {
     method: "GET",
   });

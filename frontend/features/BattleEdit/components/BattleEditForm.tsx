@@ -233,7 +233,7 @@ const BattleEditForm = ({battle, categories}:BattleEditFormProps) => {
         {errors.detail && <p className="text-red-500 text-sm mt-2">{errors.detail.message}</p>}
       </div>
       <div>
-        <Button type="submit" className="bg-violet-500 border border-violet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70">対戦を編集する</Button>
+        <Button type="submit" className="bg-violet-500 border border-violet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">対戦を編集する</Button>
       </div>
     </form>
   )

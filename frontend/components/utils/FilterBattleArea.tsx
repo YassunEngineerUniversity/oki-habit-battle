@@ -42,7 +42,7 @@ const FilterBattleArea = () => {
   const handleFileter = () => {
     let queryString = ""
     if (categoryParams) {
-      queryString += `category=${categoryParams}`
+      queryString += `&category=${categoryParams}`
     }
     if (titleParams) {
       queryString += `&title=${titleParams}`
@@ -60,6 +60,8 @@ const FilterBattleArea = () => {
     router.push(
       `${pathname}?${queryString.slice(1)}`
     )
+
+    setIsOpen(false)
   }
 
   return (

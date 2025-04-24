@@ -122,6 +122,7 @@ class Api::V1::BattlesController < ApplicationController
 
     fixed_damage = 50
     battle_period = create_battle_period(battle.battle_start_date.to_s, battle.battle_end_date.to_s)
+
     return render_422("バトル期間は2日以上8日未満で設定してください") unless battle_period
 
     per_reword = create_per_reword(fixed_damage, battle_period, achievement_rate)
@@ -191,7 +192,7 @@ class Api::V1::BattlesController < ApplicationController
       return unless start_date && end_date
 
       period = (end_date - start_date) / one_day
-      return period if period > 2 && period < 8 # 2日以上8日未満
+      return period if period > 0 && period < 8 # 2日以上8日未満
     end
 
     def create_per_reword(fixed_damage, battle_period, achievement_rate)
