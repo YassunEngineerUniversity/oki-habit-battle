@@ -109,7 +109,7 @@ const index = ({user}: ProfileSettingsState) => {
           )}
         </div>
         <div>
-          <Button type="submit" className="w-full rounded-full py-6 bg-violet-500 text-base text-white mt-4 cursor-pointer hover:opacity-80">
+          <Button type="submit" className="w-full rounded-full py-6 bg-violet-500 text-base text-white mt-4 cursor-pointer hover:opacity-80 hover:bg-violet-500">
             {isPending? <Loading/> : "変更を保存する" }
           </Button>
         </div>
