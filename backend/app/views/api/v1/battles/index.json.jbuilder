@@ -4,6 +4,7 @@ json.battles do
     json.id battle.id
     json.title battle.title
     json.detail battle.detail
+    json.image battle.image_url
     json.level battle.level
     json.status battle.battle_history.status
     json.created_at battle.created_at

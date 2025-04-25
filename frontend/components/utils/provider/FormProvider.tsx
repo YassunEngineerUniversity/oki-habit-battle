@@ -2,15 +2,15 @@
 import { useForm, FormProvider as RhfFormProvider } from "react-hook-form"
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BattleCreateFormData, battleCreateSchema } from "@/schema/battle/schema";
+import { BattleFormData, battleCreateSchema } from "@/schema/battle/schema";
 
 interface FormProviderProps {
   children: React.ReactNode
-  defaultValues: BattleCreateFormData
+  defaultValues: BattleFormData | any
 }
 
 const FormProvider = ({children, defaultValues}: FormProviderProps) => {
-  const methods = useForm<BattleCreateFormData>({
+  const methods = useForm<BattleFormData | any>({
     defaultValues,
     mode: 'onSubmit',
     resolver: zodResolver(battleCreateSchema),
