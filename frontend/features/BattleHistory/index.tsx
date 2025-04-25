@@ -6,6 +6,7 @@ import TabBattleList from "./components/TabBattleList"
 import { Card } from "@/components/ui/card"
 import HistoryCalender from "./components/HistoryCalender"
 import { formatDate, formatDateWithSlash } from "@/lib/formatDate"
+import FilterBattleArea from "@/components/utils/FilterBattleArea"
 
 interface BattleHistoryProps {
   tab: string | string[] | undefined
@@ -45,7 +46,7 @@ const index = async ({tab}: BattleHistoryProps) => {
       <Tabs defaultValue={tabValue} className="w-full">
         <TabBattleList />
         <TabsContent value="data" className="pt-4">
-          <HistoryCalender progresses={historySummary?.data.progresses}/>
+          <HistoryCalender stamps={historySummary?.data.stamps}/>
           <div className="grid grid-cols-2 gap-3 mt-6">
             <Card className="py-8 px-3 h-[158px] gap-2 border border-gray-300 shadow-none">
               <h3 className="text-3xl font-bold">{historySummary?.data.max_consecutive_progress}<span className="text-xl inline-block ml-1">日</span></h3>
@@ -69,10 +70,7 @@ const index = async ({tab}: BattleHistoryProps) => {
           <div>
             <div className="flex justify-between items-center">
               <span>{battleHistories?.data.battles.length || 0}件の対戦</span>
-              <div className="flex gap-2 items-center">
-                <span>絞り込み</span>
-                <MdArrowForwardIos />
-              </div>
+              {battleHistories?.data.battles.length > 0 && (<FilterBattleArea/>)}
             </div>
             <BattleList battles={battleHistories?.data} />
           </div>

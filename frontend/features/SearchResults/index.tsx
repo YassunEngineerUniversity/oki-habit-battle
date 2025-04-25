@@ -11,7 +11,7 @@ const index = ({battles}: SearchResultBattleListProps) => {
     <div>
       <div className="flex justify-between items-center">
         <span>{battles.battles.length || 0}件の対戦</span>
-        <FilterBattleArea/>
+        {battles.battles.length > 0 && (<FilterBattleArea/>)}
       </div>
       <BattleList battles={battles} />
     </div>
