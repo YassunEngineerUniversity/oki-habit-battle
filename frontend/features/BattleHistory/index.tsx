@@ -1,11 +1,10 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent } from "@/components/ui/tabs"
 import BattleList from "@/components/utils/battle/BattleList"
 import { callApi } from "@/utils/callApi"
-import { MdArrowForwardIos } from "react-icons/md"
 import TabBattleList from "./components/TabBattleList"
 import { Card } from "@/components/ui/card"
 import HistoryCalender from "./components/HistoryCalender"
-import { formatDate, formatDateWithSlash } from "@/lib/formatDate"
+import { formatDateWithSlash } from "@/lib/formatDate"
 import FilterBattleArea from "@/components/utils/FilterBattleArea"
 import Image from "next/image"
 
@@ -29,7 +28,6 @@ const index = async ({tab}: BattleHistoryProps) => {
     method: "GET",
   })
 
-
   switch (tab) {
     case "data":
       tabValue = "data"
@@ -44,7 +42,7 @@ const index = async ({tab}: BattleHistoryProps) => {
   const maxConsecutiveProgress = historySummary?.data.max_consecutive_progress
   const battleTotal = historySummary?.data.battle_total
   const rewordTotal = historySummary?.data.reword_total
-
+  const weeklyProgressCount = historySummary?.data.weekly_progress_count
 
   return (
     <>
@@ -58,6 +56,7 @@ const index = async ({tab}: BattleHistoryProps) => {
               ${
                 maxConsecutiveProgress.toString().length > 3 || 
                 battleTotal.toString().length > 3 || 
+                weeklyProgressCount.toString().length > 4 ||
                 rewordTotal.toString().length > 4 ? "grid-cols-1" : "grid-cols-2"
               }
             `}>
@@ -70,7 +69,7 @@ const index = async ({tab}: BattleHistoryProps) => {
             </Card>
             <Card className="py-8 px-3 h-[158px] gap-2 border border-gray-300 shadow-none">
               <div className="flex items-center gap-2 justify-between">
-                <h3 className="text-[28px] font-bold relative">{formatDateWithSlash(sunday)}<span className="text-[10px] font-normal inline-block absolute left-1 top-[-20px]">{formatDateWithSlash(sunday)}〜{formatDateWithSlash(week)}</span></h3>
+                <h3 className="text-[28px] font-bold relative">{weeklyProgressCount}<span className="text-xl inline-block ml-1">回</span><span className="text-[10px] font-normal w-[120px] block absolute left-1 top-[-20px]">{formatDateWithSlash(sunday)}〜{formatDateWithSlash(week)}</span></h3>
                 <Image src="/images/icon/weekConsecutiveCount-icon.webp" width={50} height={50} alt="" className=""/>
               </div>
               <span className="text-xl">週連続対戦記録</span>
