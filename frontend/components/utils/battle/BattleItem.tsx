@@ -1,16 +1,18 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import type { BattleItem } from "@/types/battle/types"
+import { checkWithinDay } from "@/lib/checkWithinDay"
+import type { Battle, BattleItem } from "@/types/battle/types"
 import Image from "next/image"
 import Link from "next/link"
 
 interface BattleItemProps {
-  battle: BattleItem
+  battle: Battle
   active?: boolean
 }
 
 const BattleItem = ({battle, active}:BattleItemProps) => {
   return (
-    <Link href={active? `/battles/${battle.id}/active`: `/battles/${battle.id}`} className="py-4 px-3 border border-gray-200 rounded-lg block">
+    <Link href={active? `/battles/${battle.id}/active`: `/battles/${battle.id}`} className="py-4 px-3 border border-gray-200 rounded-lg block relative">
+      {checkWithinDay(battle.created_at, 3) && (<span className="text-xs text-white font-bold absolute top-2 left-2 border border-red-500 py-[2px] px-4 rounded-full bg-red-500">NEW</span>)}
       <div className="flex gap-3 items-center justify-between">
         <div className="w-[110px]">
           {battle.image ? (

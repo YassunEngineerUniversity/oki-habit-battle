@@ -1,6 +1,7 @@
 "use client"
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import { checkWithinDay } from "@/lib/checkWithinDay"
 import { formatDateWithYear } from "@/lib/formatDate"
 import { Stamp } from "@/types/stamps/types"
 import Image from "next/image"
@@ -14,13 +15,6 @@ const StampsGallery = ({stamps}: StampsGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState<Stamp | null>(null)
   const [open, setOpen] = useState(false)
 
-  const withinWeek = (stampDate: string) => {
-    const today = new Date()
-    const createdStampDate = new Date(stampDate)
-
-    return today.getTime() - createdStampDate.getTime() < 3 * 24 * 60 * 60 * 1000
-  }
-
   const handleImageClick = (image: Stamp) => {
     setSelectedImage(image)
     setOpen(true)
@@ -31,10 +25,10 @@ const StampsGallery = ({stamps}: StampsGalleryProps) => {
   return (
     <div>
       {stamps.length > 0? (
-        <ul className="grid grid-cols-3 gap-4">
+        <ul className="grid grid-cols-3 gap-4 items-end">
           {stamps.map((stamp: Stamp) => (
             <li key={stamp.id} className="cursor-pointer" onClick={() => handleImageClick(stamp)}>
-              {withinWeek(stamp.generated_date) && (<span className="text-sm text-red-500 font-bold block text-center">NEW</span>)}
+              {checkWithinDay(stamp.generated_date, 3) && (<span className="text-sm text-red-500 font-bold block text-center">NEW</span>)}
               <Image src={stamp.image_url} alt="stamp" width={105} height={105} unoptimized/>
               <span className="text-center block font-bold pt-1 text-[11px]">{formatDateWithYear(stamp.generated_date)}</span>
             </li>

@@ -7,13 +7,13 @@ import { Card } from "@/components/ui/card"
 import HistoryCalender from "./components/HistoryCalender"
 import { formatDate, formatDateWithSlash } from "@/lib/formatDate"
 import FilterBattleArea from "@/components/utils/FilterBattleArea"
+import Image from "next/image"
 
 interface BattleHistoryProps {
   tab: string | string[] | undefined
 }
 
 const index = async ({tab}: BattleHistoryProps) => {
-  // let battleHistories = null
   let tabValue = "data"
   const today = new Date()
   const dayOfWeek = today.getDay()
@@ -41,27 +41,52 @@ const index = async ({tab}: BattleHistoryProps) => {
       break
   }
 
+  const maxConsecutiveProgress = historySummary?.data.max_consecutive_progress
+  const battleTotal = historySummary?.data.battle_total
+  const rewordTotal = historySummary?.data.reword_total
+
+
   return (
     <>
       <Tabs defaultValue={tabValue} className="w-full">
         <TabBattleList />
         <TabsContent value="data" className="pt-4">
           <HistoryCalender stamps={historySummary?.data.stamps}/>
-          <div className="grid grid-cols-2 gap-3 mt-6">
+          <div 
+            className={`
+              grid gap-3 mt-6 
+              ${
+                maxConsecutiveProgress.toString().length > 3 || 
+                battleTotal.toString().length > 3 || 
+                rewordTotal.toString().length > 4 ? "grid-cols-1" : "grid-cols-2"
+              }
+            `}>
             <Card className="py-8 px-3 h-[158px] gap-2 border border-gray-300 shadow-none">
-              <h3 className="text-3xl font-bold">{historySummary?.data.max_consecutive_progress}<span className="text-xl inline-block ml-1">日</span></h3>
+              <div className="flex items-center gap-2 justify-between">
+                <h3 className="text-[28px] font-bold">{maxConsecutiveProgress}<span className="text-xl inline-block ml-1">日</span></h3>
+                <Image src="/images/icon/totalConsecutiveCount-icon.webp" width={50} height={50} alt="" className=""/>
+              </div>
               <span className="text-xl">総連続対戦記録</span>
             </Card>
             <Card className="py-8 px-3 h-[158px] gap-2 border border-gray-300 shadow-none">
-              <h3 className="text-3xl font-bold relative">{formatDateWithSlash(sunday)}<span className="text-[10px] font-normal inline-block absolute right-0 bottom-1">{formatDateWithSlash(sunday)}〜{formatDateWithSlash(week)}</span></h3>
+              <div className="flex items-center gap-2 justify-between">
+                <h3 className="text-[28px] font-bold relative">{formatDateWithSlash(sunday)}<span className="text-[10px] font-normal inline-block absolute left-1 top-[-20px]">{formatDateWithSlash(sunday)}〜{formatDateWithSlash(week)}</span></h3>
+                <Image src="/images/icon/weekConsecutiveCount-icon.webp" width={50} height={50} alt="" className=""/>
+              </div>
               <span className="text-xl">週連続対戦記録</span>
             </Card>
             <Card className="py-8 px-3 h-[158px] gap-2 border border-gray-300 shadow-none">
-              <h3 className="text-3xl font-bold">{historySummary?.data.battle_total}<span className="text-xl inline-block ml-1">回</span></h3>
+              <div className="flex items-center gap-2 justify-between">
+                <h3 className="text-[28px] font-bold">{battleTotal}<span className="text-xl inline-block ml-1">回</span></h3>
+                <Image src="/images/icon/battleTotalCount-icon.webp" width={50} height={50} alt="" className=""/>
+              </div>
               <span className="text-xl">総対戦回数</span>
             </Card>
             <Card className="py-8 px-3 h-[158px] gap-2 border border-gray-300 shadow-none">
-              <h3 className="text-3xl font-bold">{historySummary?.data.reword_total}<span className="text-xl inline-block ml-1">P</span></h3>
+              <div className="flex items-center gap-2 justify-between">
+                <h3 className="text-[28px] font-bold">{rewordTotal}<span className="text-xl inline-block ml-1">P</span></h3>
+                <Image src="/images/icon/totalPoint-icon.webp" width={50} height={50} alt="" className=""/>
+              </div>
               <span className="text-xl">累積ハビバト<br/>ポイント</span>
             </Card>
           </div>
