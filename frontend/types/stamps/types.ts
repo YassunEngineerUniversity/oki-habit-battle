@@ -4,3 +4,8 @@ export interface Stamp {
   obtained: boolean;
   generated_date: string;
 }
+
+export interface SelectedStampType {
+  stamp: string
+  generatedDate: string
+}

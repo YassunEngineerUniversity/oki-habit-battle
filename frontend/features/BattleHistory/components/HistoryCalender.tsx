@@ -4,7 +4,7 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import Image from 'next/image'
 import { useState } from 'react'
-import { Stamp} from '@/types/stamps/types'
+import { SelectedStampType, Stamp} from '@/types/stamps/types'
 import StampDialog from './StampDialog'
 
 interface HistoryCalenderProps {
@@ -12,14 +12,13 @@ interface HistoryCalenderProps {
 }
 
 const HistoryCalender = ({stamps}: HistoryCalenderProps) => {
-  console.log(stamps)
-
   const progressArray = stamps.map((stamp) => {
     return {
       title: "達成",
       start: stamp.generated_date,
       extendedProps: {
         stamp: stamp.image_url,
+        generatedDate: stamp.generated_date,
       }
     }
   })
@@ -27,7 +26,10 @@ const HistoryCalender = ({stamps}: HistoryCalenderProps) => {
   const eventValues = [...new Map(progressArray.map((item) => [item.start, item])).values()]
   const [ events, setEvents ] = useState(eventValues)
   const [open, setOpen] = useState(false)
-  const [selectedStamp, setSelectedStamp] = useState<string>("")
+  const [selectedStamp, setSelectedStamp] = useState<SelectedStampType>({
+    stamp: "",
+    generatedDate: "",
+  })
 
   return (
     <div>
@@ -41,10 +43,17 @@ const HistoryCalender = ({stamps}: HistoryCalenderProps) => {
         locale="ja"
         eventClick={(eventInfo => {
           if (open) {
-            setSelectedStamp("")
+            setSelectedStamp({
+              stamp: "",
+              generatedDate: "",
+            })
             setOpen(false)
           } else {
-            setSelectedStamp(eventInfo.event.extendedProps.stamp)
+            console.log(eventInfo.event)
+            setSelectedStamp({
+              stamp: eventInfo.event.extendedProps.stamp,
+              generatedDate: eventInfo.event.extendedProps.generatedDate,
+            })
             setOpen(true)
           }
         })}
