@@ -48,4 +48,5 @@ json.waiting_battles do
   end
 end
 
-json.today_stamp @today_stamp
+json.today_stamp @today_stamp.nil? ? false : true
+json.today_stamp_url @today_stamp.nil? ? nil : @today_stamp.image_url

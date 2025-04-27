@@ -8,4 +8,5 @@ export interface Stamp {
 export interface SelectedStampType {
   stamp: string
   generatedDate: string
+  obtained?: boolean
 }

@@ -19,6 +19,7 @@ const HistoryCalender = ({stamps}: HistoryCalenderProps) => {
       extendedProps: {
         stamp: stamp.image_url,
         generatedDate: stamp.generated_date,
+        obtained: stamp.obtained,
       }
     }
   })
@@ -53,6 +54,7 @@ const HistoryCalender = ({stamps}: HistoryCalenderProps) => {
             setSelectedStamp({
               stamp: eventInfo.event.extendedProps.stamp,
               generatedDate: eventInfo.event.extendedProps.generatedDate,
+              obtained: eventInfo.event.extendedProps.obtained,
             })
             setOpen(true)
           }
@@ -67,7 +69,7 @@ function renderEventContent(eventInfo:any) {
   
   return (
     <>
-      <Image className="m-auto cursor-pointer" src={eventInfo.event.extendedProps.stamp} alt="" width={32} height={32} unoptimized/>
+      {eventInfo.event.extendedProps.obtained && (<Image className="m-auto cursor-pointer" src={eventInfo.event.extendedProps.stamp} alt="" width={32} height={32} unoptimized/>)}
     </>
   )
 }

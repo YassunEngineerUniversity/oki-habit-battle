@@ -1,9 +1,8 @@
-import { Button } from "@/components/ui/button"
+
 import BattleItem from "@/components/utils/battle/BattleItem"
 import { Battle } from "@/types/battle/types"
 import { callApi } from "@/utils/callApi"
 import Image from "next/image"
-import { FaFire, FaHourglassHalf } from "react-icons/fa6"
 import TodayStampButton from "./component/TodayStampButton"
 import TodayStampDialog from "./component/TodayStampDialog"
 
@@ -49,7 +48,7 @@ const index = async () => {
           )}
         </ul>
       </div>
-      <TodayStampDialog isTodayStamp={battles?.data.today_stamp}/>
+      <TodayStampDialog isTodayStamp={battles?.data.today_stamp} StampImageUrl={battles?.data.today_stamp_url}/>
     </>
   )
 }

@@ -8,9 +8,10 @@ import Link from 'next/link'
 
 interface TodayStampDialogProps {
   isTodayStamp: boolean
+  StampImageUrl: string
 }
 
-const TodayStampDialog = ({isTodayStamp}: TodayStampDialogProps) => {
+const TodayStampDialog = ({isTodayStamp, StampImageUrl}: TodayStampDialogProps) => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -23,7 +24,7 @@ const TodayStampDialog = ({isTodayStamp}: TodayStampDialogProps) => {
               <div className="relative max-w-[315px] w-full m-auto">
                 <span className="text-center block font-bold pt-4">本日のスタンプをゲットしました！</span>
                 <Image
-                  src="/images/icon/archivement-stamp-icon.webp"
+                  src={StampImageUrl}
                   alt="本日のスタンプをゲット"
                   unoptimized
                   width={200}
