@@ -30,14 +30,33 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
   const circumference = 2 * Math.PI * RADIUS
   const dashOffset = circumference - (targetHp / MAXTARGETHP) * circumference
 
-   const getColor = (current: number, max: number) => {
+  const getColor = (current: number, max: number) => {
     const percentage = (current / max) * 100
-    if (percentage > 70) return "green"
-    if (percentage > 30) return "yellow"
-    return "red"
+    if (percentage > 70) {
+      return {
+        targetColor: "green",
+        characterUrl: "/images/battle/battleActive-character01.webp"
+      }
+    }
+    if (percentage > 30) {
+      return {
+        targetColor: "yellow",
+        characterUrl: "/images/battle/battleActive-character02.webp"
+      }
+    }
+    if (percentage > 0) {
+      return {
+        targetColor: "red",
+        characterUrl: "/images/battle/battleActive-character03.webp"
+      }
+    }
+    return {
+      targetColor: "gray",
+      characterUrl: "/images/battle/battleActive-character04.webp"
+    }
   }
 
-  const targetColor = getColor(targetHp, MAXTARGETHP)
+  const { targetColor,  characterUrl} = getColor(targetHp, MAXTARGETHP)
 
   const handleProgressClick = async () => {
     const response = await createProgress(activeBattle.id.toString())
@@ -103,7 +122,8 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
 
         <div className="absolute flex flex-col items-center justify-center mt-[-10px]">
           <div className="">
-            <Image src="/images/battle/battleActive-character.webp" alt="character" width={100} height={100} className="w-[100px] h-[100px]" />
+            {targetHp <= 0 && (<span className="text-white bg-red-500 rounded-full w-[80px] m-auto py-1 font-bold text-lg block text-center">達成</span>)}
+            <Image src={characterUrl} alt="character" width={100} height={100} className="w-[100px] h-[100px]" />
           </div>
           <span className="text-4xl font-bold">{targetHp}</span>
           <span className="text-sm text-gray-500">/ {MAXTARGETHP}</span>
