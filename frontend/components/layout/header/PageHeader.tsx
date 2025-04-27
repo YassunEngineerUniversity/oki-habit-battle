@@ -4,6 +4,7 @@ import { AvatarFallback } from "@radix-ui/react-avatar";
 import Image from "next/image";
 import Link from "next/link";
 import { MdArrowBackIos } from "react-icons/md";
+import { RiSwordLine } from "react-icons/ri";
 
 interface PageHeaderProps {
   title: string;
@@ -37,6 +38,11 @@ const PageHeader = ({title, profile, backLink, isHumburger, battleId}: PageHeade
         <h1 className="text-center font-bold text-[15px] pt-3 pb-3">{ title }</h1>
         {isHumburger && <HamburgerMenu battleId={battleId}/> }
       </div>
+      {title === "ホーム" && (
+        <Link href={"/battles/create"} className="absolute top-[9px] right-4">
+          <RiSwordLine className="w-7 h-7"/>
+        </Link>
+      )}
     </div>
   )
 }

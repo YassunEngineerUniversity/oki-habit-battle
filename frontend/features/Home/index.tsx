@@ -3,52 +3,96 @@ import BattleItem from "@/components/utils/battle/BattleItem"
 import { Battle } from "@/types/battle/types"
 import { callApi } from "@/utils/callApi"
 import Image from "next/image"
-import TodayStampButton from "./component/TodayStampButton"
 import TodayStampDialog from "./component/TodayStampDialog"
 
-const index = async () => {
+import { Tabs, TabsContent } from "@/components/ui/tabs"
+import TabHomeList from "./component/TabHomeList"
+
+interface HomeProps {
+  tab: string | string[] | undefined
+}
+
+const index = async ({tab}:HomeProps) => {
+  let tabValue = "todayTasks"
   const battles = await callApi("/home", {
     method: "GET",
   })
 
+  console.log(battles)
+
   const activeBattles = battles?.data.active_battles
   const waitingBattles = battles?.data.waiting_battles
+  const todayTaskBattles = battles?.data.today_task_battles
 
-  console.log(battles)
+  switch (tab) {
+    case "todayTasks":
+      tabValue = "todayTasks"
+      break
+    case "activeBattles":
+      tabValue = "activeBattles"
+      break
+    case "waitingBattles":
+      tabValue = "waitingBattles"
+      break
+    default:
+      break
+  }
   return (
     <>
-      <div>
-        <div className="flex justify-center items-center gap-1 mb-2">
-          <h2 className="text-lg font-bold">対戦中</h2>
-          <Image src="/images/icon/battleActive-icon.webp" alt="battleActive-icon" width={40} height={40} className="w-10 h-10"/>
-        </div>
-        <ul className="grid grid-cols-1 gap-3">
-          {activeBattles.length === 0 && (
-            <li className="text-center text-gray-300 font-bold">対戦中のバトルはありません</li>
-          )}
-          {activeBattles.map((battle: Battle, index:number) => 
-            <li key={index}>
-              <BattleItem battle={battle} active={true}/>
-            </li>
-          )}
-        </ul>
-      </div>
-      <div className="mt-[60px]">
-        <div className="flex justify-center gap-1 items-center mb-2">
-          <h2 className="text-lg font-bold">対戦待ち</h2>
-          <Image src="/images/icon/battleWaiting-icon.webp" alt="battleWaiting-icon" width={40} height={40} className="w-10 h-10"/>
-        </div>
-        <ul className="grid grid-cols-1 gap-3">
-          {waitingBattles.length === 0 && (
-            <li className="text-center text-gray-500 font-bold">対戦待ちのバトルはありません</li>
-          )}
-          {waitingBattles.map((battle: Battle, index:number) => 
-            <li key={index}>
-              <BattleItem battle={battle}/>
-            </li>
-          )}
-        </ul>
-      </div>
+      <Tabs defaultValue={tabValue} className="w-full">
+        <TabHomeList/>
+        <TabsContent value="todayTasks" className="pt-2">
+          <div>
+            <div className="flex justify-center items-center gap-1 mb-2">
+              <Image src="/images/icon/todayTasks-icon.webp" alt="battleActive-icon" width={60} height={60} className="w-[60px] h-[60px"/>
+            </div>
+            <ul className="grid grid-cols-1 gap-3">
+              {todayTaskBattles.length === 0 && (
+                <li className="text-center text-gray-300 font-bold">本日のタスクはありません</li>
+              )}
+              {todayTaskBattles.map((battle: Battle, index:number) => 
+                <li key={index}>
+                  <BattleItem battle={battle} active={true}/>
+                </li>
+              )}
+            </ul>
+          </div>
+        </TabsContent>
+        <TabsContent value="activeBattles" className="pt-2">
+          <div>
+            <div className="flex justify-center items-center gap-1 mb-2">
+              <Image src="/images/icon/activeBattles-icon.webp" alt="battleActive-icon" width={60} height={60} className="w-[60px] h-[60px"/>
+            </div>
+            <ul className="grid grid-cols-1 gap-3">
+              {activeBattles.length === 0 && (
+                <li className="text-center text-gray-300 font-bold">対戦中のバトルはありません</li>
+              )}
+              {activeBattles.map((battle: Battle, index:number) => 
+                <li key={index}>
+                  <BattleItem battle={battle} active={true}/>
+                </li>
+              )}
+            </ul>
+          </div>
+        </TabsContent>
+        <TabsContent value="waitingBattles" className="pt-2">
+          <div>
+            <div className="flex justify-center gap-1 items-center mb-2">
+              <Image src="/images/icon/waitingBattles-icon.webp" alt="battleWaiting-icon" width={60} height={60} className="w-[60px] h-[60px"/>
+            </div>
+            <ul className="grid grid-cols-1 gap-3">
+              {waitingBattles.length === 0 && (
+                <li className="text-center text-gray-500 font-bold">対戦待ちのバトルはありません</li>
+              )}
+              {waitingBattles.map((battle: Battle, index:number) => 
+                <li key={index}>
+                  <BattleItem battle={battle}/>
+                </li>
+              )}
+            </ul>
+          </div>
+        </TabsContent>
+      </Tabs>
       <TodayStampDialog isTodayStamp={battles?.data.today_stamp} StampImageUrl={battles?.data.today_stamp_url}/>
     </>
   )
