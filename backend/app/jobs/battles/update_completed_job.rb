@@ -16,7 +16,9 @@ class Battles::UpdateCompletedJob < ApplicationJob
       ActiveRecord::Base.transaction do
         battle.participants.each do |participant|
           user = User.find_by(id: participant.user_id)
-          reword_total = battle.per_reword + battle.per_bonus
+          per_bonus = battle.per_bonus.nil? ? 0 : battle.per_bonus
+          per_reword = battle.per_reword.nil? ? 0 : battle.per_reword
+          reword_total = per_reword + per_bonus
   
           user.update!(reword_total: user.reword_total + reword_total)
         end

@@ -13,7 +13,7 @@ interface TodayStampDialogProps {
 
 const TodayStampDialog = ({isTodayStamp, StampImageUrl}: TodayStampDialogProps) => {
   const [open, setOpen] = useState(false)
-
+  console.log(StampImageUrl)
   return (
     <>
       <TodayStampButton setOpen={setOpen} isTodayStamp={isTodayStamp} />
@@ -22,7 +22,7 @@ const TodayStampDialog = ({isTodayStamp, StampImageUrl}: TodayStampDialogProps) 
           <DialogTitle className="hidden"></DialogTitle>
             <div className="flex flex-col items-center justify-center px-4 py-6">
               <div className="relative max-w-[315px] w-full m-auto">
-                <span className="text-center block font-bold pt-4">本日のスタンプをゲットしました！</span>
+                <span className="text-center block font-bold pt-4 mb-4">本日のスタンプをゲットしました！</span>
                 <Image
                   src={StampImageUrl}
                   alt="本日のスタンプをゲット"
@@ -31,7 +31,7 @@ const TodayStampDialog = ({isTodayStamp, StampImageUrl}: TodayStampDialogProps) 
                   height={200}
                   className="flex justify-center m-auto object-contain"
                 />
-                <Link href="/stamps" className="bg-violet-500 border block text-center border-violet-500 rounded-full w-full text-white py-4 text-base cursor-pointer hover:opacity-70 hover:bg-violet-500">獲得したスタンプを見る</Link>
+                <Link href="/stamps" className="bg-violet-500 mt-6 border block text-center border-violet-500 rounded-full w-full text-white py-4 text-base cursor-pointer hover:opacity-70 hover:bg-violet-500">獲得したスタンプ一覧を見る</Link>
               </div>
           </div>
         </DialogContent>

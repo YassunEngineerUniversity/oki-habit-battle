@@ -14,6 +14,7 @@ const index = async () => {
   const activeBattles = battles?.data.active_battles
   const waitingBattles = battles?.data.waiting_battles
 
+  console.log(battles)
   return (
     <>
       <div>
