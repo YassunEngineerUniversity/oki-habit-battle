@@ -8,7 +8,7 @@ import { callApi } from "@/utils/callApi";
 const CategoryPage = async ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const currentUser = await getCurrentUser();
    
@@ -16,21 +16,21 @@ const CategoryPage = async ({
     redirect("/login");
   }
 
-  const categoryParams = await searchParams.category;
-  const categoryTitleParams = await searchParams.title;
-  const levelParams = await searchParams.level;
-  const orderParams = await searchParams.order;
+  const categoryParams = (await searchParams).category;
+  const categoryTitleParams = (await searchParams).title;
+  const levelParams = (await searchParams).level;
+  const orderParams = (await searchParams).order;
 
   const categoryTitle = categoryTitleParams && !Array.isArray(categoryTitleParams) ? categoryTitleParams : "カテゴリーなし";
 
-  let query = `/battles?category=${categoryParams}`;
+  let url = `/battles?category=${categoryParams}`;
   if (levelParams) {
-    query += `&level=${levelParams}`;
+    url += `&level=${levelParams}`;
   }
   if (orderParams) {
-    query += `&order=${orderParams}`;
+    url += `&order=${orderParams}`;
   }
-  const battles = await callApi(query, {
+  const battles = await callApi(url, {
     method: "GET",
   });
 

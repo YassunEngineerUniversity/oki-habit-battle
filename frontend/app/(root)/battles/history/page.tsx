@@ -11,6 +11,15 @@ const HistoryPage = async ({
 }) => {
   const currentUser = await getCurrentUser();
   const tab = (await searchParams).tab;
+  
+  const levelParams = (await searchParams).level;
+  const orderParams = (await searchParams).order;
+
+  const params ={
+    tab,
+    levelParams,
+    orderParams,
+  }
 
   if (!currentUser || !currentUser?.success) {
     redirect("/login");
@@ -20,7 +29,7 @@ const HistoryPage = async ({
     <>
       <PageHeader profile={currentUser.data.image_url} title="戦歴"/>
       <ContentContainer>
-        <BattleHistory tab={tab}/>
+        <BattleHistory params={params}/>
       </ContentContainer>
     </>
   )

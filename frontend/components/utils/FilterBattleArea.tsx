@@ -20,6 +20,7 @@ const FilterBattleArea = () => {
   const levelParams = searchParams.get("level")
   const orderParams = searchParams.get("order")
   const queryParams = searchParams.get("q")
+  const tabParams = searchParams.get("tab")
 
   const router = useRouter()
 
@@ -42,6 +43,9 @@ const FilterBattleArea = () => {
 
   const handleFileter = () => {
     let queryString = ""
+    if (tabParams) {
+      queryString += `&tab=${tabParams}`
+    }
     if (categoryParams) {
       queryString += `&category=${categoryParams}`
     }

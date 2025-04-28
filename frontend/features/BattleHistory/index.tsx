@@ -8,11 +8,18 @@ import { formatDateWithSlash } from "@/lib/formatDate"
 import FilterBattleArea from "@/components/utils/FilterBattleArea"
 import Image from "next/image"
 
-interface BattleHistoryProps {
-  tab: string | string[] | undefined
+interface BattleHistoryParams {
+  tab: string | string[] | undefined,
+  levelParams : string | string[] | undefined,
+  orderParams : string | string[] | undefined
 }
 
-const index = async ({tab}: BattleHistoryProps) => {
+interface BattleHistoryProps {
+  params: BattleHistoryParams
+}
+
+const index = async ({params}: BattleHistoryProps) => {
+  const { tab, levelParams, orderParams } = params
   let tabValue = "data"
   const today = new Date()
   const dayOfWeek = today.getDay()
@@ -20,7 +27,15 @@ const index = async ({tab}: BattleHistoryProps) => {
   sunday.setDate(today.getDate() - dayOfWeek)
   const week = new Date(sunday.getFullYear(), sunday.getMonth(), sunday.getDate() + 7)
 
-  const battleHistories = await callApi("/battles/histories/me", {
+  let url = `/battles/histories/me`;
+  if (levelParams) {
+    url += `?level=${levelParams}`;
+  }
+  if (orderParams) {
+    url += levelParams ? `&order=${orderParams}`: `?order=${orderParams}`;
+  }
+
+  const battleHistories = await callApi(url, {
     method: "GET",
   })
 
@@ -94,7 +109,7 @@ const index = async ({tab}: BattleHistoryProps) => {
           <div>
             <div className="flex justify-between items-center">
               <span>{battleHistories?.data.battles.length || 0}件の対戦</span>
-              {battleHistories?.data.battles.length > 0 && (<FilterBattleArea/>)}
+              <FilterBattleArea/>
             </div>
             <BattleList battles={battleHistories?.data} />
           </div>

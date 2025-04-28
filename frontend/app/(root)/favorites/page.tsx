@@ -5,14 +5,29 @@ import { callApi } from '@/utils/callApi';
 import { getCurrentUser } from '@/utils/getCurrentUser';
 import { redirect } from 'next/navigation';
 
-const FavoritePage = async () => {
+const FavoritePage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
   const currentUser = await getCurrentUser();
    
   if (!currentUser || !currentUser?.success) {
     redirect("/login");
   }
 
-  const battles = await callApi("/battles/favorites", {
+  const levelParams = (await searchParams).level;
+  const orderParams = (await searchParams).order;
+
+  let url = `/battles/favorites`;
+  if (levelParams) {
+    url += `?level=${levelParams}`;
+  }
+  if (orderParams) {
+    url += levelParams ? `&order=${orderParams}`: `?order=${orderParams}`;
+  }
+
+  const battles = await callApi(url, {
     method: "GET",
   })
 

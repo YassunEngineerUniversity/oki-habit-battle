@@ -18,8 +18,6 @@ const index = async ({tab}:HomeProps) => {
     method: "GET",
   })
 
-  console.log(battles)
-
   const activeBattles = battles?.data.active_battles
   const waitingBattles = battles?.data.waiting_battles
   const todayTaskBattles = battles?.data.today_task_battles
@@ -47,13 +45,14 @@ const index = async ({tab}:HomeProps) => {
               <Image src="/images/icon/todayTasks-icon.webp" alt="battleActive-icon" width={60} height={60} className="w-[60px] h-[60px"/>
             </div>
             <ul className="grid grid-cols-1 gap-3">
-              {todayTaskBattles.length === 0 && (
+              {todayTaskBattles.length < 0 ? (
+                todayTaskBattles.map((battle: Battle, index:number) => 
+                  <li key={index}>
+                    <BattleItem battle={battle} active={true}/>
+                  </li>
+                )
+              ) : (
                 <li className="text-center text-gray-300 font-bold">本日のタスクはありません</li>
-              )}
-              {todayTaskBattles.map((battle: Battle, index:number) => 
-                <li key={index}>
-                  <BattleItem battle={battle} active={true}/>
-                </li>
               )}
             </ul>
           </div>
@@ -64,13 +63,14 @@ const index = async ({tab}:HomeProps) => {
               <Image src="/images/icon/activeBattles-icon.webp" alt="battleActive-icon" width={60} height={60} className="w-[60px] h-[60px"/>
             </div>
             <ul className="grid grid-cols-1 gap-3">
-              {activeBattles.length === 0 && (
-                <li className="text-center text-gray-300 font-bold">対戦中のバトルはありません</li>
-              )}
-              {activeBattles.map((battle: Battle, index:number) => 
-                <li key={index}>
-                  <BattleItem battle={battle} active={true}/>
-                </li>
+              {activeBattles.length > 0 ? (
+                activeBattles.map((battle: Battle, index:number) => 
+                  <li key={index}>
+                    <BattleItem battle={battle}/>
+                  </li>
+                )
+              ) : (
+                <li className="text-center text-gray-300 font-bold">対戦待ちのバトルはありません</li>
               )}
             </ul>
           </div>
@@ -81,13 +81,14 @@ const index = async ({tab}:HomeProps) => {
               <Image src="/images/icon/waitingBattles-icon.webp" alt="battleWaiting-icon" width={60} height={60} className="w-[60px] h-[60px"/>
             </div>
             <ul className="grid grid-cols-1 gap-3">
-              {waitingBattles.length === 0 && (
-                <li className="text-center text-gray-500 font-bold">対戦待ちのバトルはありません</li>
-              )}
-              {waitingBattles.map((battle: Battle, index:number) => 
-                <li key={index}>
-                  <BattleItem battle={battle}/>
-                </li>
+              {waitingBattles.length > 0 ? (
+                waitingBattles.map((battle: Battle, index:number) => 
+                  <li key={index}>
+                    <BattleItem battle={battle}/>
+                  </li>
+                )
+              ) : (
+                <li className="text-center text-gray-300 font-bold">対戦待ちのバトルはありません</li>
               )}
             </ul>
           </div>
