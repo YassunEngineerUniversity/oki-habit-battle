@@ -53,7 +53,7 @@ const Index = () => {
 
     if(response?.success) {
       toast.success("対戦を作成しました", { style: { background: "#4ade80", color: "#fff" }})
-      router.push("/")
+      router.push("/?tab=waitingBattles")
     } else {
       toast.error(response?.message, { style: { background: "#dc2626", color: "#fff" }})
     }
