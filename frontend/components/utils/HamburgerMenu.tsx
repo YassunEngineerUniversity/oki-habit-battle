@@ -1,12 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { GiBattleAxe } from "react-icons/gi";
 import { HiOutlineMenu } from "react-icons/hi";
 import { Button } from "@/components/ui/button"
 import { IoCloseSharp } from "react-icons/io5";
 import { BiDetail } from "react-icons/bi";
 import Link from "next/link";
+import { RiSwordLine } from "react-icons/ri";
 
 interface HamburgerMenuProps {
   battleId: string | undefined
@@ -37,7 +37,7 @@ const HamburgerMenu = ({battleId}: HamburgerMenuProps) => {
           <ul className="flex gap-9">
             <li className="">
               <Link href={`/battles/${battleId}/active`} className="flex flex-col items-center gap-[6px]">
-                <GiBattleAxe />
+              <RiSwordLine />
                 <span className="text-sm">対戦</span>
               </Link>
             </li>

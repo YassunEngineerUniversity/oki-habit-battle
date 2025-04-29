@@ -10,7 +10,7 @@ class Api::V1::BattleFavoritesController < ApplicationController
     level_params = params[:level]
     order_params = params[:order]
 
-    @battles = current_user.favorite_battles.joins(:battle_history, :categories) .preload(:battle_history, :categories).page(page).per(per_page)
+    @battles = current_user.favorite_battles.joins(:battle_history, :categories) .preload(:battle_history, :categories).page(page).per(per_page).order(created_at: :desc)
 
     # ステータスが指定されている場合
     @battles = @battles.where(battle_histories: { status: status_params }).distinct if status_params.present?

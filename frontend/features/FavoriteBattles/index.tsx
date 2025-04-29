@@ -1,5 +1,6 @@
 
 import BattleList from "@/components/utils/battle/BattleList";
+import FilterBattleArea from "@/components/utils/FilterBattleArea";
 import type { BattleListType } from "@/types/battle/types";
 import { MdArrowForwardIos } from "react-icons/md";
 
@@ -12,10 +13,7 @@ const index = ({battles}: SearchResultBattleListProps) => {
     <div>
       <div className="flex justify-between items-center">
         <span>{battles.battles.length || 0}件の対戦</span>
-        <div className="flex gap-2 items-center">
-          <span>絞り込み</span>
-          <MdArrowForwardIos />
-        </div>
+        <FilterBattleArea/>
       </div>
       <BattleList battles={battles} />
     </div>

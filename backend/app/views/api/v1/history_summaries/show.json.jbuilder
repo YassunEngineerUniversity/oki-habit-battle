@@ -1,6 +1,8 @@
-json.progresses @progresses do |progress|
-  json.battle_id progress.battle_id
-  json.progress_date progress.progress_date
+json.stamps @stamps do |stamp|
+  json.id stamp.id
+  json.image_url stamp.image_url
+  json.obtained stamp.obtained
+  json.generated_date stamp.generated_date
 end
 json.reword_total @reword_total
 json.battle_total @battle_total_count

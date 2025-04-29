@@ -15,7 +15,7 @@ const SearchPage = async () => {
     <div className="relative">
       <Search/>
       <div className="fixed max-w-[375px] w-full bottom-20 left-0 right-0 m-auto z-10">
-        <div className="w-[140px] ml-auto mr-3">
+        <div className="w-[170px] ml-auto mr-3">
           <BattleCreateButton/>
         </div>
       </div>

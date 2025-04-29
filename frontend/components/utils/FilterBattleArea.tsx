@@ -7,6 +7,7 @@ import { Checkbox } from "../ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 import { Label } from "../ui/label"
 import { useState } from "react"
+import { IoFilterCircleOutline } from "react-icons/io5"
 
 const FilterBattleArea = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -19,6 +20,7 @@ const FilterBattleArea = () => {
   const levelParams = searchParams.get("level")
   const orderParams = searchParams.get("order")
   const queryParams = searchParams.get("q")
+  const tabParams = searchParams.get("tab")
 
   const router = useRouter()
 
@@ -41,6 +43,9 @@ const FilterBattleArea = () => {
 
   const handleFileter = () => {
     let queryString = ""
+    if (tabParams) {
+      queryString += `&tab=${tabParams}`
+    }
     if (categoryParams) {
       queryString += `&category=${categoryParams}`
     }
@@ -66,9 +71,9 @@ const FilterBattleArea = () => {
 
   return (
     <>
-      <div onClick={handleOpen} className="flex gap-2 items-center cursor-pointer">
+      <div onClick={handleOpen} className="flex gap-1 items-center cursor-pointer">
         <span className="text-base">絞り込み</span>
-        <MdArrowForwardIos />
+        <IoFilterCircleOutline className="w-5 h-5" width={20} height={20}/>
       </div>
       <div 
         className={`fixed bottom-[64px] left-0 right-0 bg-white border border-gray-300 rounded-lg z-10 min-h-[300px] px-6 py-5 max-w-[375px] w-full m-auto transition-opacity duration-300 ease-in-out ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}

@@ -5,12 +5,13 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useState } from "react";
-import ProgressButton from "./ProgressButton";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { ActiveBattle } from "@/types/battle/types";
 import { ATTACKPOINT } from "@/constants/battle";
 import { Button } from "@/components/ui/button";
 import { createProgress } from "@/server/actions/progress/createProgress";
 import { toast } from "sonner";
+import Link from "next/link";
 
 interface BattleSystemProps {
   activeBattle: ActiveBattle
@@ -21,20 +22,41 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
   const [targetHp, setTargetHp] = useState(hp)
   const [attackEffect, setAttackEffect] = useState(false)
   const [isProgress, setIsProgress] = useState(activeBattle.is_today_progress)
+  const [open, setOpen] = useState(false)
+
   const MAXTARGETHP = activeBattle.total_hp
 
   const RADIUS = 70
   const circumference = 2 * Math.PI * RADIUS
   const dashOffset = circumference - (targetHp / MAXTARGETHP) * circumference
 
-   const getColor = (current: number, max: number) => {
+  const getColor = (current: number, max: number) => {
     const percentage = (current / max) * 100
-    if (percentage > 70) return "green"
-    if (percentage > 30) return "yellow"
-    return "red"
+    if (percentage > 70) {
+      return {
+        targetColor: "green",
+        characterUrl: "/images/battle/battleActive-character01.webp"
+      }
+    }
+    if (percentage > 30) {
+      return {
+        targetColor: "yellow",
+        characterUrl: "/images/battle/battleActive-character02.webp"
+      }
+    }
+    if (percentage > 0) {
+      return {
+        targetColor: "red",
+        characterUrl: "/images/battle/battleActive-character03.webp"
+      }
+    }
+    return {
+      targetColor: "gray",
+      characterUrl: "/images/battle/battleActive-character04.webp"
+    }
   }
 
-  const targetColor = getColor(targetHp, MAXTARGETHP)
+  const { targetColor,  characterUrl} = getColor(targetHp, MAXTARGETHP)
 
   const handleProgressClick = async () => {
     const response = await createProgress(activeBattle.id.toString())
@@ -54,7 +76,7 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
       }, 500)
 
       setIsProgress(true)
-      toast.success("本日の習慣を達成しました", { style: { background: "#4ade80", color: "#fff" }})
+      setOpen(true)
     } else {
       toast.error(response?.message, { style: { background: "#dc2626", color: "#fff" }})
     }
@@ -100,7 +122,8 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
 
         <div className="absolute flex flex-col items-center justify-center mt-[-10px]">
           <div className="">
-            <Image src="/images/battle/battleActive-character.webp" alt="character" width={100} height={100} className="w-[100px] h-[100px]" />
+            {targetHp <= 0 && (<span className="text-white bg-red-500 rounded-full w-[80px] m-auto py-1 font-bold text-lg block text-center">達成</span>)}
+            <Image src={characterUrl} alt="character" width={100} height={100} className="w-[100px] h-[100px]" />
           </div>
           <span className="text-4xl font-bold">{targetHp}</span>
           <span className="text-sm text-gray-500">/ {MAXTARGETHP}</span>
@@ -138,6 +161,25 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
           <Button onClick={handleProgressClick} type="submit" className="bg-violet-500 border border-violet-500 rounded-full w-full text-white py-7 text-[18px] cursor-pointer hover:opacity-70 hover:bg-violet-500">本日の習慣を達成する</Button>
         )}
       </div>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="p-0 border-none w-[315px] max-w-[315px] sm:max-w-[315px]">
+          <DialogTitle className="hidden"></DialogTitle>
+            <div className="flex flex-col items-center justify-center px-4 py-6">
+              <div className="relative max-w-[315px] w-full m-auto">
+                <span className="text-center block font-bold pt-4">本日の習慣を達成しました！</span>
+                <Image
+                  src="/images/icon/archivement-stamp-icon.webp"
+                  alt="本日の進捗を達成"
+                  unoptimized
+                  width={200}
+                  height={200}
+                  className="flex justify-center m-auto object-contain"
+                />
+                <Link href="/" className="bg-violet-500 border block text-center border-violet-500 rounded-full w-full text-white py-4 text-base cursor-pointer hover:opacity-70 hover:bg-violet-500">ホームへ移動</Link>
+              </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

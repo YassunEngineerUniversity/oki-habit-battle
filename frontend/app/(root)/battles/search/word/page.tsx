@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 const WordPage = async ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const currentUser = await getCurrentUser();
    
@@ -16,21 +16,21 @@ const WordPage = async ({
     redirect("/login");
   }
 
-  const wordParams = await searchParams.q
+  const wordParams = (await searchParams).q
   const wordTitle = wordParams && !Array.isArray(wordParams) ? wordParams : "フリーワードなし"
 
-  const levelParams = await searchParams.level;
-  const orderParams = await searchParams.order;
+  const levelParams = (await searchParams).level;
+  const orderParams = (await searchParams).order;
 
-  let query = `/battles?q=${wordParams}`;
+  let url = `/battles?q=${wordParams}`;
   if (levelParams) {
-    query += `&level=${levelParams}`;
+    url += `&level=${levelParams}`;
   }
   if (orderParams) {
-    query += `&order=${orderParams}`;
+    url += `&order=${orderParams}`;
   }
 
-  const battles = await callApi(query, {
+  const battles = await callApi(url, {
     method: "GET",
   });
 

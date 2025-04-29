@@ -9,6 +9,7 @@ import { MdEdit } from "react-icons/md";
 import Link from "next/link";
 import BattleDeleteButton from "./components/BattleDeleteButton";
 import { BATTLE_STATUS_WAITING } from "@/constants/battle";
+import { levelImage } from "@/lib/leveImage";
 
 interface BattleDetailProps {
   battle: BattleDetail;
@@ -19,7 +20,7 @@ const index = async ({battle, currentUserId}: BattleDetailProps) => {
   const isHost = currentUserId=== battle.host_user_id;
   const isParticipant = battle.participants.some((participant) => participant.user_id === currentUserId);
 
-  console.log("battle", battle);
+  const { imageUrl, digits } = levelImage(battle.level)
 
   return (
     <div className="p-3 relative">
@@ -32,9 +33,17 @@ const index = async ({battle, currentUserId}: BattleDetailProps) => {
         </Link>
       )}
       <div>
-        <h2 className="text-2xl font-bold text-center">{battle.level}級</h2>
+        {digits == 1 && (
+          <Image src={imageUrl} width={100} height={100} alt="level" className="m-auto"/>
+        )}
+        {digits == 2 && (
+          <Image src={imageUrl} width={110} height={110} alt="level" className="m-auto"/>
+        )}
+        {digits == 3 && (
+          <Image src={imageUrl} width={120} height={120} alt="level" className="m-auto"/>
+        )}
       </div>
-      <div className="mt-6">
+      <div className="mt-4">
         <p className="text-center">一緒に協力してくれる仲間</p>
         <div className="flex gap-4 mt-5 justify-center">
           {battle.participants.map((participant) => (

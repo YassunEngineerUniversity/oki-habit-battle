@@ -140,6 +140,8 @@
   border-bottom: 2px solid oklch(92.8% 0.006 264.531) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
+  color: oklch(92.8% 0.006 264.531) !important;
+  font-weight: bold !important;
 }
 
 .vieolet-border {
