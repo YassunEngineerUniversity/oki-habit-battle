@@ -18,7 +18,7 @@ interface BattleSystemProps {
 }
 
 const BattleSystem = ({activeBattle}: BattleSystemProps) => {
-  const hp = activeBattle.total_hp - (activeBattle.progress_count * ATTACKPOINT)
+  const hp = Math.max(0, activeBattle.total_hp - (activeBattle.progress_count * ATTACKPOINT))
   const [targetHp, setTargetHp] = useState(hp)
   const [isProgress, setIsProgress] = useState(activeBattle.is_today_progress)
   const [open, setOpen] = useState(false)

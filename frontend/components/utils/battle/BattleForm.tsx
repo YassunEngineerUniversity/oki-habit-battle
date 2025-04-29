@@ -241,6 +241,7 @@ const BattleForm = ({categories}:BattleFormProps) => {
             </Select>
           </div>
         </div>
+        <span className="text-[12px] block mt-3">※対戦期間のうち週にどのくらい習慣を行うかを設定します。</span>
         {errors.achievementRate && <p className="text-red-500 text-sm mt-2">{errors.achievementRate.message}</p>}
       </div>
       <div>

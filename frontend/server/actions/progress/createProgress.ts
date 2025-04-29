@@ -6,8 +6,6 @@ export const createProgress = async (battleId: string) => {
   const body = {
     battle_id: battleId
   }
-
-  console.log("createProgress", body)
   
   const response = await callApi(`/battle-progress`, {
     method: "POST",
