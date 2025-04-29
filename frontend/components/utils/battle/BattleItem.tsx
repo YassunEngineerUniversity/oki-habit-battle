@@ -15,7 +15,11 @@ const BattleItem = ({battle, active}:BattleItemProps) => {
 
   return (
     <Link href={active? `/battles/${battle.id}/active`: `/battles/${battle.id}`} className="py-4 px-3 border border-gray-200 rounded-lg block relative">
-      {checkWithinDay(battle.created_at, 3) && (<span className="text-xs text-white font-bold absolute top-2 left-2 border border-red-500 py-[2px] px-4 rounded-full bg-red-500">NEW</span>)}
+      <div className="absolute top-2 left-2 flex gap-2 flex-wrap">
+        { checkWithinDay(battle.created_at, 3) && (<span className="text-xs text-white font-bold border border-red-500 py-[2px] px-3 rounded-full bg-red-500">NEW</span>)}
+        { battle.achievement_status === "success" && (<span className="text-xs text-white font-bold border border-emerald-500 py-[2px] px-3 rounded-full bg-emerald-500">達成済み</span>)}
+        { battle.achievement_status === "failure" && (<span className="text-xs text-white font-bold border border-blue-500 py-[2px] px-3 rounded-full bg-blue-500">未達成</span>)}
+      </div>
       <div className="flex gap-3 items-center justify-between">
         <div className="w-[110px]">
           {battle.image ? (

@@ -10,6 +10,7 @@ json.battles do
     json.created_at battle.created_at
     json.updated_at battle.updated_at
     json.host_user_id battle.host_user_id
+    json.achievement_status battle.battle_history.achievement_status
 
     json.participants battle.participants do |participaint|
       json.user_id participaint.id

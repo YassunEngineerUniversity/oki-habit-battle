@@ -18,9 +18,8 @@ interface BattleSystemProps {
 }
 
 const BattleSystem = ({activeBattle}: BattleSystemProps) => {
-  const hp = activeBattle.total_hp - (activeBattle.progress_count * ATTACKPOINT)
+  const hp = Math.max(0, activeBattle.total_hp - (activeBattle.progress_count * ATTACKPOINT))
   const [targetHp, setTargetHp] = useState(hp)
-  const [attackEffect, setAttackEffect] = useState(false)
   const [isProgress, setIsProgress] = useState(activeBattle.is_today_progress)
   const [open, setOpen] = useState(false)
 
@@ -62,7 +61,6 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
     const response = await createProgress(activeBattle.id.toString())
     
     if(response?.success) {
-      setAttackEffect(true)
       setTargetHp((prevHp) => {
         const newHp = prevHp - ATTACKPOINT
         if (newHp <= 0) {
@@ -70,10 +68,6 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
         }
         return newHp
       })
-  
-      setTimeout(() => {
-        setAttackEffect(false)
-      }, 500)
 
       setIsProgress(true)
       setOpen(true)
@@ -85,12 +79,6 @@ const BattleSystem = ({activeBattle}: BattleSystemProps) => {
   return (
     <div>
       <div className="relative w-full h-full flex items-center justify-center">
-        {attackEffect && (
-          <div className="absolute inset-0 flex items-center justify-center z-10">
-            <div className="w-full h-full bg-red-500 opacity-30 rounded-full animate-pulse"></div>
-          </div>
-        )}
-
         <svg className="w-full h-full -rotate-90" viewBox="0 0 200 200">
           <circle
             cx="100"

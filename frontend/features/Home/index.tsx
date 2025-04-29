@@ -18,6 +18,8 @@ const index = async ({tab}:HomeProps) => {
     method: "GET",
   })
 
+  console.log(battles)
+
   const activeBattles = battles?.data.active_battles
   const waitingBattles = battles?.data.waiting_battles
   const todayTaskBattles = battles?.data.today_task_battles

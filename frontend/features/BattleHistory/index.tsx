@@ -39,6 +39,8 @@ const index = async ({params}: BattleHistoryProps) => {
     method: "GET",
   })
 
+  console.log(battleHistories)
+
   const historySummary = await callApi("/history-summary", {
     method: "GET",
   })

@@ -2,11 +2,12 @@
 #
 # Table name: battle_histories
 #
-#  id         :bigint           not null, primary key
-#  status     :string(255)      default("waiting"), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  battle_id  :bigint           not null
+#  id                 :bigint           not null, primary key
+#  achievement_status :string(255)
+#  status             :string(255)      default("waiting"), not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  battle_id          :bigint           not null
 #
 # Indexes
 #

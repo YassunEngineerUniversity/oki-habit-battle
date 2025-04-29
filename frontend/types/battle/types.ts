@@ -34,6 +34,7 @@ export interface Battle {
   created_at: string;
   updated_at: string;
   host_user_id: number;
+  achievement_status?: string | null;
   participants: {
     user_id: number;
     name: string;
