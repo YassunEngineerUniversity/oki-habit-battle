@@ -9,9 +9,9 @@ class Api::V1::BattleHistoriesController < ApplicationController
     level_params = params[:level]
     order_params = params[:order] || "desc"
 
-    @battles = current_user.battles.joins(:battle_history, :categories)
-                                  .preload(:battle_history, :categories)
-                                  .where(battle_histories: { status: Status::COMPLETE })
+    @battles = Battle.joins(:battle_history, :categories, :battle_participants)
+                                  .preload(:battle_history, :categories, :battle_participants)
+                                  .where(battle_participants: { user_id: current_user.id }, battle_histories: { status: Status::COMPLETE })
                                   .page(page)
                                   .per(per_page)
 

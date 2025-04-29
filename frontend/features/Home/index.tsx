@@ -45,7 +45,7 @@ const index = async ({tab}:HomeProps) => {
               <Image src="/images/icon/todayTasks-icon.webp" alt="battleActive-icon" width={60} height={60} className="w-[60px] h-[60px"/>
             </div>
             <ul className="grid grid-cols-1 gap-3">
-              {todayTaskBattles.length < 0 ? (
+              {todayTaskBattles.length > 0 ? (
                 todayTaskBattles.map((battle: Battle, index:number) => 
                   <li key={index}>
                     <BattleItem battle={battle} active={true}/>
@@ -66,7 +66,7 @@ const index = async ({tab}:HomeProps) => {
               {activeBattles.length > 0 ? (
                 activeBattles.map((battle: Battle, index:number) => 
                   <li key={index}>
-                    <BattleItem battle={battle}/>
+                    <BattleItem battle={battle} active={true}/>
                   </li>
                 )
               ) : (
