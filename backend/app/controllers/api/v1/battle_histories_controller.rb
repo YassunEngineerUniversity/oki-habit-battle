@@ -14,7 +14,7 @@ class Api::V1::BattleHistoriesController < ApplicationController
                                   .where(battle_participants: { user_id: current_user.id }, battle_histories: { status: Status::COMPLETE })
                                   .page(page)
                                   .per(per_page)
-
+    
     # カテゴリーが指定されている場合
     @battles = @battles.where(categories: { query: category_params }).distinct if category_params.present?
 

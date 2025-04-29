@@ -13,7 +13,6 @@ interface TodayStampDialogProps {
 
 const TodayStampDialog = ({isTodayStamp, StampImageUrl}: TodayStampDialogProps) => {
   const [open, setOpen] = useState(false)
-  console.log(StampImageUrl)
   return (
     <>
       <TodayStampButton setOpen={setOpen} isTodayStamp={isTodayStamp} />
